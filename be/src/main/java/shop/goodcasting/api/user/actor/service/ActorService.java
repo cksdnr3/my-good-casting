@@ -13,7 +13,7 @@ public interface ActorService {
     ActorDTO moreDetail(ActorDTO actorDTO);
 
     default Actor dto2Entity(ActorDTO actorDTO){
-        Actor actor = Actor.builder()
+        return Actor.builder()
                 .actorId(actorDTO.getActorId())
                 .height(actorDTO.getHeight())
                 .phone(actorDTO.getPhone())
@@ -23,15 +23,15 @@ public interface ActorService {
                 .agency(actorDTO.getAgency())
                 .gender(actorDTO.getGender())
                 .name(actorDTO.getName())
-                .userVO(actorDTO.getUserVO())
+                .authority(actorDTO.getAuthority())
+                .user(actorDTO.getUser())
                 .build();
-
-        return actor;
     }
 
     default ActorDTO entity2Dto(Actor actor){
-        ActorDTO actorDTO = ActorDTO.builder()
+        return ActorDTO.builder()
                 .actorId(actor.getActorId())
+                .name(actor.getName())
                 .height(actor.getHeight())
                 .phone(actor.getPhone())
                 .weight(actor.getWeight())
@@ -39,9 +39,8 @@ public interface ActorService {
                 .major(actor.getMajor())
                 .gender(actor.getGender())
                 .agency(actor.getAgency())
-                .userVO(actor.getUserVO())
+                .authority(actor.getAuthority())
+                .user(actor.getUser())
                 .build();
-
-        return actorDTO;
     }
 }

@@ -28,9 +28,9 @@ public class Actor extends BaseEntity {
     @Column private String agency;
     @Column private Boolean major;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private UserVO userVO;
+    private UserVO user;
 
     public void changeActorId(Long actorId) {
         this.actorId = actorId;
@@ -65,6 +65,6 @@ public class Actor extends BaseEntity {
     }
 
     public void changeUserVO(UserVO userVO) {
-        this.userVO = userVO;
+        this.user = userVO;
     }
 }

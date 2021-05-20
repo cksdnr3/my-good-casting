@@ -2,6 +2,7 @@ package shop.goodcasting.api.user.actor.domain;
 
 import lombok.*;
 import org.springframework.stereotype.Component;
+import shop.goodcasting.api.user.login.domain.UserDTO;
 import shop.goodcasting.api.user.login.domain.UserVO;
 
 import java.sql.Timestamp;
@@ -26,5 +27,5 @@ public class ActorDTO {
     private Timestamp regDate;
     private Timestamp modDate;
 
-    private UserVO userVO;
+    private UserVO user;
 }

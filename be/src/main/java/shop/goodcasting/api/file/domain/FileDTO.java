@@ -22,4 +22,6 @@ public class FileDTO {
     private boolean first;
     private Timestamp regDate;
     private Timestamp modDate;
+
+    private Profile profile;
 }

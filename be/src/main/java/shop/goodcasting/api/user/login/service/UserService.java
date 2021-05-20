@@ -11,22 +11,22 @@ public interface UserService {
     UserDTO findById(Long id);
     Optional<UserVO> findByUsername(String username);
 
-    default UserVO dto2Entity(UserDTO userDTO) {
+    default UserVO dto2Entity(UserDTO dto) {
         return UserVO.builder()
-                .userId(userDTO.getUserId())
-                .username(userDTO.getUsername())
-                .password(userDTO.getPassword())
-                .position(userDTO.getPosition())
-                .roles(userDTO.getRoles())
+                .userId(dto.getUserId())
+                .username(dto.getUsername())
+                .password(dto.getPassword())
+                .position(dto.getPosition())
+                .roles(dto.getRoles())
                 .build();
     }
-    default UserDTO entity2Dto(UserVO userVO) {
+    default UserDTO entity2Dto(UserVO entity) {
         return UserDTO.builder()
-                .userId(userVO.getUserId())
-                .username(userVO.getUsername())
-                .password(userVO.getPassword())
-                .position(userVO.getPosition())
-                .roles(userVO.getRoles())
+                .userId(entity.getUserId())
+                .username(entity.getUsername())
+                .password(entity.getPassword())
+                .position(entity.getPosition())
+                .roles(entity.getRoles())
                 .build();
     }
 }
