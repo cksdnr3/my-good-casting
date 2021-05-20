@@ -114,7 +114,7 @@ public class ProfileTest {
             System.out.println("fileLst: " + f);
         }
 
-        profileDTO.setActor(a);
+//        profileDTO.setActor(a);
         profileDTO.setFiles(fileList);
 //        System.out.println("profile: " + p);
 //        System.out.println("actor: " + a);

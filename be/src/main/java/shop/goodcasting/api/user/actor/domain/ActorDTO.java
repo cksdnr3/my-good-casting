@@ -19,7 +19,6 @@ public class ActorDTO {
     private String gender;
     private String birthday;
     private String phone;
-    private String authority;
     private String height;
     private String weight;
     private String agency;
@@ -27,5 +26,5 @@ public class ActorDTO {
     private Timestamp regDate;
     private Timestamp modDate;
 
-    private UserVO user;
+    private UserDTO user;
 }

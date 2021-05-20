@@ -23,5 +23,5 @@ public class FileDTO {
     private Timestamp regDate;
     private Timestamp modDate;
 
-    private Profile profile;
+    private ProfileDTO profile;
 }

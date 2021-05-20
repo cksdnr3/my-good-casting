@@ -19,7 +19,18 @@ public interface FileService {
                 .fileName(entity.getFileName())
                 .uuid(entity.getUuid())
                 .first(entity.isFirst())
-                .profile(entity.getProfile())
+                .build();
+    }
+
+    default FileDTO entity2DtoAll(FileVO entity) {
+        return FileDTO.builder()
+                .fileId(entity.getFileId())
+                .fileName(entity.getFileName())
+                .uuid(entity.getUuid())
+                .first(entity.isFirst())
+                .profile(ProfileDTO.builder()
+                        .profileId(entity.getProfile().getProfileId())
+                        .build())
                 .build();
     }
 
@@ -29,9 +40,18 @@ public interface FileService {
                 .fileName(dto.getFileName())
                 .uuid(dto.getUuid())
                 .first(dto.isFirst())
-                .profile(dto.getProfile())
                 .build();
     }
 
-
+    default FileVO dto2EntityAll(FileDTO dto) {
+        return FileVO.builder()
+                .fileId(dto.getFileId())
+                .fileName(dto.getFileName())
+                .uuid(dto.getUuid())
+                .first(dto.isFirst())
+                .profile(Profile.builder()
+                        .profileId(dto.getProfile().getProfileId())
+                        .build())
+                .build();
+    }
 }

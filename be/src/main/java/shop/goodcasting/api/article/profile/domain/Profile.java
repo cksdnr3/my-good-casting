@@ -5,6 +5,7 @@ import shop.goodcasting.api.common.domain.BaseEntity;
 import shop.goodcasting.api.common.domain.HireProfile;
 import shop.goodcasting.api.file.domain.FileDTO;
 import shop.goodcasting.api.user.actor.domain.Actor;
+import shop.goodcasting.api.user.login.domain.UserVO;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -38,4 +39,5 @@ public class Profile extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "profile")
     private List<HireProfile> hires = new ArrayList<>();
+
 }

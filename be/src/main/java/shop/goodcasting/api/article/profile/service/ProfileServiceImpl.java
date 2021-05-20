@@ -14,8 +14,10 @@ import shop.goodcasting.api.user.actor.domain.Actor;
 import shop.goodcasting.api.user.actor.domain.ActorDTO;
 import shop.goodcasting.api.user.actor.repository.ActorRepository;
 import shop.goodcasting.api.user.actor.service.ActorService;
+import shop.goodcasting.api.user.login.domain.UserDTO;
 import shop.goodcasting.api.user.login.domain.UserVO;
 import shop.goodcasting.api.user.login.repository.UserRepository;
+import shop.goodcasting.api.user.login.service.UserService;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -31,41 +33,52 @@ public class ProfileServiceImpl implements ProfileService {
     private final ActorService actorService;
     private final UserRepository userRepo;
     private final ActorRepository actorRepo;
+    private final UserService userService;
 
     @Transactional
     @Override
     public Long register(ProfileDTO profileDTO) {
-        Actor actor = profileDTO.getActor();
+        ActorDTO actorDTO = profileDTO.getActor();
+        UserDTO userDTO = actorDTO.getUser();
+        UserVO user = userService.dto2Entity(userDTO);
 
-        System.out.println(actor);
+        System.out.println("111111111111111111111" + user);
 
-        UserVO user = actor.getUser();
+        Actor actor = actorService.dto2EntityAll(actorDTO);
 
-        System.out.println(user);
+        System.out.println("222222222222222222222" + actor);
 
-        Profile profile = dto2Entity(profileDTO);
-        System.out.println("service - register - profile: " + profile);
-
+        // test
         userRepo.save(user);
 
+        // test
         actorRepo.save(actor);
 
-        Profile finalProfile = profileRepo.save(profile);
+        Profile finalProfile = profileRepo.save(dto2EntityAll(profileDTO));
 
         System.out.println("final Profile ********************** " + finalProfile);
 
+        ProfileDTO finalProfileDto = entity2DtoAll(finalProfile);
+
+        System.out.println("----------------------after entity to dto-----------------------");
+
         List<FileDTO> files = profileDTO.getFiles();
+
+        for (FileDTO file : files) {
+            System.out.println("file: " + file);
+        }
 
         if(files != null && files.size() > 0) {
 
             files.forEach(fileDTO -> {
-                fileDTO.setProfile(finalProfile);
-                FileVO file = fileService.dto2Entity(fileDTO);
+                fileDTO.setProfile(finalProfileDto);
+                System.out.println("----------------------after set final dto-----------------------: " + fileDTO);
+                FileVO file = fileService.dto2EntityAll(fileDTO);
+                System.out.println("----------------------after dto to entity-----------------------: " + file);
 
                 fileRepo.save(file);
             });
         }
-
         return null;
     }
 
@@ -88,11 +101,11 @@ public class ProfileServiceImpl implements ProfileService {
 
         List<FileDTO> fileList = new ArrayList<>();
 
-        profileAndFileAndActor.forEach(arr -> {
-            fileList.add(fileService.entity2Dto((FileVO)arr[2]));
+        profileAndFileAndActor.forEach(objects -> {
+            fileList.add(fileService.entity2Dto((FileVO)objects[2]));
         });
 
-        profileDTO.setActor(actor);
+        profileDTO.setActor(actorDTO);
         profileDTO.setFiles(fileList);
 
         System.out.println("profile dto: " + profileDTO);

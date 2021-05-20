@@ -6,7 +6,7 @@ import shop.goodcasting.api.user.login.domain.UserVO;
 
 import javax.persistence.*;
 
-@ToString(exclude = {"userVO"})
+@ToString(exclude = {"user"})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,7 +22,6 @@ public class Actor extends BaseEntity {
     @Column private String gender;
     @Column private String birthday;
     @Column private String phone;
-    @Column private String authority;
     @Column private String height;
     @Column private String weight;
     @Column private String agency;
