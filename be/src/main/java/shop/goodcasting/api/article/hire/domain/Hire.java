@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@ToString
+@ToString(exclude = {"producer", "profiles"})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

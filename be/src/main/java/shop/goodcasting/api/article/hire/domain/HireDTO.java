@@ -9,6 +9,7 @@ import shop.goodcasting.api.user.producer.domain.Producer;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 @ToString
 @Builder
@@ -37,5 +38,5 @@ public class HireDTO {
     //join object
     private Producer producer;
     private ArrayList<FileDTO> files;
-    private ArrayList<ProfileDTO> profiles;
+    private List<ProfileDTO> profiles;
 }

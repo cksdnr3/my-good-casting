@@ -10,14 +10,11 @@ import shop.goodcasting.api.file.domain.FileVO;
 
 import java.util.List;
 
-@Repository
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
-    //    SELECT tracks.name, title, artists.name
-//    FROM tracks
-//    INNER JOIN albums USING (albumid)
-//    INNER JOIN artists USING (artistid)
-//    WHERE trackid < 200;
-//    @Query("select p from Profile p inner join p.actor a where a.actorId = :actorId")
-//    List<Profile> findProfileListByActorId(@Param("actorId") Long actorId, @Param("profileId") Long profileId);
 
+    @Query("select p, p.actor, f from Profile p left join FileVO f on f.profile = p where p.profileId = :profileId")
+    List<Object[]> getProfileWithFileByProfileId(@Param("profileId") Long profileId);
+
+    @Query("select p, a from Profile p left join p.actor a where p.profileId = :profileId")
+    Object getProfileWithActorByProfileId(@Param("profileId") Long profileId);
 }

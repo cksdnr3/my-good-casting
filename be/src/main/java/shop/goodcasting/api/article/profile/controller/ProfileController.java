@@ -19,8 +19,7 @@ public class ProfileController {
     @PostMapping("/register")
     public ResponseEntity<Long> register(@RequestBody ProfileDTO profileDTO) {
         System.out.println("Profile DTO: " + profileDTO);
-        System.out.println("Profile DTO actor name: " + profileDTO.getActor());
-        System.out.println("Profile DTO user username: " + profileDTO.getActor().getUserVO());
+
 
         service.register(profileDTO);
 
@@ -29,14 +28,11 @@ public class ProfileController {
 
     @GetMapping("/profile-detail/{profileId}")
     public ResponseEntity<Profile> profileDetail(@PathVariable Long profileId) {
-        service.profileDetail(profileId);
-
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(service.getProfileWithFileByProfileId(profileId));
     }
 
-    @GetMapping("profile-list")
+    @GetMapping("/profile-list")
     public ResponseEntity<List<ProfileDTO>> profileList() {
-        service.profileList();
 
         return ResponseEntity.of(null);
     }

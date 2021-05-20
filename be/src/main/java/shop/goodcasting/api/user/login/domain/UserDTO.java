@@ -3,7 +3,6 @@ package shop.goodcasting.api.user.login.domain;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 @ToString
@@ -17,8 +16,7 @@ public class UserDTO {
     private String username;
     private String password;
     private Boolean position;
-    private Timestamp regDate;
-    private Timestamp modDate;
+    private List<Role> roles;
 
     private String token;
 }

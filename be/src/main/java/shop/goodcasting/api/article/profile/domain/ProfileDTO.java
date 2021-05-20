@@ -3,11 +3,14 @@ package shop.goodcasting.api.article.profile.domain;
 import lombok.*;
 import org.springframework.stereotype.Component;
 import shop.goodcasting.api.article.hire.domain.HireDTO;
+import shop.goodcasting.api.common.domain.HireProfile;
 import shop.goodcasting.api.file.domain.FileDTO;
 import shop.goodcasting.api.user.actor.domain.Actor;
+import shop.goodcasting.api.user.actor.domain.ActorDTO;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 @ToString
 @Builder
@@ -19,7 +22,6 @@ public class ProfileDTO {
     // pk
     private Long profileId;
 
-    // data
     private boolean privacy;
     private String contents;
     private String career;
@@ -27,9 +29,8 @@ public class ProfileDTO {
     private String confidence;
     private Timestamp regDate;
     private Timestamp modDate;
-
-    // join object
     private Actor actor;
+
     private ArrayList<FileDTO> files;
-    private ArrayList<HireDTO> hires;
+//    private List<HireProfile> hires;
 }

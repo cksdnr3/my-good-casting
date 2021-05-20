@@ -30,10 +30,9 @@ spring:
           auth: true
           starttls:
             enable: true
-
-security:
-  jwt:
-    secret: secret-value
+  security:
+    jwt:
+      secret: secret-value
 shop:
   goodcast:
     upload:

@@ -11,6 +11,7 @@ import org.jcodec.containers.mp4.demuxer.MP4Demuxer;
 import org.jcodec.scale.AWTUtil;
 import org.springframework.stereotype.Service;
 import shop.goodcasting.api.article.profile.domain.Profile;
+import shop.goodcasting.api.article.profile.domain.ProfileDTO;
 import shop.goodcasting.api.article.profile.repository.ProfileRepository;
 import shop.goodcasting.api.file.domain.FileDTO;
 import shop.goodcasting.api.file.domain.FileVO;
@@ -73,12 +74,10 @@ public class FileServiceImpl implements FileService {
         return fileList.stream().map(entity -> {
 //            log.info("file service - findAll() - entity: " + entity);
             Profile profile = entity.getProfile();
-            log.info("file service - findAll() - profile Class: " + profile.getClass());
+            log.info("file service - findAll() - profile Class: " + profile.getProfileId());
 //            log.info("file service - findAll() - profile.regdate: " + profile.getRegDate());
 
-            FileDTO dto = entity2dto(entity);
-            return dto;
+            return entity2DtoFile(entity);
         }).collect(Collectors.toList());
     }
-
 }

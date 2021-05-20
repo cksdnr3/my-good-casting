@@ -7,7 +7,7 @@ import shop.goodcasting.api.common.domain.BaseEntity;
 
 import javax.persistence.*;
 
-@ToString
+@ToString(exclude = {"profile", "hire"})
 @Getter
 @Table(name = "files")
 @Entity

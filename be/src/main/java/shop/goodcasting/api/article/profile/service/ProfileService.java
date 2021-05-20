@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface ProfileService {
     Long register(ProfileDTO profileDTO);
+    Profile getProfileWithFileByProfileId(Long profileId);
 
     default Profile dto2Entity(ProfileDTO profileDTO) {
 
@@ -20,6 +21,8 @@ public interface ProfileService {
                 .contents(profileDTO.getContents())
                 .privacy(profileDTO.isPrivacy())
                 .actor(profileDTO.getActor())
+                .resemble(profileDTO.getResemble())
+                .confidence(profileDTO.getConfidence())
                 .build();
         return entity;
     }
@@ -37,17 +40,7 @@ public interface ProfileService {
         return actor;
     }
 
-    default FileVO dto2EntityFile(FileDTO fileDTO) {
-        FileVO file = FileVO.builder()
-                .fileId(fileDTO.getFileId())
-                .fileName(fileDTO.getFileName())
-                .uuid(fileDTO.getUuid())
-                .first(fileDTO.isFirst())
-                .profile(fileDTO.getProfile())
-                .build();
 
-        return file;
-    }
 
     ProfileDTO profileDetail(Long profileId);
 

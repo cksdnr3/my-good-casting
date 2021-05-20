@@ -7,7 +7,6 @@ import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import shop.goodcasting.api.user.actor.domain.Actor;
 import shop.goodcasting.api.user.actor.domain.ActorDTO;
 import shop.goodcasting.api.user.actor.repository.ActorRepository;
@@ -31,9 +30,6 @@ public class ActorTests {
 
     @Autowired
     private ActorService service;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Test
     public void insertDummyActors() throws IOException {

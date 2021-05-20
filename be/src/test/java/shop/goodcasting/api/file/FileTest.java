@@ -18,7 +18,7 @@ public class FileTest implements FileService {
 
     @Test
     public void test() {
-        fileRepo.findAll().stream().map(entity -> entity2dto(entity)).collect(Collectors.toList());
+        fileRepo.findAll().stream().map(entity -> entity2DtoFile(entity)).collect(Collectors.toList());
     }
 
     @Override
