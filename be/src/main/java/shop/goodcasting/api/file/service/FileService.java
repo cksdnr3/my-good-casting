@@ -19,6 +19,7 @@ public interface FileService {
                 .fileName(entity.getFileName())
                 .uuid(entity.getUuid())
                 .first(entity.isFirst())
+                .profile(entity.getProfile())
                 .build();
     }
 
@@ -28,6 +29,7 @@ public interface FileService {
                 .fileName(dto.getFileName())
                 .uuid(dto.getUuid())
                 .first(dto.isFirst())
+                .profile(dto.getProfile())
                 .build();
     }
 

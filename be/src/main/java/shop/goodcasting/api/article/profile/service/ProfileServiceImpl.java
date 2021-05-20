@@ -12,7 +12,10 @@ import shop.goodcasting.api.file.repository.FileRepository;
 import shop.goodcasting.api.file.service.FileService;
 import shop.goodcasting.api.user.actor.domain.Actor;
 import shop.goodcasting.api.user.actor.domain.ActorDTO;
+import shop.goodcasting.api.user.actor.repository.ActorRepository;
 import shop.goodcasting.api.user.actor.service.ActorService;
+import shop.goodcasting.api.user.login.domain.UserVO;
+import shop.goodcasting.api.user.login.repository.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -26,14 +29,30 @@ public class ProfileServiceImpl implements ProfileService {
     private final FileRepository fileRepo;
     private final FileService fileService;
     private final ActorService actorService;
+    private final UserRepository userRepo;
+    private final ActorRepository actorRepo;
 
     @Transactional
     @Override
     public Long register(ProfileDTO profileDTO) {
+        Actor actor = profileDTO.getActor();
+
+        System.out.println(actor);
+
+        UserVO user = actor.getUser();
+
+        System.out.println(user);
+
         Profile profile = dto2Entity(profileDTO);
         System.out.println("service - register - profile: " + profile);
 
+        userRepo.save(user);
+
+        actorRepo.save(actor);
+
         Profile finalProfile = profileRepo.save(profile);
+
+        System.out.println("final Profile ********************** " + finalProfile);
 
         List<FileDTO> files = profileDTO.getFiles();
 

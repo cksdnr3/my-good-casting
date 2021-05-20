@@ -7,6 +7,7 @@ import shop.goodcasting.api.user.actor.domain.Actor;
 import shop.goodcasting.api.user.actor.domain.ActorDTO;
 import shop.goodcasting.api.user.actor.repository.ActorRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,18 +24,17 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public Optional<Actor> findById(Long actorId) {
-        return Optional.empty();
+        return repo.findById(actorId);
     }
 
+    @Transactional
     @Override
     public Long delete(ActorDTO actorDTO) {
-        log.info("delete : 진입");
         Actor actor = dto2Entity(actorDTO);
-        actor.changeUserVO(null);
-        log.info("actor.userVo : " + actor.getUserVO());
+
+        repo.update(actor.getUser().getUserId(), false);
         repo.delete(actor);
 
-        log.info("actor.getActorId() : " + actor.getActorId());
         return repo.findById(actor.getActorId()).orElse(null) == null ? 1L : 0L;
     }
 

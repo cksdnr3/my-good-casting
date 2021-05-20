@@ -16,6 +16,8 @@ import shop.goodcasting.api.user.actor.domain.Actor;
 import shop.goodcasting.api.user.actor.domain.ActorDTO;
 import shop.goodcasting.api.user.actor.repository.ActorRepository;
 import shop.goodcasting.api.user.actor.service.ActorService;
+import shop.goodcasting.api.user.login.domain.UserVO;
+import shop.goodcasting.api.user.login.repository.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -44,32 +46,39 @@ public class ProfileTest {
     @Autowired
     ActorRepository actorRepository;
 
-
+    @Autowired
+    UserRepository userRepository;
 
     @Transactional
     @Commit
     @Test
     public void testInsert() {
-        Actor actor = Actor.builder().actorId(1L).build();
+        UserVO user = UserVO.builder().userId(1L).build();
 
-        Profile profile = Profile.builder()
-                .actor(actor)
-                .career("Career")
-                .contents("content...")
-                .build();
 
-        profileRepository.save(profile);
 
-        IntStream.rangeClosed(1,3).forEach(i -> {
+        Actor actor = Actor.builder().user(user).actorId(1L).build();
 
-            FileVO fileVO = FileVO.builder()
-                    .fileName("test" + i +".jpg")
-                    .uuid(UUID.randomUUID().toString())
-                    .profile(profile)
-                    .build();
+        actorRepository.save(actor);
 
-            fileRepository.save(fileVO);
-        });
+//        Profile profile = Profile.builder()
+//                .actor(actor)
+//                .career("Career")
+//                .contents("content...")
+//                .build();
+//
+//        profileRepository.save(profile);
+//
+//        IntStream.rangeClosed(1,3).forEach(i -> {
+//
+//            FileVO fileVO = FileVO.builder()
+//                    .fileName("test" + i +".jpg")
+//                    .uuid(UUID.randomUUID().toString())
+//                    .profile(profile)
+//                    .build();
+//
+//            fileRepository.save(fileVO);
+//        });
     }
 
     @Test
@@ -90,7 +99,7 @@ public class ProfileTest {
         ActorDTO actorDTO = actorService.entity2Dto(a);
         System.out.println("adto: " + actorDTO);
 
-        List<FileDTO> fileList = new ArrayList<>();
+        ArrayList<FileDTO> fileList = new ArrayList<>();
 
         for (Object[] arr : result) {
             FileVO f = (FileVO) arr[2];
