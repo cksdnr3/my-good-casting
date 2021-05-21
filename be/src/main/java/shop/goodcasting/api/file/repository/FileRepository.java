@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import shop.goodcasting.api.file.domain.FileVO;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface FileRepository extends JpaRepository<FileVO, Long> {
@@ -15,5 +14,5 @@ public interface FileRepository extends JpaRepository<FileVO, Long> {
     List<FileVO> findFileListByProfileId(@Param("profileId") Long profileId);
 
     @Query("select f from FileVO f where f.first = :first")
-    List<FileVO> findFileListByFirst(@Param("first") Boolean first);
+    List<FileVO> findFileListByFirst(@Param("first") boolean first);
 }

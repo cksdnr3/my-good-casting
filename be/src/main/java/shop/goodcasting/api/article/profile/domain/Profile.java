@@ -25,6 +25,7 @@ public class Profile extends BaseEntity {
     private Long profileId;
 
     // column
+    @Column private String title;
     @Column private boolean privacy;
     @Column private String contents;
     @Column private String career;

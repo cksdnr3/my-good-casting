@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @SpringBootTest
@@ -49,36 +50,75 @@ public class ProfileTest {
     @Autowired
     UserRepository userRepository;
 
+    @Test
+    public void getProfileAndFileAndActorByFirstTests() {
+
+        List<Object[]> res = profileRepository.getProfileAndFileAndActorByFirst(true);
+
+//        for (Object[] re : res) {
+//            System.out.println("loop enter");
+//            System.out.println(Arrays.toString(re));
+//        }
+
+        List<ProfileDTO> profileList = res.stream().map(objects -> {
+            System.out.println("loop enter");
+            System.out.println(Arrays.toString(objects));
+            Profile profile = (Profile) objects[0];
+            Actor actor = (Actor) objects[1];
+            FileVO file = (FileVO) objects[2];
+
+            ProfileDTO profileDTO = profileService.entity2Dto(profile);
+            ActorDTO actorDTO = actorService.entity2Dto(actor);
+            FileDTO fileDTO = fileService.entity2Dto(file);
+
+            List<FileDTO> files = new ArrayList<>();
+            files.add(fileDTO);
+
+            profileDTO.setActor(actorDTO);
+            profileDTO.setFiles(files);
+
+            System.out.println(profileDTO);
+
+            return profileDTO;
+        }).collect(Collectors.toList());
+
+        for (ProfileDTO profileDTO : profileList) {
+            System.out.println("----------------------------------------");
+            System.out.println(profileDTO.getTitle());
+            System.out.println(profileDTO.getActor());
+            System.out.println(profileDTO.getFiles());
+        }
+    }
+
     @Transactional
     @Commit
     @Test
     public void testInsert() {
         UserVO user = UserVO.builder().userId(1L).build();
 
-
-
         Actor actor = Actor.builder().user(user).actorId(1L).build();
 
         actorRepository.save(actor);
 
-//        Profile profile = Profile.builder()
-//                .actor(actor)
-//                .career("Career")
-//                .contents("content...")
-//                .build();
-//
-//        profileRepository.save(profile);
-//
-//        IntStream.rangeClosed(1,3).forEach(i -> {
-//
-//            FileVO fileVO = FileVO.builder()
-//                    .fileName("test" + i +".jpg")
-//                    .uuid(UUID.randomUUID().toString())
-//                    .profile(profile)
-//                    .build();
-//
-//            fileRepository.save(fileVO);
-//        });
+        Profile profile = Profile.builder()
+                .actor(actor)
+                .career("Career")
+                .contents("content...")
+                .build();
+
+        profileRepository.save(profile);
+
+        IntStream.rangeClosed(1,3).forEach(i -> {
+
+            FileVO fileVO = FileVO.builder()
+                    .fileName("test" + i +".jpg")
+                    .uuid(UUID.randomUUID().toString())
+                    .profile(profile)
+                    .first(true)
+                    .build();
+
+            fileRepository.save(fileVO);
+        });
     }
 
     @Test
