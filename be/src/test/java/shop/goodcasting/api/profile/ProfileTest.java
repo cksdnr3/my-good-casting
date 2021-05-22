@@ -51,6 +51,44 @@ public class ProfileTest {
     UserRepository userRepository;
 
     @Test
+    @Transactional
+    public void deleteTests() {
+    }
+
+    @Test
+    public void updateProfile() {
+
+        List<Object[]> profileAndFile = profileRepository.getProfileAndFileByProfileId(1L);
+
+//        FileDTO fileDto = new FileDTO();
+
+        Profile profile = (Profile) profileAndFile.get(0)[0];
+
+        System.out.println(profile);
+
+        List<FileVO> fileList = new ArrayList<>();
+
+        profileAndFile.forEach(objects -> {
+            System.out.println(Arrays.toString(objects));
+            FileVO file = (FileVO) objects[1];
+            fileList.add(file);
+        });
+
+//        IntStream.rangeClosed(1,3).forEach(i -> {
+//
+//            FileVO fileVO = FileVO.builder()
+//                    .fileName("test" + i +".jpg")
+//                    .uuid(UUID.randomUUID().toString())
+//                    .first(false)
+//                    .build();
+//
+//            fileList.add(fileVO);
+//        });
+
+//        profileRepository.save(profile);
+    }
+
+    @Test
     public void getProfileAndFileAndActorByFirstTests() {
 
         List<Object[]> res = profileRepository.getProfileAndFileAndActorByFirst(true);
@@ -84,7 +122,6 @@ public class ProfileTest {
 
         for (ProfileDTO profileDTO : profileList) {
             System.out.println("----------------------------------------");
-            System.out.println(profileDTO.getTitle());
             System.out.println(profileDTO.getActor());
             System.out.println(profileDTO.getFiles());
         }

@@ -18,9 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("/actors")
 public class ActorController {
-
     private final ActorServiceImpl service;
-    private final ActorRepository repo;
 
     @GetMapping("/list")
     public ResponseEntity<List<Actor>> actorList(){
@@ -40,7 +38,6 @@ public class ActorController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<Long> delete(@RequestBody ActorDTO actorDTO){
-        log.info("actorDto : " + actorDTO);
         return ResponseEntity.ok(service.delete(actorDTO));
     }
 }

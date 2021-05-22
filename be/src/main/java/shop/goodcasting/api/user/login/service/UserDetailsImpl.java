@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class UserDetailsImpl implements UserDetails {
     private final long userId;
     private final String username;
-    private final boolean position;
+    private final Boolean position;
     @JsonIgnore
     private final String password;
 
