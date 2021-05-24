@@ -26,6 +26,4 @@ public class HireController {
         service.register(hireDTO);
         return ResponseEntity.ok(1L);
     }
-
-
 }

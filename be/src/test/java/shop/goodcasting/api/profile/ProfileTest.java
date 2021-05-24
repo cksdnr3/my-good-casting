@@ -3,6 +3,9 @@ package shop.goodcasting.api.profile;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Commit;
 import shop.goodcasting.api.article.profile.domain.Profile;
 import shop.goodcasting.api.article.profile.domain.ProfileDTO;
@@ -53,6 +56,11 @@ public class ProfileTest {
     @Test
     @Transactional
     public void deleteTests() {
+        List<Long> res = fileRepository.selectFileIdsByProfileId(1L);
+
+        res.forEach(num -> {
+            System.out.println(num);
+        });
     }
 
     @Test
@@ -90,8 +98,19 @@ public class ProfileTest {
 
     @Test
     public void getProfileAndFileAndActorByFirstTests() {
+        Pageable pageable = PageRequest.of(0, 10);
 
-        List<Object[]> res = profileRepository.getProfileAndFileAndActorByFirst(true);
+        Page<Object[]> res = profileRepository.getProfileAndFileAndActorByFirst(pageable);
+
+        System.out.println(res);
+
+        res.get().forEach(objects -> {
+            System.out.println("loop enter");
+            Object[] arr = (Object[]) objects;
+
+            System.out.println(Arrays.toString(arr));
+
+        });
 
 //        for (Object[] re : res) {
 //            System.out.println("loop enter");
@@ -106,8 +125,11 @@ public class ProfileTest {
             FileVO file = (FileVO) objects[2];
 
             ProfileDTO profileDTO = profileService.entity2Dto(profile);
+            System.out.println("**********************" + profileDTO + "*****************************");
             ActorDTO actorDTO = actorService.entity2Dto(actor);
+            System.out.println("**********************" + actorDTO + "*****************************");
             FileDTO fileDTO = fileService.entity2Dto(file);
+            System.out.println("**********************" + fileDTO + "*****************************");
 
             List<FileDTO> files = new ArrayList<>();
             files.add(fileDTO);
