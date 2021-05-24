@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shop.goodcasting.api.article.profile.domain.ProfileDTO;
 import shop.goodcasting.api.article.profile.service.ProfileServiceImpl;
+import shop.goodcasting.api.common.domain.PageRequestDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,9 @@ public class ProfileController {
 
     @GetMapping("/profile-list/{page}")
     public ResponseEntity<List<ProfileDTO>> profileList(@PathVariable int page) {
-        return new ResponseEntity<>(service.readProfileList(page), HttpStatus.OK);
+        PageRequestDTO pageRequestDTO = new PageRequestDTO(page);
+
+        return new ResponseEntity<>(service.getProfileList(pageRequestDTO).getDtoList(), HttpStatus.OK);
     }
 
     @PutMapping("/update")

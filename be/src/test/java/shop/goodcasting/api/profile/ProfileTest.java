@@ -1,5 +1,7 @@
 package shop.goodcasting.api.profile;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,8 +11,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Commit;
 import shop.goodcasting.api.article.profile.domain.Profile;
 import shop.goodcasting.api.article.profile.domain.ProfileDTO;
+import shop.goodcasting.api.article.profile.domain.QProfile;
 import shop.goodcasting.api.article.profile.repository.ProfileRepository;
 import shop.goodcasting.api.article.profile.service.ProfileService;
+import shop.goodcasting.api.common.domain.PageRequestDTO;
+import shop.goodcasting.api.common.domain.PageResultDTO;
 import shop.goodcasting.api.file.domain.FileDTO;
 import shop.goodcasting.api.file.domain.FileVO;
 import shop.goodcasting.api.file.repository.FileRepository;
@@ -52,6 +57,38 @@ public class ProfileTest {
 
     @Autowired
     UserRepository userRepository;
+
+    @Test
+    @Transactional
+    public void queryDSLTest() {
+        Pageable pageable = PageRequest.of(0, 10);
+
+        QProfile qProfile = QProfile.profile;
+
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        BooleanExpression expression1 = qProfile.resemble.contains("아이유");
+
+        booleanBuilder.and(expression1);
+
+        Page<Profile> res = profileRepository.findAll(booleanBuilder, pageable);
+
+        res.forEach(objects -> {
+            System.out.println(objects);
+//            System.out.println(objects.getActor().getName());
+        });
+    }
+
+    @Test
+    public void profilePage() {
+        PageRequestDTO pageRequestDTO = new PageRequestDTO(1);
+
+        PageResultDTO<ProfileDTO, Object[]> res = profileService.getProfileList(pageRequestDTO);
+
+        for (ProfileDTO profileDTO : res.getDtoList()) {
+            System.out.println(profileDTO);
+        }
+    }
 
     @Test
     @Transactional
