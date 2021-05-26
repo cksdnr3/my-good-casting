@@ -1,17 +1,17 @@
 package shop.goodcasting.api.user.login.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
-import shop.goodcasting.api.article.profile.domain.Profile;
+import org.springframework.stereotype.Repository;
 import shop.goodcasting.api.user.login.domain.UserDTO;
 import shop.goodcasting.api.user.login.domain.UserVO;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<UserVO, Long>
-        , QuerydslPredicateExecutor<UserVO> {
+@Repository
+public interface UserRepository extends JpaRepository<UserVO, Long> {
     boolean existsByUsername(String username);
     Optional<UserVO> findByUsername(String username);
 
@@ -20,4 +20,12 @@ public interface UserRepository extends JpaRepository<UserVO, Long>
 
     @Query("select u.account from UserVO u where u.username = :username")
     boolean checkAccount(@Param("username") String username);
+
+    @Modifying
+    @Query("update UserVO u set u.account = :account where u.userId = :user_id")
+    void accountUpdate(@Param("user_id") Long userId, @Param("account") boolean account);
+
+    @Modifying
+    @Query("update UserVO u set u.password = :password where u.userId = :user_id")
+    void passwordUpdate(@Param("user_id") Long userId, @Param("password") String password);
 }

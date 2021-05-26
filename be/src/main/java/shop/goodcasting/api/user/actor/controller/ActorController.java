@@ -1,6 +1,5 @@
 package shop.goodcasting.api.user.actor.controller;
 
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +23,9 @@ public class ActorController {
         return ResponseEntity.ok(service.findAll());
     }
 
-
-    @GetMapping("/myPage")
-    public ResponseEntity<Optional<Actor>> myPage(@RequestBody Actor actor){
-        return ResponseEntity.ok(service.findById(actor.getActorId()));
+    @GetMapping("/myPage/{id}")
+    public ResponseEntity<Optional<Actor>> myPage(@PathVariable Long id){
+        return ResponseEntity.ok(service.findById(id));
     }
 
     @PostMapping("/info")
@@ -35,7 +33,7 @@ public class ActorController {
         return ResponseEntity.ok(service.moreDetail(actorDTO));
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{actorId}")
     public ResponseEntity<Long> delete(@RequestBody ActorDTO actorDTO){
         return ResponseEntity.ok(service.delete(actorDTO));
     }

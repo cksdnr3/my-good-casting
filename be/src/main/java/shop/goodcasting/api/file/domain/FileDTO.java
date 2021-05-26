@@ -9,7 +9,7 @@ import shop.goodcasting.api.article.profile.domain.ProfileDTO;
 
 import java.sql.Timestamp;
 
-@ToString
+@ToString(exclude = {"profile", "hire"})
 @Data
 @Component
 @Builder
@@ -25,4 +25,5 @@ public class FileDTO {
     private Timestamp modDate;
 
     private ProfileDTO profile;
+    private HireDTO hire;
 }

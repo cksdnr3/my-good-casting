@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 import shop.goodcasting.api.article.profile.domain.Profile;
 import shop.goodcasting.api.article.profile.domain.ProfileDTO;
@@ -60,34 +61,31 @@ public class ProfileTest {
 
     @Test
     @Transactional
-    public void queryDSLTest() {
-        Pageable pageable = PageRequest.of(0, 10);
+    public void testSearchPage() {
+        PageRequestDTO pageRequest = PageRequestDTO.builder()
+                .type("ra")
+                .page(1)
+                .size(10)
+                .rKeyword("신봉선")
+                .aFrom(10)
+                .aTo(20)
+                .build();
 
-        QProfile qProfile = QProfile.profile;
+        Page<Object[]> result = profileRepository.searchPage(pageRequest, pageRequest.getPageable(Sort.by("confidence").descending()));
 
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
-
-        BooleanExpression expression1 = qProfile.resemble.contains("아이유");
-
-        booleanBuilder.and(expression1);
-
-        Page<Profile> res = profileRepository.findAll(booleanBuilder, pageable);
-
-        res.forEach(objects -> {
-            System.out.println(objects);
-//            System.out.println(objects.getActor().getName());
+        result.forEach(p -> {
+            System.out.println("TESTTESTTESTTEST profile" + Arrays.toString(p));
         });
     }
 
     @Test
     public void profilePage() {
-        PageRequestDTO pageRequestDTO = new PageRequestDTO(1);
-
-        PageResultDTO<ProfileDTO, Object[]> res = profileService.getProfileList(pageRequestDTO);
-
-        for (ProfileDTO profileDTO : res.getDtoList()) {
-            System.out.println(profileDTO);
-        }
+//
+//        PageResultDTO<ProfileDTO, Object[]> res = profileService.getProfileList(pageRequestDTO);
+//
+//        for (ProfileDTO profileDTO : res.getDtoList()) {
+//            System.out.println(profileDTO);
+//        }
     }
 
     @Test

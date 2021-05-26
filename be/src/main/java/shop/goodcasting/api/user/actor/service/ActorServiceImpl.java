@@ -1,19 +1,23 @@
 package shop.goodcasting.api.user.actor.service;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import shop.goodcasting.api.article.profile.domain.Profile;
+import shop.goodcasting.api.article.profile.domain.ProfileDTO;
 import shop.goodcasting.api.article.profile.repository.ProfileRepository;
 import shop.goodcasting.api.file.domain.FileVO;
 import shop.goodcasting.api.file.repository.FileRepository;
 import shop.goodcasting.api.user.actor.domain.Actor;
 import shop.goodcasting.api.user.actor.domain.ActorDTO;
 import shop.goodcasting.api.user.actor.repository.ActorRepository;
+import shop.goodcasting.api.user.login.domain.UserVO;
 import shop.goodcasting.api.user.login.repository.UserRepository;
+import shop.goodcasting.api.user.login.service.UserServiceImpl;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +26,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ActorServiceImpl implements ActorService {
+    private final UserRepository userRepository;
     private final FileRepository fileRepository;
     private final ProfileRepository profileRepository;
     private final ActorRepository actorRepository;
@@ -66,8 +71,7 @@ public class ActorServiceImpl implements ActorService {
 
             profileRepository.delete(profile);
         }
-        actorRepository.delete(actor);
-        actorRepository.accountUpdate(actor.getUser().getUserId(), false);
+        userRepository.accountUpdate(actor.getUser().getUserId(), false);
         actorRepository.delete(actor);
 
         return actorRepository.findById(actor.getActorId()).orElse(null) == null ? 1L : 0L;
@@ -77,12 +81,22 @@ public class ActorServiceImpl implements ActorService {
     @Transactional
     public ActorDTO moreDetail(ActorDTO actorDTO) {
         String passwordUp =  passwordEncoder.encode(actorDTO.getUser().getPassword());
-        actorRepository.passwordUpdate(actorDTO.getUser().getUserId(), passwordUp);
+        userRepository.passwordUpdate(actorDTO.getUser().getUserId(), passwordUp);
+
+        LocalDate now = LocalDate.now();
+        LocalDate parseBirthday = LocalDate.parse(actorDTO.getBirthday(), DateTimeFormatter.ofPattern("yyyyMMdd"));
+
+        Integer age = now.minusYears(parseBirthday.getYear()).getYear();
+
+        if (parseBirthday.plusYears(age).isAfter(now)) {
+            age = age - 1;
+        }
+
+        actorDTO.setAge(age);
 
         Actor actor = dto2EntityAll(actorDTO);
         actorRepository.save(actor);
         return null;
     }
 }
-
 

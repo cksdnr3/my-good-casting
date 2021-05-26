@@ -2,14 +2,9 @@ package shop.goodcasting.api.article.profile.domain;
 
 import lombok.*;
 import shop.goodcasting.api.common.domain.BaseEntity;
-import shop.goodcasting.api.common.domain.HireProfile;
-import shop.goodcasting.api.file.domain.FileDTO;
 import shop.goodcasting.api.user.actor.domain.Actor;
-import shop.goodcasting.api.user.login.domain.UserVO;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @ToString(exclude = {"actor", "hires"})
 @Builder

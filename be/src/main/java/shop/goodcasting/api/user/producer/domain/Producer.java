@@ -6,7 +6,7 @@ import shop.goodcasting.api.user.login.domain.UserVO;
 
 import javax.persistence.*;
 
-@ToString
+@ToString(exclude = {})
 @Builder
 @Getter
 @Entity
@@ -18,15 +18,17 @@ public class Producer {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "producer_id") private Long producerId;
 
+    @Column private String name;
     @Column private String email;
     @Column private String agency;
     @Column private String phone;
     @Column private String position;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private UserVO userVO;
 
     public void changeUserVO(UserVO userVO) {
+        this.userVO = userVO;
     }
 }

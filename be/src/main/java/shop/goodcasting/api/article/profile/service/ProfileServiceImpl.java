@@ -1,31 +1,30 @@
 package shop.goodcasting.api.article.profile.service;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import shop.goodcasting.api.article.profile.domain.Profile;
 import shop.goodcasting.api.article.profile.domain.ProfileDTO;
 import shop.goodcasting.api.article.profile.repository.ProfileRepository;
 
+import shop.goodcasting.api.article.profile.repository.SearchProfileRepository;
+import shop.goodcasting.api.article.profile.repository.SearchProfileRepositoryImpl;
 import shop.goodcasting.api.common.domain.PageRequestDTO;
 import shop.goodcasting.api.common.domain.PageResultDTO;
 import shop.goodcasting.api.file.domain.FileDTO;
 import shop.goodcasting.api.file.domain.FileVO;
 import shop.goodcasting.api.file.repository.FileRepository;
-import shop.goodcasting.api.file.service.FileServiceImpl;
+import shop.goodcasting.api.file.service.FileService;
 import shop.goodcasting.api.user.actor.domain.Actor;
 import shop.goodcasting.api.user.actor.domain.ActorDTO;
-import shop.goodcasting.api.user.actor.repository.ActorRepository;
 import shop.goodcasting.api.user.actor.service.ActorService;
-import shop.goodcasting.api.user.login.repository.UserRepository;
-import shop.goodcasting.api.user.login.service.UserService;
 
 import javax.transaction.Transactional;
 import java.io.*;
@@ -33,10 +32,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -44,11 +41,9 @@ import java.util.stream.Collectors;
 public class ProfileServiceImpl implements ProfileService {
     private final ProfileRepository profileRepo;
     private final FileRepository fileRepo;
-    private final FileServiceImpl fileService;
+    private final FileService fileService;
     private final ActorService actorService;
-    private final UserRepository userRepo;
-    private final ActorRepository actorRepo;
-    private final UserService userService;
+    private final SearchProfileRepositoryImpl searchProfileRepo;
 
     @Value("${shop.goodcast.upload.path}")
     private String uploadPath;
@@ -88,12 +83,12 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public PageResultDTO<ProfileDTO, Object[]> getProfileList(PageRequestDTO requestDTO) {
-        Page<Object[]> result = profileRepo.getProfileAndFileAndActorByFirst(
-                requestDTO.getPageable(Sort.by("profileId").descending()));
+    public PageResultDTO<ProfileDTO, Object[]> getProfileList(PageRequestDTO pageRequest) {
+        Page<Object[]> result = searchProfileRepo.searchPage(pageRequest,
+                pageRequest.getPageable(Sort.by("confidence").descending()));
 
         Function<Object[], ProfileDTO> fn = (entity -> entity2DtoFiles((Profile) entity[0],
-                (Actor) entity[1], (FileVO) entity[2]));
+                (FileVO) entity[1], (Actor) entity[2]));
 
         return new PageResultDTO<>(result, fn);
     }
@@ -191,7 +186,7 @@ public class ProfileServiceImpl implements ProfileService {
                 String resemble = celebObject.getString("value");
                 System.out.println("---------------------resemble-----------------" + resemble);
 
-                String confidence = String.valueOf(celebObject.getFloat("confidence"));
+                Double confidence = celebObject.getDouble("confidence");
                 System.out.println("---------------------confidence-----------------" + confidence);
 
                 System.out.println("===================================================================");
@@ -210,11 +205,11 @@ public class ProfileServiceImpl implements ProfileService {
         if(files != null && files.size() > 0) {
             files.forEach(fileDTO -> {
                 fileDTO.setProfile(profileDTO);
-                FileVO file = fileService.dto2EntityAll(fileDTO);
+                FileVO file = fileService.dto2EntityProfile(fileDTO);
                 fileRepo.save(file);
 
                 if (file.isPhotoType() && fileDTO.isFirst()) {
-                    extractCelebrity(file.getFileName(), profileDTO.getProfileId());
+                    extractCelebrity(file.getUuid() + "_" + file.getFileName(), profileDTO.getProfileId());
                 }
             });
             return 1L;

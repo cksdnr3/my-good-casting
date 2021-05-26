@@ -10,25 +10,11 @@ import org.jcodec.common.model.Picture;
 import org.jcodec.containers.mp4.demuxer.MP4Demuxer;
 import org.jcodec.scale.AWTUtil;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import shop.goodcasting.api.article.profile.domain.Profile;
-import shop.goodcasting.api.article.profile.domain.ProfileDTO;
-import shop.goodcasting.api.article.profile.repository.ProfileRepository;
-import shop.goodcasting.api.article.profile.service.ProfileServiceImpl;
-import shop.goodcasting.api.file.domain.FileDTO;
-import shop.goodcasting.api.file.domain.FileVO;
 import shop.goodcasting.api.file.repository.FileRepository;
-import shop.goodcasting.api.user.actor.domain.Actor;
-import shop.goodcasting.api.user.actor.repository.ActorRepository;
-import shop.goodcasting.api.user.login.domain.UserVO;
-import shop.goodcasting.api.user.login.repository.UserRepository;
 
 import javax.imageio.ImageIO;
-import javax.transaction.Transactional;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Log4j2
 @Service

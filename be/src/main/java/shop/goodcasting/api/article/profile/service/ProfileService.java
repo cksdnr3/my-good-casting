@@ -72,7 +72,7 @@ public interface ProfileService {
                 .build();
     }
 
-    default ProfileDTO entity2DtoFiles(Profile profile,Actor actor, FileVO file) {
+    default ProfileDTO entity2DtoFiles(Profile profile, FileVO file, Actor actor) {
         return ProfileDTO.builder()
                 .profileId(profile.getProfileId())
                 .career(profile.getCareer())
@@ -85,6 +85,7 @@ public interface ProfileService {
                 .fileName(file.getFileName())
                 .fileUuid(file.getUuid())
                 .actorName(actor.getName())
+                .actorAge(actor.getAge())
                 .build();
     }
 }
