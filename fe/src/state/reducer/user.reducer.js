@@ -1,11 +1,19 @@
 import { userService } from "../service/index"
 const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 
-export const signup = createAsyncThunk("SIGN_UP", async (arg) => {
+export const signup = createAsyncThunk("SIGN_UP", async (arg, { rejectWithValue }) => {
     console.log("reducer signup() arg: " + JSON.stringify(arg))
-    const response = await userService.signup(arg)
+    try {
+        const response = await userService.signup(arg)
+        return response.data
+    } catch (err) {
+        
+        if (!err.response) {
+            throw err;
+        }
 
-    return response.data
+        return rejectWithValue(err.response.data)
+    }
 })
 
 export const signin = createAsyncThunk("SIGN_IN", async (arg) => {
@@ -22,12 +30,19 @@ const userSlice = createSlice({
         producer: {},
     },
     reducers: {
-
     },
     extraReducers: (builder) => {
         builder
             .addCase(signup.fulfilled, (state, { payload }) => {
                 console.log("회원가입() payload" + JSON.stringify(payload))
+            })
+            .addCase(signup.rejected, (state, { payload }) => {
+                console.log("payload: " + JSON.stringify(payload))
+                if (payload.message.includes("중복된")) {
+                    alert("중복된 유저네임")
+                } else {
+                    alert("다른 에러")
+                }
             })
             .addCase(signin.fulfilled, (state, { payload }) => {
                 console.log("로그인() payload: " + JSON.stringify(payload))

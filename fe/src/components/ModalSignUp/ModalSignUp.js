@@ -17,9 +17,11 @@ const ModalSignUp = (props) => {
   const [showPassSecond, setShowPassSecond] = useState(true);
 
   const [inputs, setInputs] = useState({
-    email: "",
+    username: "",
     password: "",
     confirmPassword: "",
+    position: true,
+    account: true
   })
 
   const [checkValidate, setCheckValidate] = useState("")
@@ -115,8 +117,8 @@ const ModalSignUp = (props) => {
                       className="form-control"
                       placeholder="example@gmail.com"
                       id="email2"
-                      name="email"
-                      value={inputs.email}
+                      name="username"
+                      value={inputs.username}
                       onChange={onChange}
                     />
                   </div>
