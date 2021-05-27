@@ -73,19 +73,11 @@ const SearchGrid = () => {
                                         </h5>
                                     </div>
                                     <div className="mb-8">
-                                        <Link to="/hire-detail">
+
                                             <HireList />
-                                        </Link>
+                                        
                                     </div>
-                                    <div className="text-center pt-5 pt-lg-13">
-                                        <Link
-                                            to="/#"
-                                            className="text-green font-weight-bold text-uppercase font-size-3"
-                                        >
-                                            Load More{' '}
-                                            <i className="fas fa-sort-down ml-3"></i>
-                                        </Link>
-                                    </div>
+
                                 </div>
                                 {/* <!-- form end --> */}
                             </div>

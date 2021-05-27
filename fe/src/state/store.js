@@ -1,11 +1,14 @@
-import reducer from './reducer/user.reducer';
+import userReducer from './reducer/user.reducer';
+import actorReducer from './reducer/actor.reducer'
+import hireReducer from './reducer/hire.reducer'
 
 const { configureStore, getDefaultMiddleware } = require('@reduxjs/toolkit');
 const { combineReducers } = require('redux');
 
 const rootReducer = combineReducers({
-    userReducer: reducer,
-    actorReducer: reducer,
+    userReducer,
+    actorReducer,
+    hireReducer,
 });
 
 const store = configureStore({

@@ -19,7 +19,6 @@ const ModalSignUp = (props) => {
         username: '',
         password: '',
         confirmPassword: '',
-        position: false,
         account: true,
     });
 
@@ -54,7 +53,6 @@ const ModalSignUp = (props) => {
     const dispatch = useDispatch();
 
     return (
-        <ModalStyled>
             <ModalStyled
                 {...props}
                 size="lg"
@@ -126,15 +124,16 @@ const ModalSignUp = (props) => {
                                             type="radio"
                                             name="radio"
                                             onClick={() => {
+                                                console.log(inputs.position)
                                                 setInputs({ position: false });
                                             }}
                                         />
-                                        <lable
+                                        <label
                                             className="font-size-4 text-black-2 font-weight-semibold line-height-reset"
                                             htmlFor="radio"
                                         >
                                             &nbsp;재작자
-                                        </lable>
+                                        </label>
                                     </div>
                                     <form onSubmit={(e) => e.preventDefault()}>
                                         <div className="form-group">
@@ -267,9 +266,10 @@ const ModalSignUp = (props) => {
                                         <div className="form-group mb-8">
                                             <button
                                                 className="btn btn-primary btn-medium w-100 rounded-5 text-uppercase"
-                                                onClick={() =>
+                                                onClick={() => {
+                                                    console.log(inputs.position)
                                                     dispatch(signup(inputs))
-                                                }
+                                                }}
                                             >
                                                 Sign Up
                                             </button>
@@ -290,7 +290,6 @@ const ModalSignUp = (props) => {
                     </div>
                 </Modal.Body>
             </ModalStyled>
-        </ModalStyled>
     );
 };
 

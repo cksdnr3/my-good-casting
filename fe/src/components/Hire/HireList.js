@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'gatsby';
+import {hireList} from '../../state/reducer/hire.reducer'
 
 import imgF1 from '../../assets/image/l2/png/featured-job-logo-1.png';
 
@@ -7,11 +8,32 @@ import imgF from '../../assets/image/svg/icon-fire-rounded.svg';
 import iconL from '../../assets/image/svg/icon-loaction-pin-black.svg';
 import iconS from '../../assets/image/svg/icon-suitecase.svg';
 import iconC from '../../assets/image/svg/icon-clock.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import {hireSelector} from '../../state/reducer/hire.reducer'
 
 const HireList = () => {
+
+    const dispatch = useDispatch();
+
+    const state = useSelector(hireSelector);
+    
+    // console.log("jksdhfkahdfksad--------------------------------"+state.pageResult.page)
+    
+
+    useEffect(() => {
+        dispatch(hireList({
+            page: 1,
+            size: 10,
+            sort: 'hireId'
+        }))
+    }, [])
+
     return (
-        <>
-            <div className="pt-9 px-xl-9 px-lg-7 px-7 pb-7 light-mode-texts bg-white rounded hover-shadow-3 ">
+        <>{state.hireList.map(hire => {
+            return (
+                <Link to="/hire-detail">
+                
+            <div className="pt-9 px-xl-9 px-lg-7 px-7 pb-7 light-mode-texts bg-white rounded hover-shadow-3 " key={hire.hireId}>
                 <div className="row">
                     <div className="col-md-6">
                         <div className="media align-items-center">
@@ -24,7 +46,7 @@ const HireList = () => {
                                         to="/#"
                                         className="font-size-6 heading-default-color"
                                     >
-                                        Product Designer
+                                        {hire.project}
                                     </Link>
                                 </h3>
                                 <Link
@@ -36,6 +58,8 @@ const HireList = () => {
                             </div>
                         </div>
                     </div>
+
+                    
                     <div className="col-md-6 text-right pt-7 pt-md-5">
                         <div className="media justify-content-md-end">
                             <div className="image mr-5 mt-2">
@@ -55,16 +79,18 @@ const HireList = () => {
                                     to="/#"
                                     className="bg-regent-opacity-15 min-width-px-96 mr-3 text-center rounded-3 px-6 py-1 font-size-3 text-black-2 mt-2"
                                 >
-                                    Agile
+                                    {hire.cast}
                                 </Link>
                             </li>
                             <li>
+                                <label className="font-weight-semibold">
                                 <Link
                                     to="/#"
                                     className="bg-regent-opacity-15 min-width-px-96 mr-3 text-center rounded-3 px-6 py-1 font-size-3 text-black-2 mt-2"
                                 >
-                                    Wireframing
+                                    {'마감: '}{hire.deadline}
                                 </Link>
+                                </label>
                             </li>
                             <li>
                                 <Link
@@ -121,6 +147,22 @@ const HireList = () => {
                     </div>
                 </div>
             </div>
+            </Link>)
+        })}
+        
+        <div className="text-center pt-5 pt-lg-13">
+            <button 
+            style={{border: 0, outline: 0}}
+            onClick={() => {
+                console.log("click")
+                dispatch()
+            }}
+            className="text-green font-weight-bold text-uppercase font-size-3">
+                Load More
+                <i className="fas fa-sort-down ml-3"></i>
+            </button>
+        </div>
+            
         </>
     );
 };
