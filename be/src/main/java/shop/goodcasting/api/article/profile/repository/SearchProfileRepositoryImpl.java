@@ -13,7 +13,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-import org.springframework.stereotype.Repository;
 import shop.goodcasting.api.article.profile.domain.Profile;
 import shop.goodcasting.api.article.profile.domain.QProfile;
 import shop.goodcasting.api.common.domain.PageRequestDTO;
@@ -35,7 +34,7 @@ public class SearchProfileRepositoryImpl extends QuerydslRepositorySupport imple
     @Transactional
     public Page<Object[]> searchPage(PageRequestDTO pageRequest, Pageable pageable) {
 
-        log.info("-------------------Search Page Enter------------------------------------");
+        log.info("-------------------Search Profile Page Enter------------------------------------");
 
         String type = pageRequest.getType();
         QProfile profile = QProfile.profile;

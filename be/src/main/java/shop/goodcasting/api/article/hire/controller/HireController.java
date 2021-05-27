@@ -1,18 +1,18 @@
 package shop.goodcasting.api.article.hire.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import shop.goodcasting.api.article.hire.domain.Hire;
 import shop.goodcasting.api.article.hire.domain.HireDTO;
+import shop.goodcasting.api.article.hire.domain.HireListDTO;
 import shop.goodcasting.api.article.hire.service.HireServiceImpl;
-import shop.goodcasting.api.article.profile.domain.ProfileDTO;
 import shop.goodcasting.api.common.domain.PageRequestDTO;
 
 import java.util.List;
-import java.util.Optional;
 
+@Log4j2
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin("*")
@@ -32,8 +32,9 @@ public class HireController {
         return ResponseEntity.ok(service.readHire(hireId));
     }
 
-    @GetMapping("/profile-list")
-    public ResponseEntity<List<HireDTO>> hireList(PageRequestDTO pageRequest) {
+    @GetMapping("/list")
+    public ResponseEntity<List<HireListDTO>> hireList(@RequestBody PageRequestDTO pageRequest) {
+        log.info("------------------" + pageRequest + "----------------------------------");
 
         return new ResponseEntity<>(service.getHireList(pageRequest).getDtoList(), HttpStatus.OK);
     }

@@ -2,6 +2,7 @@ package shop.goodcasting.api.article.hire.service;
 
 import shop.goodcasting.api.article.hire.domain.Hire;
 import shop.goodcasting.api.article.hire.domain.HireDTO;
+import shop.goodcasting.api.article.hire.domain.HireListDTO;
 import shop.goodcasting.api.common.domain.PageRequestDTO;
 import shop.goodcasting.api.common.domain.PageResultDTO;
 import shop.goodcasting.api.file.domain.FileVO;
@@ -11,7 +12,7 @@ import shop.goodcasting.api.user.producer.domain.ProducerDTO;
 public interface HireService {
     Long register(HireDTO hireDTO);
     HireDTO readHire(Long hireId);
-    PageResultDTO<HireDTO, Object[]> getHireList(PageRequestDTO requestDTO);
+    PageResultDTO<HireListDTO, Object[]> getHireList(PageRequestDTO pageRequest);
     default Hire dto2Entity(HireDTO dto) {
         return Hire.builder()
                 .hireId(dto.getHireId())
@@ -73,20 +74,18 @@ public interface HireService {
                         .build())
                 .build();
     }
-    default HireDTO entity2DtoFiles(Hire hire,Producer producer, FileVO file) {
-        return HireDTO.builder()
+    default HireListDTO entity2DtoFiles(Hire hire, Producer producer, FileVO file) {
+        return HireListDTO.builder()
                 .hireId(hire.getHireId())
-                .title(hire.getTitle())
-                .project(hire.getProject())
-                .contents(hire.getContents())
                 .cast(hire.getCast())
-                .filming(hire.getFilming())
-                .guarantee(hire.getGuarantee())
-                .personnel(hire.getPersonnel())
                 .deadline(hire.getDeadline())
-                .fileName(file.getFileName())
-                .fileUuid(file.getUuid())
-                .producerName(producer.getName())
+                .project(hire.getProject())
+                .modDate(hire.getModDate())
+                .regDate(hire.getRegDate())
+                .producerAgency(producer.getAgency())
+//                .fileName(file.getFileName())
+//                .fileUuid(file.getUuid())
                 .build();
+
     }
 }

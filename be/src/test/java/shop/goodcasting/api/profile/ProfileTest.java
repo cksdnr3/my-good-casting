@@ -1,7 +1,5 @@
 package shop.goodcasting.api.profile;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,11 +10,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 import shop.goodcasting.api.article.profile.domain.Profile;
 import shop.goodcasting.api.article.profile.domain.ProfileDTO;
-import shop.goodcasting.api.article.profile.domain.QProfile;
 import shop.goodcasting.api.article.profile.repository.ProfileRepository;
 import shop.goodcasting.api.article.profile.service.ProfileService;
 import shop.goodcasting.api.common.domain.PageRequestDTO;
-import shop.goodcasting.api.common.domain.PageResultDTO;
 import shop.goodcasting.api.file.domain.FileDTO;
 import shop.goodcasting.api.file.domain.FileVO;
 import shop.goodcasting.api.file.repository.FileRepository;
@@ -66,9 +62,9 @@ public class ProfileTest {
                 .type("ra")
                 .page(1)
                 .size(10)
-                .rKeyword("신봉선")
-                .aFrom(10)
-                .aTo(20)
+                .rkeyword("신봉선")
+                .afrom(10)
+                .ato(20)
                 .build();
 
         Page<Object[]> result = profileRepository.searchPage(pageRequest, pageRequest.getPageable(Sort.by("confidence").descending()));
