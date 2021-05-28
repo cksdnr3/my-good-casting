@@ -12,17 +12,20 @@ const hireSlice = createSlice({
     name: 'hire',
     initialState: {
         hireList: [],
+        pageList: [],
         page: 0,
-        pageList: []
+        size: 0,
+        totalPage: 0,
     },
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(hireList.fulfilled, (state, { payload }) => {
             console.log("payload: " + JSON.stringify(payload))
-            // state.pageResult = payload=
-            state.hireList = payload.dtoList
+            state.hireList.push(...payload.dtoList)
             state.page = payload.page
             state.pageList = payload.pageList
+            state.size = payload.size
+            state.totalPage = payload.totalPage
         })
     }
 })
