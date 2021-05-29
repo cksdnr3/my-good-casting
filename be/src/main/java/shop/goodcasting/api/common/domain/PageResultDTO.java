@@ -2,6 +2,7 @@ package shop.goodcasting.api.common.domain;
 
 import lombok.Data;
 import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -10,6 +11,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@Log4j2
 @ToString
 @Data
 public class PageResultDTO<D, E> {
@@ -29,6 +31,8 @@ public class PageResultDTO<D, E> {
     //이전, 다음
     private boolean prev, next;
 
+    private long totalElement;
+
     //페이지 번호  목록
     private List<Integer> pageList;
 
@@ -36,6 +40,7 @@ public class PageResultDTO<D, E> {
         dtoList = result.stream().map(fn).collect(Collectors.toList());
 
         totalPage = result.getTotalPages();
+        totalElement = result.getTotalElements();
 
         makePageList(result.getPageable());
     }
@@ -47,6 +52,8 @@ public class PageResultDTO<D, E> {
 
         //temp end page
         int tempEnd = (int)(Math.ceil(page/10.0)) * 10;
+
+        log.info("##############temp end: ##################" + tempEnd);
 
         start = tempEnd - 9;
 

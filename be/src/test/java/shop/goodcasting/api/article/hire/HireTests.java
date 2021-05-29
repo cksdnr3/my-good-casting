@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import shop.goodcasting.api.article.hire.domain.Hire;
 import shop.goodcasting.api.article.hire.repository.HireRepository;
 import shop.goodcasting.api.article.hire.service.HireService;
 import shop.goodcasting.api.common.domain.PageRequestDTO;
@@ -38,19 +39,17 @@ public class HireTests {
 
     @Test
     public void searchHireTests() {
-        LocalDate from = LocalDate.of(2021, 5, 1);
-        LocalDate to = LocalDate.of(2021, 5, 30);
+//        LocalDate from = LocalDate.of(2021, 5, 1);
+//        LocalDate to = LocalDate.of(2021, 5, 30);
         PageRequestDTO pageRequest = PageRequestDTO.builder()
                 .page(1)
                 .size(10)
-                .type("Cp")
-                .castKeyword("20대남자")
-                .pkeyword("광고")
                 .build();
 
         Page<Object[]> result = hireRepository.searchPage(pageRequest, pageRequest.getPageable(Sort.by("hireId").descending()));
 
         result.forEach(t -> {
+
             System.out.println("-------------------------------result: " + Arrays.toString(t));
         });
     }

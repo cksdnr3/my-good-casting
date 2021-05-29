@@ -7,11 +7,7 @@ const hireList = (pageRequest) => {
     return axios({
         url: `${SERVER}/hires/list`,
         method: 'post',
-        data: {
-            page: pageRequest.page,
-            size: pageRequest.size,
-            sort: pageRequest.sort
-        },
+        data: pageRequest,
         headers: { Authorization: 'JWT fefege..' },
     });
 };

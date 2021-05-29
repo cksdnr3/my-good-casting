@@ -1,48 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'gatsby';
-import { hireList } from '../../state/reducer/hire.reducer';
+import {
+    hireList,
+    nextPage,
+    pageListChange,
+    reqPageChange,
+} from '../../state/reducer/hire.reducer';
 
 import imgF1 from '../../assets/image/l2/png/featured-job-logo-1.png';
 
 import imgF from '../../assets/image/svg/icon-fire-rounded.svg';
 import iconL from '../../assets/image/svg/icon-loaction-pin-black.svg';
-import iconS from '../../assets/image/svg/icon-suitecase.svg';
 import iconC from '../../assets/image/svg/icon-clock.svg';
-import { useDispatch, useSelector } from 'react-redux';
-import { hireSelector } from '../../state/reducer/hire.reducer';
-import { set } from 'lodash';
+import { useDispatch } from 'react-redux';
+import { pageChange } from '../../state/reducer/hire.reducer';
 
-const HireList = () => {
+const HireList = ({ keyword, pageResult, pageRequest }) => {
     const dispatch = useDispatch();
-    const state = useSelector(hireSelector);
-
-    const [sort, setSort] = useState('hireId');
-    const [page, setPage] = useState(1);
-    const [disable, setDisable] = useState(true);
-
-    console.log('hire state: ' + JSON.stringify(state));
-
-    const handleBtn = () => {
-        if (page < state.totalPage) {
-            setPage(page + 1);
-            return state.pageList[page];
-        }
-        setDisable(false);
-    };
 
     useEffect(() => {
-        dispatch(
-            hireList({
-                page: page,
-                size: 10,
-                sort: sort,
-            })
-        );
+        dispatch(hireList(pageRequest));
     }, []);
 
     return (
         <>
-            {state.hireList.map((hire) => {
+            {pageResult.dtoList.map((hire) => {
                 return (
                     <ul key={hire.hireId} style={{ listStyleType: 'none' }}>
                         <li>
@@ -98,17 +80,6 @@ const HireList = () => {
                                                         {hire.cast}
                                                     </Link>
                                                 </li>
-                                                <li>
-                                                    <label className="font-weight-semibold">
-                                                        <Link
-                                                            to="/#"
-                                                            className="bg-regent-opacity-15 min-width-px-96 mr-3 text-center rounded-3 px-6 py-1 font-size-3 text-black-2 mt-2"
-                                                        >
-                                                            {'마감: '}
-                                                            {hire.deadline}
-                                                        </Link>
-                                                    </label>
-                                                </li>
                                             </ul>
                                         </div>
                                         <div className="col-md-5">
@@ -137,28 +108,15 @@ const HireList = () => {
                                                         `}
                                                     >
                                                         <img
-                                                            src={iconS}
-                                                            alt=""
-                                                        />
-                                                    </span>
-                                                    <span className="font-weight-semibold">
-                                                        Full-time
-                                                    </span>
-                                                </li>
-                                                <li className="mt-2 mr-8 font-size-small text-black-2 d-flex">
-                                                    <span
-                                                        className="mr-4"
-                                                        css={`
-                                                            margin-top: -2px;
-                                                        `}
-                                                    >
-                                                        <img
                                                             src={iconC}
                                                             alt=""
                                                         />
                                                     </span>
                                                     <span className="font-weight-semibold">
-                                                        9d ago
+                                                        {hire.modDate.slice(
+                                                            0,
+                                                            10
+                                                        )}
                                                     </span>
                                                 </li>
                                             </ul>
@@ -171,28 +129,57 @@ const HireList = () => {
                 );
             })}
 
-            {disable ? (
+            {pageResult.prev ? (
                 <div className="text-center pt-5 pt-lg-13">
                     <button
                         style={{ border: 0, outline: 0 }}
                         onClick={() => {
                             console.log('click');
-                            dispatch(
-                                hireList({
-                                    page: handleBtn(),
-                                    size: state.size,
-                                    sort: sort,
-                                })
-                            );
+                            dispatch(pageListChange(pageResult.start - 1));
                         }}
                         className="text-green font-weight-bold text-uppercase font-size-3"
                     >
-                        Load More
+                        prev
+                    </button>
+                </div>
+            ) : (
+                <></>
+            )}
+            {pageResult.pageList.map((page, idx) => {
+                return (
+                    <div key={idx} className="text-center pt-5 pt-lg-13">
+                        <button
+                            style={{ border: 0, outline: 0 }}
+                            onClick={() => {
+                                dispatch(
+                                    hireList({
+                                        ...pageRequest,
+                                        page,
+                                    })
+                                );
+                            }}
+                            className="text-green font-weight-bold text-uppercase font-size-3"
+                        >
+                            {page}
+                        </button>
+                    </div>
+                );
+            })}
+            {pageResult.next ? (
+                <div className="text-center pt-5 pt-lg-13">
+                    <button
+                        style={{ border: 0, outline: 0 }}
+                        onClick={() => {
+                            dispatch(pageListChange(pageResult.end + 1));
+                        }}
+                        className="text-green font-weight-bold text-uppercase font-size-3"
+                    >
+                        next
                         <i className="fas fa-sort-down ml-3"></i>
                     </button>
                 </div>
             ) : (
-                undefined
+                <></>
             )}
         </>
     );

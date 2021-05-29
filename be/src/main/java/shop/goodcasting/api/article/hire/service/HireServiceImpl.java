@@ -78,6 +78,8 @@ public class HireServiceImpl implements HireService {
         Page<Object[]> result = hireRepository.searchPage(pageRequest,
                 pageRequest.getPageable(Sort.by(pageRequest.getSort()).descending()));
 
+
+
         Function<Object[], HireListDTO> fn = (entity -> entity2DtoFiles((Hire) entity[0],
                 (Producer) entity[1], (FileVO) entity[2]));
 
