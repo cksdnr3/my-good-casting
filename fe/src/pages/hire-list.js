@@ -1,11 +1,10 @@
-import React, { useCallback, useState } from 'react';
-import { Link } from 'gatsby';
+import React from 'react';
 import PageWrapper from '../components/PageWrapper';
-import Sidebar from '../components/Sidebar';
 import HireList from '../components/Hire/HireList';
-import { useDispatch, useSelector } from 'react-redux';
-import { hireList, hireSelector, search } from '../state/reducer/hire.reducer';
+import { useSelector } from 'react-redux';
+import { hireSelector } from '../state/reducer/hire.reducer';
 import ActorSearch from '../components/Hire/ActorSearch';
+import HireListSidebar from '../components/Hire/HireListSidebar';
 
 const SearchGrid = () => {
     const pageResult = useSelector(hireSelector).pageResult;
@@ -18,7 +17,7 @@ const SearchGrid = () => {
                     <div className="container">
                         <div className="row">
                             <div className="col-12 col-lg-4 col-md-5 col-xs-8">
-                                <Sidebar />
+                                <HireListSidebar pageRequest={pageRequest} />
                             </div>
                             {/* <!-- Main Body --> */}
                             <div className="col-12 col-xl-8 col-lg-8">

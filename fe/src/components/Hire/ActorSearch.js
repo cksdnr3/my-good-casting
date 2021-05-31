@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { hireList } from '../../state/reducer/hire.reducer';
+import {
+    hireList,
+    setKeywords,
+    setType,
+} from '../../state/reducer/hire.reducer';
+import SearchBtnComponent from '../Core/SearchBtn';
 
 const ActorSearch = ({ pageRequest }) => {
     const [keyword, setKeyword] = useState('');
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        console.log('change?');
+        dispatch(setKeywords(keyword));
+    }, [keyword]);
+
+    console.log(keyword);
+
     return (
         <form onSubmit={(e) => e.preventDefault()} className="search-form">
             <div className="filter-search-form-2 search-1-adjustment bg-white rounded-sm shadow-7 pr-6 py-6 pl-6">
@@ -25,25 +38,12 @@ const ActorSearch = ({ pageRequest }) => {
                         </span>
                     </div>
                 </div>
-                <div className="button-block">
-                    <button
-                        onClick={() => {
-                            dispatch(
-                                hireList({
-                                    ...pageRequest,
-                                    type: 'Cctp',
-                                    conKeyword: keyword,
-                                    castKeyword: keyword,
-                                    tkeyword: keyword,
-                                    pkeyword: keyword,
-                                })
-                            );
-                        }}
-                        className="btn btn-primary line-height-reset h-100 btn-submit w-100 text-uppercase"
-                    >
-                        Search
-                    </button>
-                </div>
+                <SearchBtnComponent
+                    pageRequest={pageRequest}
+                    type={'Cctp'}
+                    text={'Search'}
+                    className="btn btn-primary line-height-reset h-100 btn-submit w-100 text-uppercase"
+                />
             </div>
         </form>
     );

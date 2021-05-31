@@ -28,8 +28,8 @@ public class HireController {
         return ResponseEntity.ok(1L);
     }
 
-    @GetMapping("/hire-detail/{hireId}")
-    public ResponseEntity<HireDTO> hireDetail(@PathVariable Long hireId) {
+    @GetMapping("/detail")
+    public ResponseEntity<HireDTO> hireDetail(Long hireId) {
         return ResponseEntity.ok(service.readHire(hireId));
     }
 

@@ -1,21 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'gatsby';
-import {
-    hireList,
-    nextPage,
-    pageListChange,
-    reqPageChange,
-} from '../../state/reducer/hire.reducer';
-
+import { hireList, pageListChange } from '../../state/reducer/hire.reducer';
 import imgF1 from '../../assets/image/l2/png/featured-job-logo-1.png';
-
 import imgF from '../../assets/image/svg/icon-fire-rounded.svg';
 import iconL from '../../assets/image/svg/icon-loaction-pin-black.svg';
 import iconC from '../../assets/image/svg/icon-clock.svg';
 import { useDispatch } from 'react-redux';
-import { pageChange } from '../../state/reducer/hire.reducer';
 
-const HireList = ({ keyword, pageResult, pageRequest }) => {
+const HireList = ({ pageResult, pageRequest }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -28,20 +20,14 @@ const HireList = ({ keyword, pageResult, pageRequest }) => {
                 return (
                     <ul key={hire.hireId} style={{ listStyleType: 'none' }}>
                         <li>
-                            <Link to="/hire-detail">
+                            <Link state={{ id: hire.hireId }} to="/hire-detail">
                                 <div className="pt-9 px-xl-9 px-lg-7 px-7 pb-7 light-mode-texts bg-white rounded hover-shadow-3 ">
                                     <div className="row">
                                         <div className="col-md-6">
                                             <div className="media align-items-center">
-                                                <div className="square-72 d-block mr-8">
-                                                    <img src={imgF1} alt="" />
-                                                </div>
                                                 <div>
                                                     <h3 className="mb-0">
-                                                        <Link
-                                                            to="/#"
-                                                            className="font-size-6 heading-default-color"
-                                                        >
+                                                        <Link className="font-size-6 heading-default-color">
                                                             {hire.project}
                                                         </Link>
                                                     </h3>
@@ -52,20 +38,6 @@ const HireList = ({ keyword, pageResult, pageRequest }) => {
                                                         AirBnb
                                                     </Link>
                                                 </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="col-md-6 text-right pt-7 pt-md-5">
-                                            <div className="media justify-content-md-end">
-                                                <div className="image mr-5 mt-2">
-                                                    <img src={imgF} alt="" />
-                                                </div>
-                                                <p className="font-weight-bold font-size-7 text-hit-gray mb-0">
-                                                    <span className="text-black-2">
-                                                        80-90K
-                                                    </span>{' '}
-                                                    PLN
-                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -128,59 +100,60 @@ const HireList = ({ keyword, pageResult, pageRequest }) => {
                     </ul>
                 );
             })}
-
-            {pageResult.prev ? (
-                <div className="text-center pt-5 pt-lg-13">
-                    <button
-                        style={{ border: 0, outline: 0 }}
-                        onClick={() => {
-                            console.log('click');
-                            dispatch(pageListChange(pageResult.start - 1));
-                        }}
-                        className="text-green font-weight-bold text-uppercase font-size-3"
-                    >
-                        prev
-                    </button>
-                </div>
-            ) : (
-                <></>
-            )}
-            {pageResult.pageList.map((page, idx) => {
-                return (
-                    <div key={idx} className="text-center pt-5 pt-lg-13">
+            <div>
+                {pageResult.prev ? (
+                    <div className="text-center pt-5 pt-lg-13">
                         <button
                             style={{ border: 0, outline: 0 }}
                             onClick={() => {
-                                dispatch(
-                                    hireList({
-                                        ...pageRequest,
-                                        page,
-                                    })
-                                );
+                                console.log('click');
+                                dispatch(pageListChange(pageResult.start - 1));
                             }}
                             className="text-green font-weight-bold text-uppercase font-size-3"
                         >
-                            {page}
+                            prev
                         </button>
                     </div>
-                );
-            })}
-            {pageResult.next ? (
-                <div className="text-center pt-5 pt-lg-13">
-                    <button
-                        style={{ border: 0, outline: 0 }}
-                        onClick={() => {
-                            dispatch(pageListChange(pageResult.end + 1));
-                        }}
-                        className="text-green font-weight-bold text-uppercase font-size-3"
-                    >
-                        next
-                        <i className="fas fa-sort-down ml-3"></i>
-                    </button>
-                </div>
-            ) : (
-                <></>
-            )}
+                ) : (
+                    <></>
+                )}
+                {pageResult.pageList.map((page, idx) => {
+                    return (
+                        <div key={idx} className="text-center pt-5 pt-lg-13">
+                            <button
+                                style={{ border: 0, outline: 0 }}
+                                onClick={() => {
+                                    dispatch(
+                                        hireList({
+                                            ...pageRequest,
+                                            page,
+                                        })
+                                    );
+                                }}
+                                className="text-green font-weight-bold text-uppercase font-size-6"
+                            >
+                                {page}
+                            </button>
+                        </div>
+                    );
+                })}
+                {pageResult.next ? (
+                    <div className="text-center pt-5 pt-lg-13">
+                        <button
+                            style={{ border: 0, outline: 0 }}
+                            onClick={() => {
+                                dispatch(pageListChange(pageResult.end + 1));
+                            }}
+                            className="text-green font-weight-bold text-uppercase font-size-3"
+                        >
+                            next
+                            <i className="fas fa-sort-down ml-3"></i>
+                        </button>
+                    </div>
+                ) : (
+                    <></>
+                )}
+            </div>
         </>
     );
 };

@@ -13,6 +13,7 @@ import shop.goodcasting.api.article.profile.domain.ProfileDTO;
 import shop.goodcasting.api.article.profile.domain.ProfileListDTO;
 import shop.goodcasting.api.article.profile.service.ProfileServiceImpl;
 import shop.goodcasting.api.common.domain.PageRequestDTO;
+import shop.goodcasting.api.common.domain.PageResultDTO;
 import shop.goodcasting.api.file.domain.FileDTO;
 import shop.goodcasting.api.file.service.FileServiceImpl;
 
@@ -50,10 +51,10 @@ public class ProfileController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<ProfileListDTO>> profileList(@RequestBody PageRequestDTO pageRequest) {
+    public ResponseEntity<PageResultDTO<ProfileListDTO, Object[]>> profileList(@RequestBody PageRequestDTO pageRequest) {
         log.info("------------------------------" + pageRequest + "----------------------------------------------------");
 
-        return new ResponseEntity<>(profileService.getProfileList(pageRequest).getDtoList(), HttpStatus.OK);
+        return new ResponseEntity<>(profileService.getProfileList(pageRequest), HttpStatus.OK);
     }
 
     @PutMapping("/update")

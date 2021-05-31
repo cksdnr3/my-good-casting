@@ -243,6 +243,7 @@ public class ProfileServiceImpl implements ProfileService {
             String[] arr = extractCelebrity(thumbnailSaveName);
 
             pageRequest.setRkeyword(arr[0]);
+            pageRequest.setType("r");
 
             return getProfileList(pageRequest);
         } catch (IOException e) {

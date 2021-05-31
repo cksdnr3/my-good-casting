@@ -12,4 +12,13 @@ const hireList = (pageRequest) => {
     });
 };
 
-export default { hireList };
+const hireDetail = (id) => {
+    return axios({
+        url: `${SERVER}/hires/detail`,
+        method: 'get',
+        params: id,
+        headers: { Authorization: 'JWT fefege..' },
+    });
+};
+
+export default { hireList, hireDetail };

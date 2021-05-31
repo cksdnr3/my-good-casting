@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'gatsby';
 import PageWrapper from '../components/PageWrapper';
 
@@ -6,8 +6,16 @@ import imgF1 from '../assets/image/l2/png/featured-job-logo-1.png';
 import iconD from '../assets/image/svg/icon-dolor.svg';
 import iconB from '../assets/image/svg/icon-briefcase.svg';
 import iconL from '../assets/image/svg/icon-location.svg';
+import { useDispatch } from 'react-redux';
+import { hireDetail } from '../state/reducer/hire.reducer';
 
-const JobDetails = () => {
+const JobDetails = ({ location }) => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(hireDetail(location.state.id));
+    }, []);
+
     return (
         <>
             <PageWrapper headerConfig={{ button: 'profile' }}>
