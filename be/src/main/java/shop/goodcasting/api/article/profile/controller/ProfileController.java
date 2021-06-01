@@ -3,38 +3,27 @@ package shop.goodcasting.api.article.profile.controller;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.log4j.Log4j2;
-import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import shop.goodcasting.api.article.hire.domain.HireDTO;
 import shop.goodcasting.api.article.profile.domain.ProfileDTO;
 import shop.goodcasting.api.article.profile.domain.ProfileListDTO;
 import shop.goodcasting.api.article.profile.service.ProfileServiceImpl;
 import shop.goodcasting.api.common.domain.PageRequestDTO;
 import shop.goodcasting.api.common.domain.PageResultDTO;
-import shop.goodcasting.api.file.domain.FileDTO;
-import shop.goodcasting.api.file.service.FileServiceImpl;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
 @Log4j2
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin("*")
-@RequestMapping("/profile")
+@CrossOrigin(origins ="*", allowedHeaders = "*")
+@RequestMapping("/profiles")
 public class ProfileController {
     private final ProfileServiceImpl profileService;
-    private final FileServiceImpl fileService;
-
-    @Value("${shop.goodcast.upload.path}")
-    private String uploadPath;
 
     @PostMapping("/register")
     public ResponseEntity<Long> register(@RequestBody ProfileDTO profileDTO) {
@@ -50,7 +39,7 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.readProfile(profileId));
     }
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public ResponseEntity<PageResultDTO<ProfileListDTO, Object[]>> profileList(@RequestBody PageRequestDTO pageRequest) {
         log.info("------------------------------" + pageRequest + "----------------------------------------------------");
 
@@ -64,7 +53,7 @@ public class ProfileController {
         return new ResponseEntity<>(1L, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{profileId}")
+    @DeleteMapping("/delete/{profileId}")
     public ResponseEntity<Long> delete(@PathVariable Long profileId) {
 
         profileService.deleteProfile(profileId);
@@ -72,10 +61,4 @@ public class ProfileController {
         return new ResponseEntity<>(1L, HttpStatus.OK);
     }
 
-    @PostMapping("/search-resemble")
-    public ResponseEntity<List<ProfileListDTO>> searchResemble(@RequestBody PageRequestDTO pageRequest, MultipartFile uploadFile) {
-        log.info("----------------------image search()----------------------------------");
-
-        return new ResponseEntity<>(profileService.searchResemble(pageRequest, uploadFile).getDtoList(), HttpStatus.OK);
-    }
 }

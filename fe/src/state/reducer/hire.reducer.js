@@ -51,7 +51,32 @@ const hireSlice = createSlice({
             next: false,
             totalElement: 0,
         },
-        hireDetail: {},
+        hireDetail: {
+            hireId: 0,
+            title: '',
+            project: '',
+            contents: '',
+            cast: '',
+            filming: '',
+            guarantee: 0,
+            personnel: 0,
+            deadline: '',
+            producer: {
+                producerId: 0,
+                email: '',
+                agency: '',
+                phone: '',
+                position: '',
+                name: '',
+            },
+            files: [
+                {
+                    fileId: 0,
+                    uuid: '',
+                    fileName: '',
+                },
+            ],
+        },
     },
     reducers: {
         pageListChange: (state, { payload }) => {
@@ -102,6 +127,7 @@ const hireSlice = createSlice({
                 };
             })
             .addCase(hireDetail.fulfilled, (state, { payload }) => {
+                console.log('hireDetail payload: ' + JSON.stringify(payload));
                 return {
                     ...state,
                     hireDetail: { ...payload },

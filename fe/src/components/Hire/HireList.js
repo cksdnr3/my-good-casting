@@ -1,8 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'gatsby';
 import { hireList, pageListChange } from '../../state/reducer/hire.reducer';
-import imgF1 from '../../assets/image/l2/png/featured-job-logo-1.png';
-import imgF from '../../assets/image/svg/icon-fire-rounded.svg';
 import iconL from '../../assets/image/svg/icon-loaction-pin-black.svg';
 import iconC from '../../assets/image/svg/icon-clock.svg';
 import { useDispatch } from 'react-redux';
@@ -20,7 +18,10 @@ const HireList = ({ pageResult, pageRequest }) => {
                 return (
                     <ul key={hire.hireId} style={{ listStyleType: 'none' }}>
                         <li>
-                            <Link state={{ id: hire.hireId }} to="/hire-detail">
+                            <Link
+                                state={{ id: hire.hireId }}
+                                to={`/hire-detail`}
+                            >
                                 <div className="pt-9 px-xl-9 px-lg-7 px-7 pb-7 light-mode-texts bg-white rounded hover-shadow-3 ">
                                     <div className="row">
                                         <div className="col-md-6">
@@ -100,60 +101,6 @@ const HireList = ({ pageResult, pageRequest }) => {
                     </ul>
                 );
             })}
-            <div>
-                {pageResult.prev ? (
-                    <div className="text-center pt-5 pt-lg-13">
-                        <button
-                            style={{ border: 0, outline: 0 }}
-                            onClick={() => {
-                                console.log('click');
-                                dispatch(pageListChange(pageResult.start - 1));
-                            }}
-                            className="text-green font-weight-bold text-uppercase font-size-3"
-                        >
-                            prev
-                        </button>
-                    </div>
-                ) : (
-                    <></>
-                )}
-                {pageResult.pageList.map((page, idx) => {
-                    return (
-                        <div key={idx} className="text-center pt-5 pt-lg-13">
-                            <button
-                                style={{ border: 0, outline: 0 }}
-                                onClick={() => {
-                                    dispatch(
-                                        hireList({
-                                            ...pageRequest,
-                                            page,
-                                        })
-                                    );
-                                }}
-                                className="text-green font-weight-bold text-uppercase font-size-6"
-                            >
-                                {page}
-                            </button>
-                        </div>
-                    );
-                })}
-                {pageResult.next ? (
-                    <div className="text-center pt-5 pt-lg-13">
-                        <button
-                            style={{ border: 0, outline: 0 }}
-                            onClick={() => {
-                                dispatch(pageListChange(pageResult.end + 1));
-                            }}
-                            className="text-green font-weight-bold text-uppercase font-size-3"
-                        >
-                            next
-                            <i className="fas fa-sort-down ml-3"></i>
-                        </button>
-                    </div>
-                ) : (
-                    <></>
-                )}
-            </div>
         </>
     );
 };

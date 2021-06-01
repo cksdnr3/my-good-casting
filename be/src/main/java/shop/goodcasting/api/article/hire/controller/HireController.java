@@ -11,48 +11,46 @@ import shop.goodcasting.api.article.hire.service.HireServiceImpl;
 import shop.goodcasting.api.common.domain.PageRequestDTO;
 import shop.goodcasting.api.common.domain.PageResultDTO;
 
-import java.util.List;
-
 @Log4j2
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin("*")
 @RequestMapping("/hires")
 public class HireController {
-    private final HireServiceImpl service;
+    private final HireServiceImpl hireService;
 
     @PostMapping("/register")
     public ResponseEntity<Long> register(@RequestBody HireDTO hireDTO) {
         System.out.println("Hire DTO: " + hireDTO);
-        service.register(hireDTO);
+        hireService.register(hireDTO);
         return ResponseEntity.ok(1L);
     }
 
-    @GetMapping("/detail")
-    public ResponseEntity<HireDTO> hireDetail(Long hireId) {
-        return ResponseEntity.ok(service.readHire(hireId));
+    @GetMapping("/detail/{hireId}")
+    public ResponseEntity<HireDTO> hireDetail(@PathVariable Long hireId) {
+        return ResponseEntity.ok(hireService.readHire(hireId));
     }
 
     @PostMapping("/list")
     public ResponseEntity<PageResultDTO<HireListDTO, Object[]>> hireList(@RequestBody PageRequestDTO pageRequest) {
         log.info("------------------" + pageRequest + "----------------------------------");
 
-        log.info("==================================" + service.getHireList(pageRequest));
+        log.info("==================================" + hireService.getHireList(pageRequest));
 
-        return new ResponseEntity<>(service.getHireList(pageRequest), HttpStatus.OK);
+        return new ResponseEntity<>(hireService.getHireList(pageRequest), HttpStatus.OK);
     }
 
     @PutMapping("/update")
     public ResponseEntity<Long> update(@RequestBody HireDTO hireDTO) {
-        service.update(hireDTO);
+        hireService.update(hireDTO);
 
         return new ResponseEntity<>(1L, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{hireId}")
+    @DeleteMapping("/delete/{hireId}")
     public ResponseEntity<Long> delete(@PathVariable Long hireId) {
 
-        service.deleteHire(hireId);
+        hireService.deleteHire(hireId);
 
         return new ResponseEntity<>(1L, HttpStatus.OK);
     }

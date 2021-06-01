@@ -15,6 +15,10 @@ import shop.goodcasting.api.article.profile.domain.ProfileDTO;
 import shop.goodcasting.api.article.profile.domain.ProfileListDTO;
 import shop.goodcasting.api.article.profile.repository.ProfileRepository;
 
+import shop.goodcasting.api.career.domain.Career;
+import shop.goodcasting.api.career.domain.CareerDTO;
+import shop.goodcasting.api.career.repository.CareerRepository;
+import shop.goodcasting.api.career.service.CareerService;
 import shop.goodcasting.api.common.domain.PageRequestDTO;
 import shop.goodcasting.api.common.domain.PageResultDTO;
 import shop.goodcasting.api.file.domain.FileDTO;
@@ -45,6 +49,8 @@ public class ProfileServiceImpl implements ProfileService {
     private final FileRepository fileRepo;
     private final FileService fileService;
     private final ActorService actorService;
+    private final CareerService careerService;
+    private final CareerRepository careerRepo;
 
     @Value("${shop.goodcast.upload.path}")
     private String uploadPath;
@@ -55,8 +61,22 @@ public class ProfileServiceImpl implements ProfileService {
         ProfileDTO finalProfileDto = entity2DtoAll(profileRepo.save(dto2EntityAll(profileDTO)));
 
         List<FileDTO> files = profileDTO.getFiles();
+        List<CareerDTO> careers = profileDTO.getCareers();
 
+        saveCareer(finalProfileDto, careers);
         return saveFile(finalProfileDto, files);
+    }
+
+    public Long saveCareer(ProfileDTO profileDTO, List<CareerDTO> careers) {
+        if(careers != null && careers.size() > 0) {
+            careers.forEach(careerDTO -> {
+                careerDTO.setProfile(profileDTO);
+                Career career = careerService.dto2EntityAll(careerDTO);
+                careerRepo.save(career);
+            });
+            return 1L;
+        }
+        return 0L;
     }
 
     @Transactional
@@ -85,6 +105,20 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public PageResultDTO<ProfileListDTO, Object[]> getProfileList(PageRequestDTO pageRequest) {
+        if (!pageRequest.getFile().getFileName().equals("")) {
+            log.info("service enter: " + pageRequest);
+
+            String fileName = uploadPath + File.separator + "s_"
+                    + pageRequest.getFile().getUuid() + "_" + pageRequest.getFile().getFileName();
+
+
+            String[] arr = extractCelebrity(fileName);
+
+            pageRequest.setRkeyword(arr[0]);
+
+            log.info("before get page list: " + pageRequest);
+        }
+
         Page<Object[]> result = profileRepo
                 .searchPage(pageRequest, pageRequest
                         .getPageable(Sort.by(pageRequest.getSort()).descending()));
@@ -116,6 +150,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     public String[] extractCelebrity(String photoName) {
+        log.info("extractCelebrity enter: " + photoName);
         StringBuffer reqStr = new StringBuffer();
         String clientId = "92mep69l88";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "qdbpwHd8pRZPszLr0gLfqKR7OHbdsDriRmOFdwno";//애플리케이션 클라이언트 시크릿값";
@@ -220,37 +255,5 @@ public class ProfileServiceImpl implements ProfileService {
             return 1L;
         }
         return 0L;
-    }
-
-    public PageResultDTO<ProfileListDTO, Object[]> searchResemble(PageRequestDTO pageRequest, MultipartFile uploadFile) {
-        String orgName = uploadFile.getOriginalFilename();
-        String fileName = orgName.substring(orgName.lastIndexOf("//") + 1);
-        String uuid = UUID.randomUUID().toString();
-        String saveName = uploadPath + File.separator + uuid + "_" + fileName;
-        Path savePath = Paths.get(saveName);
-
-        try {
-            uploadFile.transferTo(savePath);
-
-            log.info("image thumbnail extract");
-
-            String thumbnailSaveName = uploadPath + File.separator + "s_" + uuid + "_" + fileName;
-
-            File thumbnailFile = new File(thumbnailSaveName);
-
-            Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile, 500, 500);
-
-            String[] arr = extractCelebrity(thumbnailSaveName);
-
-            pageRequest.setRkeyword(arr[0]);
-            pageRequest.setType("r");
-
-            return getProfileList(pageRequest);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

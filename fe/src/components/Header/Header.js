@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'gatsby';
+import { Link, navigate } from 'gatsby';
 import { Container, Dropdown } from 'react-bootstrap';
 import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 
@@ -14,7 +14,10 @@ import { actorMenuItems, menuItems, producerMenuItems } from './menuItems';
 
 import imgP from '../../assets/image/header-profile.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { isUserLoggendIn, userSelctor } from '../../state/reducer/user.reducer';
+import {
+    isUserLoggendIn,
+    userSelector,
+} from '../../state/reducer/user.reducer';
 
 const SiteHeader = styled.header`
     .dropdown-toggle::after {
@@ -59,16 +62,18 @@ const Header = () => {
 
     const gContext = useContext(GlobalContext);
     const size = useWindowSize();
-    const user = useSelector(userSelctor);
-    const userInfo = JSON.parse(localStorage.getItem('USER'));
+    const user = useSelector(userSelector);
+    const userInfo =
+        typeof window !== `undefined`
+            ? JSON.parse(localStorage.getItem('USER'))
+            : null;
 
     useEffect(() => {
         if (localStorage.getItem('USER') !== null) {
-            dispatch(isUserLoggendIn(user.loggedIn));
-            JSON.stringify(userInfo.position);
-            console.log(userInfo.position);
+            // dispatch(isUserLoggendIn(user.loggedIn));
+            console.log('로그인 되어 있음 : ' + userInfo[0].position);
         } else {
-            console.log('토큰없음');
+            console.log('로그인 되어 있지 않음');
         }
     }, []);
 
@@ -164,7 +169,8 @@ const Header = () => {
                                                   );
                                               }
                                           )
-                                        : user.loggedIn && userInfo.position
+                                        : localStorage.getItem('TOKEN') &&
+                                          userInfo[0].position
                                         ? actorMenuItems.map(
                                               (
                                                   {
@@ -344,16 +350,15 @@ const Header = () => {
                             </div>
                         )}
 
-                        {user.loggedIn ? (
+                        {localStorage.getItem('TOKEN') ? (
                             <div className="header-btns header-btn-devider ml-auto pr-2 ml-lg-6 d-none d-xs-flex">
                                 <a
                                     className={`btn btn-${gContext.header.variant} text-uppercase font-size-3`}
-                                    href="/"
                                     onClick={() => {
-                                        alert('정말 로그아웃 하시겠습니까?');
-                                        localStorage.removeItem('USER');
-                                        // 홈으로 이동이 안됨
-                                        // navigate('/');
+                                        localStorage.clear();
+                                        dispatch(
+                                            isUserLoggendIn(!user.loggedIn)
+                                        );
                                     }}
                                 >
                                     LogOut
@@ -363,7 +368,6 @@ const Header = () => {
                             <div className="header-btns header-btn-devider ml-auto pr-2 ml-lg-6 d-none d-xs-flex">
                                 <a
                                     className="btn btn-transparent text-uppercase font-size-3 heading-default-color focus-reset"
-                                    href="/#"
                                     onClick={(e) => {
                                         e.preventDefault();
                                         gContext.toggleSignInModal();
@@ -373,7 +377,6 @@ const Header = () => {
                                 </a>
                                 <a
                                     className={`btn btn-${gContext.header.variant} text-uppercase font-size-3`}
-                                    href="/#"
                                     onClick={(e) => {
                                         e.preventDefault();
                                         gContext.toggleSignUpModal();

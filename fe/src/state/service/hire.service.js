@@ -16,7 +16,9 @@ const hireDetail = (id) => {
     return axios({
         url: `${SERVER}/hires/detail`,
         method: 'get',
-        params: id,
+        params: {
+            hireId: id,
+        },
         headers: { Authorization: 'JWT fefege..' },
     });
 };

@@ -1,14 +1,14 @@
-import React from 'react';
-import PageWrapper from '../components/PageWrapper';
-import HireList from '../components/Hire/HireList';
-import { useSelector } from 'react-redux';
-import { hireSelector } from '../state/reducer/hire.reducer';
-import ActorSearch from '../components/Hire/ActorSearch';
-import HireListSidebar from '../components/Hire/HireListSidebar';
+import React from 'react'
+import PageWrapper from '../components/PageWrapper'
+import HireList from '../components/Hire/HireList'
+import { useSelector } from 'react-redux'
+import { hireSelector } from '../state/reducer/hire.reducer'
+import ActorSearch from '../components/Hire/ActorSearch'
+import HireListSidebar from '../components/Hire/HireListSidebar'
 
 const SearchGrid = () => {
-    const pageResult = useSelector(hireSelector).pageResult;
-    const pageRequest = useSelector(hireSelector).pageRequest;
+    const pageResult = useSelector(hireSelector).pageResult
+    const pageRequest = useSelector(hireSelector).pageRequest
 
     return (
         <>
@@ -27,20 +27,12 @@ const SearchGrid = () => {
                                 <div className="pt-12">
                                     <div className="d-flex align-items-center justify-content-between mb-6">
                                         <h5 className="font-size-4 font-weight-normal text-gray">
-                                            <span className="heading-default-color">
-                                                {pageResult.totalElement}
-                                            </span>
-                                            results for{' '}
-                                            <span className="heading-default-color">
-                                                Actor
-                                            </span>
+                                            <span className="heading-default-color">{pageResult.totalElement}</span>
+                                            results for <span className="heading-default-color">Actor</span>
                                         </h5>
                                     </div>
                                     <div className="mb-8">
-                                        <HireList
-                                            pageResult={pageResult}
-                                            pageRequest={pageRequest}
-                                        />
+                                        <HireList pageResult={pageResult} pageRequest={pageRequest} />
                                     </div>
                                 </div>
                             </div>
@@ -49,6 +41,6 @@ const SearchGrid = () => {
                 </div>
             </PageWrapper>
         </>
-    );
-};
-export default SearchGrid;
+    )
+}
+export default SearchGrid

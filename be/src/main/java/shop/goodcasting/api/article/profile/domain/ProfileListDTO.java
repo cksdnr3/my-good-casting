@@ -2,11 +2,8 @@ package shop.goodcasting.api.article.profile.domain;
 
 import lombok.*;
 import org.springframework.stereotype.Component;
-import shop.goodcasting.api.file.domain.FileDTO;
-import shop.goodcasting.api.user.actor.domain.ActorDTO;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 @ToString
 @Builder
@@ -22,6 +19,7 @@ public class ProfileListDTO {
     private String resemble;
     private Double confidence;
     private String actorName;
+    private boolean first;
     private String fileUuid;
     private String fileName;
     private Timestamp regDate;

@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
+import shop.goodcasting.api.file.domain.FileVO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -42,6 +43,8 @@ public class PageRequestDTO {
     private Integer gto;
     private String tkeyword;
     private String pkeyword;
+
+    private FileVO file;
 
     public PageRequestDTO() {
         this.page = 1;

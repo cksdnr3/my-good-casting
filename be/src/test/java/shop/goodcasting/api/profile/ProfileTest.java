@@ -75,6 +75,16 @@ public class ProfileTest {
     }
 
     @Test
+    void pageRequestTest() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .rkeyword("아이유")
+                .type("r")
+                .build();
+
+        System.out.println(pageRequestDTO);
+    }
+
+    @Test
     public void profilePage() {
 //
 //        PageResultDTO<ProfileDTO, Object[]> res = profileService.getProfileList(pageRequestDTO);
@@ -192,7 +202,6 @@ public class ProfileTest {
 
         Profile profile = Profile.builder()
                 .actor(actor)
-                .career("Career")
                 .contents("content...")
                 .build();
 
