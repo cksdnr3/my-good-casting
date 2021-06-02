@@ -2,14 +2,12 @@ package shop.goodcasting.api.article.profile.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import net.coobird.thumbnailator.Thumbnailator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import shop.goodcasting.api.article.profile.domain.Profile;
 import shop.goodcasting.api.article.profile.domain.ProfileDTO;
 import shop.goodcasting.api.article.profile.domain.ProfileListDTO;
@@ -34,11 +32,8 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.function.Function;
 
 @Log4j2
@@ -114,18 +109,31 @@ public class ProfileServiceImpl implements ProfileService {
 
             String[] arr = extractCelebrity(fileName);
 
-            pageRequest.setRkeyword(arr[0]);
+            pageRequest.getSearchCond().setRkeyword(arr[0]);
 
             log.info("before get page list: " + pageRequest);
         }
 
-        Page<Object[]> result = profileRepo
-                .searchPage(pageRequest, pageRequest
-                        .getPageable(Sort.by(pageRequest.getSort()).descending()));
+        Page<Object[]> result;
+        Function<Object[], ProfileListDTO> fn;
 
-        Function<Object[], ProfileListDTO> fn = (entity -> entity2DtoFiles((Profile) entity[0],
-                (Actor) entity[1], (FileVO) entity[2]));
+        if (pageRequest.getActorId() == null) {
+            result = profileRepo
+                    .searchPage(pageRequest, pageRequest
+                            .getPageable(Sort.by(pageRequest.getSort()).descending()));
 
+            fn = (entity -> entity2DtoFiles((Profile) entity[0],
+                    (Actor) entity[1], (FileVO) entity[2]));
+
+        } else {
+            result = profileRepo
+                    .myProfilePage(pageRequest, pageRequest
+                            .getPageable(Sort.by(pageRequest.getSort()).descending()));
+
+            fn = (entity -> entity2DtoFiles((Profile) entity[0],
+                    (Actor) entity[1], (FileVO) entity[2]));
+
+        }
         return new PageResultDTO<>(result, fn);
     }
 

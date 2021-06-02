@@ -125,7 +125,7 @@ const Header = () => {
                         <div className="collapse navbar-collapse">
                             <div className="navbar-nav-wrapper">
                                 <ul className="navbar-nav main-menu d-none d-lg-flex">
-                                    {!user.loggedIn
+                                    {!userInfo
                                         ? menuItems.map(
                                               (
                                                   {
@@ -169,8 +169,7 @@ const Header = () => {
                                                   );
                                               }
                                           )
-                                        : localStorage.getItem('TOKEN') &&
-                                          userInfo[0].position
+                                        : userInfo[0].position
                                         ? actorMenuItems.map(
                                               (
                                                   {
@@ -350,7 +349,7 @@ const Header = () => {
                             </div>
                         )}
 
-                        {localStorage.getItem('TOKEN') ? (
+                        {userInfo ? (
                             <div className="header-btns header-btn-devider ml-auto pr-2 ml-lg-6 d-none d-xs-flex">
                                 <a
                                     className={`btn btn-${gContext.header.variant} text-uppercase font-size-3`}
@@ -359,6 +358,7 @@ const Header = () => {
                                         dispatch(
                                             isUserLoggendIn(!user.loggedIn)
                                         );
+                                        navigate('/');
                                     }}
                                 >
                                     LogOut

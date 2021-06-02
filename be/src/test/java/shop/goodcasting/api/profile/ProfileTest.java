@@ -59,15 +59,12 @@ public class ProfileTest {
     @Transactional
     public void testSearchPage() {
         PageRequestDTO pageRequest = PageRequestDTO.builder()
-                .type("ra")
                 .page(1)
                 .size(10)
-                .rkeyword("신봉선")
-                .afrom(10)
-                .ato(20)
+                .actorId(3L)
                 .build();
 
-        Page<Object[]> result = profileRepository.searchPage(pageRequest, pageRequest.getPageable(Sort.by("confidence").descending()));
+        Page<Object[]> result = profileRepository.myProfilePage(pageRequest, pageRequest.getPageable(Sort.by("profileId").descending()));
 
         result.forEach(p -> {
             System.out.println("TESTTESTTESTTEST profile" + Arrays.toString(p));
@@ -77,7 +74,7 @@ public class ProfileTest {
     @Test
     void pageRequestTest() {
         PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
-                .rkeyword("아이유")
+
                 .type("r")
                 .build();
 

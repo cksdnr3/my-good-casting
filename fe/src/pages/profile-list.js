@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'gatsby';
 import PageWrapper from '../components/PageWrapper';
-import Sidebar from '../components/Sidebar';
+import Sidebar from '../components/Profile/Sidebar';
 import ProfileList from '../components/Profile/ProfileList';
 import { profileSelector } from '../state/reducer/profile.reducer';
 import { useSelector } from 'react-redux';

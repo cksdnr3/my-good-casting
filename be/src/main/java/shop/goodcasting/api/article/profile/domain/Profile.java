@@ -6,7 +6,7 @@ import shop.goodcasting.api.user.actor.domain.Actor;
 
 import javax.persistence.*;
 
-@ToString(exclude = {"actor", "hires"})
+@ToString(exclude = {"actor"})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
