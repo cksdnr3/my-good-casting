@@ -19,16 +19,4 @@ const profileList = (pageRequest) => {
     });
 };
 
-const fileRegister = (formData) => {
-    return axios({
-        url: `${SERVER}/files/register`,
-        method: 'post',
-        data: formData,
-        headers: {
-            Authorization: 'JWT fefege..',
-            'Content-Type': 'multipart/form-data',
-        },
-    });
-};
-
-export default { profileList, fileRegister };
+export default { profileList };

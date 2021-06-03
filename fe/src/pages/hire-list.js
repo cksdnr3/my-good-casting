@@ -9,8 +9,14 @@ import {
 } from '../state/reducer/hire.reducer';
 import ActorSearch from '../components/Hire/ActorSearch';
 import HireListSidebar from '../components/Hire/HireListSidebar';
+import PageListComponent from '../components/Core/PageList';
 
 const SearchGrid = () => {
+    const temp = useSelector((state) => state);
+
+    console.log('------------------------------------------');
+    console.log(temp);
+
     const pageResult = useSelector(hireSelector).pageResult;
     const pageRequest = useSelector(hireSelector).pageRequest;
 
@@ -43,18 +49,7 @@ const SearchGrid = () => {
                                         </h5>{' '}
                                         <div className="button-block">
                                             <button
-                                                onClick={() => {
-                                                    dispatch(
-                                                        resetSearchCondition()
-                                                    );
-                                                    dispatch(
-                                                        hireList({
-                                                            page: 1,
-                                                            size: 10,
-                                                            sort: 'hireId',
-                                                        })
-                                                    );
-                                                }}
+                                                onClick={() => {}}
                                                 className="btn btn-primary line-height-reset h-5 w-5 text-uppercase font-weight-bold"
                                             >
                                                 전체
@@ -67,6 +62,7 @@ const SearchGrid = () => {
                                             pageRequest={pageRequest}
                                         />
                                     </div>
+                                    <PageListComponent flag="hireList" />
                                 </div>
                             </div>
                         </div>

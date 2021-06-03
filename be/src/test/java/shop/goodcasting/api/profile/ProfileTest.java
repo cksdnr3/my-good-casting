@@ -10,9 +10,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 import shop.goodcasting.api.article.profile.domain.Profile;
 import shop.goodcasting.api.article.profile.domain.ProfileDTO;
+import shop.goodcasting.api.article.profile.domain.ProfilePageRequestDTO;
 import shop.goodcasting.api.article.profile.repository.ProfileRepository;
 import shop.goodcasting.api.article.profile.service.ProfileService;
-import shop.goodcasting.api.common.domain.PageRequestDTO;
 import shop.goodcasting.api.file.domain.FileDTO;
 import shop.goodcasting.api.file.domain.FileVO;
 import shop.goodcasting.api.file.repository.FileRepository;
@@ -58,13 +58,13 @@ public class ProfileTest {
     @Test
     @Transactional
     public void testSearchPage() {
-        PageRequestDTO pageRequest = PageRequestDTO.builder()
+        ProfilePageRequestDTO pageRequest = ProfilePageRequestDTO.builder()
                 .page(1)
                 .size(10)
-                .actorId(3L)
+                .resembleKey("에릭")
                 .build();
 
-        Page<Object[]> result = profileRepository.myProfilePage(pageRequest, pageRequest.getPageable(Sort.by("profileId").descending()));
+        Page<Object[]> result = profileRepository.searchPage(pageRequest, pageRequest.getPageable(Sort.by("profileId").descending()));
 
         result.forEach(p -> {
             System.out.println("TESTTESTTESTTEST profile" + Arrays.toString(p));
@@ -73,12 +73,7 @@ public class ProfileTest {
 
     @Test
     void pageRequestTest() {
-        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
 
-                .type("r")
-                .build();
-
-        System.out.println(pageRequestDTO);
     }
 
     @Test

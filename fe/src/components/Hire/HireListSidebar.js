@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import DatePickerComponent from '../DatePicker/DatePicker';
-import { hireList, setType } from '../../state/reducer/hire.reducer';
 import { useDispatch } from 'react-redux';
 import RangeSearchComponent from '../Core/RangeSearch';
 import SearchBtnComponent from '../Core/SearchBtn';
@@ -54,17 +53,6 @@ const HireListSidebar = ({ pageRequest }) => {
     return (
         <>
             {/* <!-- Sidebar Start --> */}
-            {/* <div className="widgets mb-11">
-                <h4 className="font-size-6 font-weight-semibold mb-6">성별</h4>
-                <ul className="list-unstyled filter-check-list">
-                    <li className="mb-2">
-                        <Check>남성</Check>
-                    </li>
-                    <li className="mb-2">
-                        <Check>여성</Check>
-                    </li>
-                </ul>
-            </div> */}
             <div className="widgets mb-11 ">
                 <div>
                     <h4 className="font-size-6 font-weight-semibold mb-6 w-75">
@@ -75,22 +63,9 @@ const HireListSidebar = ({ pageRequest }) => {
                         시작일
                     </h6>
                     <DatePickerComponent isRangeSearch={true} />
-                    <SearchBtnComponent
-                        pageRequest={pageRequest}
-                        type={'f'}
-                        text={'기간 설정'}
-                        className="btn btn-primary line-height-reset h-50 w-50 text-uppercase"
-                    />
                 </div>
             </div>
-            <RangeSearchComponent className={'출연료'} />
-            <SearchBtnComponent
-                pageRequest={pageRequest}
-                type={'g'}
-                text={'출연료 설정'}
-                className="btn btn-primary line-height-reset h-50 w-50 text-uppercase"
-            />
-
+            <RangeSearchComponent text={'출연료'} />
             {/* <!-- Sidebar End --> */}
         </>
     );

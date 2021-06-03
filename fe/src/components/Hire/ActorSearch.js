@@ -1,22 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import {
-    hireList,
-    setKeywords,
-    setType,
-} from '../../state/reducer/hire.reducer';
+import React, { useRef, useState } from 'react';
+
 import SearchBtnComponent from '../Core/SearchBtn';
 
 const ActorSearch = ({ pageRequest }) => {
     const [keyword, setKeyword] = useState('');
-    const dispatch = useDispatch();
 
-    useEffect(() => {
-        console.log('change?');
-        dispatch(setKeywords(keyword));
-    }, [keyword]);
-
-    console.log(keyword);
+    const onChange = (e) => {
+        setKeyword(e.target.value);
+    };
 
     return (
         <form onSubmit={(e) => e.preventDefault()} className="search-form">
@@ -28,9 +19,7 @@ const ActorSearch = ({ pageRequest }) => {
                             type="text"
                             name="keyword"
                             value={keyword}
-                            onChange={(e) => {
-                                setKeyword(e.target.value);
-                            }}
+                            onChange={onChange}
                             placeholder="Actor Search"
                         />
                         <span className="h-100 w-px-50 pos-abs-tl d-flex align-items-center justify-content-center font-size-6">
@@ -39,9 +28,8 @@ const ActorSearch = ({ pageRequest }) => {
                     </div>
                 </div>
                 <SearchBtnComponent
-                    pageRequest={pageRequest}
-                    type={'Cctp'}
-                    text={'Search'}
+                    data={keyword}
+                    text={'search'}
                     className="btn btn-primary line-height-reset h-100 btn-submit w-100 text-uppercase"
                 />
             </div>

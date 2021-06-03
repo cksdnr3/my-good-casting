@@ -12,7 +12,7 @@ import { hireDetail, hireSelector } from '../state/reducer/hire.reducer';
 const JobDetails = ({ location }) => {
     const dispatch = useDispatch();
 
-    const hire = useSelector(hireSelector).hireDetail;
+    const hire = useSelector(hireSelector).hire;
 
     useEffect(() => {
         dispatch(hireDetail(location.state.id));

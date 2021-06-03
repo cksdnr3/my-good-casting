@@ -22,99 +22,47 @@ export const hireDetail = createAsyncThunk('HIRE_DETAIL', async (id) => {
     return response.data;
 });
 
+const initialState = {
+    pageRequest: {
+        page: 1,
+        size: 10,
+        sort: 'hireId',
+        searchKey: {},
+        period: {},
+        pay: {},
+    },
+    pageResult: {
+        pageList: [],
+        dtoList: [],
+        page: 1,
+        size: 10,
+        totalPage: 0,
+        start: 0,
+        end: 0,
+        prev: false,
+        next: false,
+        totalElement: 0,
+    },
+    reset: false,
+    hire: {
+        deadline: '',
+        producer: {},
+    },
+};
+
 const hireSlice = createSlice({
     name: 'hire',
-    initialState: {
-        pageRequest: {
-            page: 1,
-            size: 10,
-            type: '',
-            sort: 'hireId',
-            searchCond: {
-                ffrom: 0,
-                fto: 0,
-                conKeyword: '',
-                castKeyword: '',
-                gfrom: 0,
-                gto: 0,
-                tkeyword: 0,
-                pkeyword: 0,
-            },
-        },
-        pageResult: {
-            pageList: [],
-            dtoList: [],
-            page: 1,
-            size: 10,
-            totalPage: 0,
-            start: 0,
-            end: 0,
-            prev: false,
-            next: false,
-            totalElement: 0,
-        },
-        hireDetail: {
-            hireId: 0,
-            title: '',
-            project: '',
-            contents: '',
-            cast: '',
-            filming: '',
-            guarantee: 0,
-            personnel: 0,
-            deadline: '',
-            producer: {
-                producerId: 0,
-                email: '',
-                agency: '',
-                phone: '',
-                position: '',
-                name: '',
-            },
-            files: [
-                {
-                    fileId: 0,
-                    uuid: '',
-                    fileName: '',
-                },
-            ],
-        },
-    },
+    initialState: initialState,
+
     reducers: {
         pageListChange: (state, { payload }) => {
             state.pageResult.page = payload;
         },
-        setFfrom: ({ pageRequest }, { payload }) => {
-            console.log('before ffrom: ' + pageRequest.ffrom);
-            pageRequest.searchCond.ffrom = payload;
-            console.log('after ffrom' + pageRequest.ffrom);
-        },
-        setFto: ({ pageRequest }, { payload }) => {
-            console.log('before fto: ' + pageRequest.fto);
-            pageRequest.searchCond.fto = payload;
-            console.log('after fto: ' + pageRequest.fto);
-        },
-        setKeywords: ({ pageRequest }, { payload }) => {
-            console.log('keyword: ' + payload);
-
-            pageRequest.searchCond.castKeyword = payload;
-            pageRequest.searchCond.conKeyword = payload;
-            pageRequest.searchCond.pkeyword = payload;
-            pageRequest.searchCond.tkeyword = payload;
-        },
-        setType: ({ pageRequest }, { payload }) => {
-            pageRequest.searchCond.type += payload;
-        },
-        setGfrom: ({ pageRequest }, { payload }) => {
-            console.log('guarantee from: ' + payload);
-            pageRequest.searchCond.gfrom = payload;
-        },
-        setGto: ({ pageRequest }, { payload }) => {
-            console.log('guarantee to: ' + payload);
-            pageRequest.searchCond.gto = payload;
-        },
-        resetSearchCondition: ({ pageRequest }) => {
-            pageRequest.searchCond = {};
+        resetHireSearch: (state = initialState) => {
+            return {
+                ...initialState,
+                reset: !state.reset,
+            };
         },
     },
     extraReducers: (builder) => {
@@ -127,16 +75,19 @@ const hireSlice = createSlice({
                     return state;
                 }
 
+                console.log('fulfilled: ' + JSON.stringify(payload));
+
                 return {
                     ...state,
-                    pageResult: { ...payload },
+                    pageResult: payload,
+                    pageRequest: payload.pageRequest,
                 };
             })
             .addCase(hireDetail.fulfilled, (state, { payload }) => {
                 console.log('hireDetail payload: ' + JSON.stringify(payload));
                 return {
                     ...state,
-                    hireDetail: { ...payload },
+                    hire: payload,
                 };
             });
     },
@@ -146,12 +97,7 @@ export const hireSelector = (state) => state.hireReducer;
 
 export const {
     pageListChange,
-    setFfrom,
-    setFto,
-    setKeywords,
-    setType,
-    setGfrom,
-    setGto,
-    resetSearchCondition,
+    setSearchKey,
+    resetHireSearch,
 } = hireSlice.actions;
 export default hireSlice.reducer;
