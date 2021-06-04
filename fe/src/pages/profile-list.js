@@ -11,6 +11,7 @@ import PageListComponent from '../components/Core/PageList';
 
 const SearchGrid = () => {
     const pageRequest = useSelector(profileSelector).pageRequest;
+    const pageResult = useSelector(profileSelector).pageResult;
     return (
         <>
             <PageWrapper>
@@ -28,13 +29,8 @@ const SearchGrid = () => {
                                 <div className="pt-12 ml-lg-0 ml-md-15">
                                     <div className="d-flex align-items-center justify-content-between">
                                         <h5 className="font-size-4 font-weight-normal text-default-color">
-                                            <span className="heading-default-color">
-                                                120
-                                            </span>
-                                            results for{' '}
-                                            <span className="heading-default-color">
-                                                UI Designer
-                                            </span>
+                                            <span className="heading-default-color">120</span>
+                                            results for <span className="heading-default-color">UI Designer</span>
                                         </h5>
                                     </div>
                                     <div className="pt-6">
@@ -43,9 +39,7 @@ const SearchGrid = () => {
                                         </div>
                                     </div>
                                     <div className="text-center pt-5 pt-lg-13">
-                                        <PageListComponent
-                                            flag={'profileList'}
-                                        />
+                                        <PageListComponent flag={'profileList'} pageRequest={pageRequest} pageResult={pageResult} />
                                     </div>
                                 </div>
                                 {/* <!-- form end --> */}

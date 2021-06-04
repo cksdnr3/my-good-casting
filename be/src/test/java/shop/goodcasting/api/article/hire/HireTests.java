@@ -36,7 +36,7 @@ public class HireTests {
                 .size(10)
                 .build();
 
-        Page<Object[]> result = hireRepository.searchPage(pageRequest, pageRequest.getPageable(Sort.by("hireId").descending()));
+        Page<Object[]> result = hireRepository.searchPage(pageRequest, pageRequest.getPageable(Sort.by("project").descending()));
 
         result.forEach(t -> {
 

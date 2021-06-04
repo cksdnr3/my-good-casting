@@ -8,9 +8,6 @@ const SERVER = 'http://localhost:8080';
 //         : null;
 
 const profileList = (pageRequest) => {
-    console.log(
-        'service profileList pageRequest: ' + JSON.stringify(pageRequest)
-    );
     return axios({
         url: `${SERVER}/profiles/list`,
         method: 'post',
@@ -19,4 +16,12 @@ const profileList = (pageRequest) => {
     });
 };
 
-export default { profileList };
+const profileDetail = (id) => {
+    return axios({
+        url: `${SERVER}/profiles/detail/${id}`,
+        method: 'get',
+        headers: { Authorization: 'JWT fefege..' },
+    });
+};
+
+export default { profileList, profileDetail };

@@ -84,7 +84,7 @@ const DatePickerComponent = ({ isRangeSearch }) => {
                     </DatePickerStyled>
                     <SearchBtnComponent
                         data={{ startDate, endDate }}
-                        text={'기간 설정'}
+                        text={'촬영 날짜'}
                         className="btn btn-primary line-height-reset h-50 w-50 text-uppercase"
                     />
                 </>

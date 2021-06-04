@@ -1,24 +1,22 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { initial } from 'lodash-es';
 import fileService from '../service/file.service';
 
-export const fileRegister = createAsyncThunk(
-    'FILE_REGISTER',
-    async (formData) => {
-        console.log('thunk enter');
-        const response = await fileService.fileRegister(formData);
+export const fileRegister = createAsyncThunk('FILE_REGISTER', async (formData) => {
+    const response = await fileService.fileRegister(formData);
 
-        return response.data;
-    }
-);
+    response.data.forEach((file) => {
+        if (file.fileName.includes('.jp')) {
+            file.photoType = true;
+        }
+    });
+
+    console.log(response.data);
+
+    return response.data;
+});
 
 const initialState = {
-    fileList: [
-        {
-            fileName: '',
-            uuid: '',
-        },
-    ],
+    fileList: [],
     reset: false,
 };
 
@@ -31,6 +29,13 @@ const fileSlice = createSlice({
                 ...initialState,
                 reset: !state.reset,
             };
+        },
+        deleteFile(state, { payload }) {
+            state.fileList = state.fileList.filter((file) => file.uuid !== payload);
+        },
+        setFirst(state, { payload }) {
+            const chFileProp = state.fileList.find((file) => file.uuid === payload.uuid);
+            chFileProp.first = true;
         },
     },
     extraReducers: (builder) => {
@@ -45,5 +50,5 @@ const fileSlice = createSlice({
 });
 
 export const fileSelector = (state) => state.fileReducer;
-export const { resetFile } = fileSlice.actions;
+export const { resetFile, deleteFile, setFirst } = fileSlice.actions;
 export default fileSlice.reducer;

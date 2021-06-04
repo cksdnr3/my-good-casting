@@ -1,98 +1,85 @@
-import React from 'react';
-import { Link } from 'gatsby';
+import React, { useEffect } from 'react';
 
-import imgP from '../../assets/image/l3/png/pro-img.png';
+import ReactPlayer from 'react-player';
+import { useDispatch, useSelector } from 'react-redux';
+import { profileDetail, profileSelector } from '../../state/reducer/profile.reducer';
 
-const Sidebar = (props) => {
+const ProfileSidebar = (props) => {
+    const dispatch = useDispatch();
+
+    const profile = useSelector(profileSelector).profile;
+
+    const video = profile.files.find((file) => file.photoType === false);
+    const photos = profile.files.filter((file) => file.photoType === true);
+
+    console.log('--------------------------------------');
+    console.log(profile);
+    console.log('--------------------------------------');
+    useEffect(() => {
+        dispatch(profileDetail(props.id));
+    }, []);
+
     return (
         <>
-            <div {...props}>
+            <div>
                 <div className="pl-lg-5">
                     <div className="bg-white shadow-9 rounded-4">
-                        <div className="px-5 py-11 text-center border-bottom border-mercury">
-                            <Link to="/#" className="mb-4">
-                                <img className="circle-54" src={imgP} alt="" />
-                            </Link>
-                            <h4 className="mb-0">
-                                <Link
-                                    to="/#"
-                                    className="text-black-2 font-size-6 font-weight-semibold"
-                                >
-                                    홍길동
-                                </Link>
-                            </h4>
-                            <p className="mb-8">
-                                <Link to="/#" className="text-gray font-size-4">
-                                    소속사이름
-                                </Link>
-                            </p>
-                            <div className="icon-link d-flex align-items-center justify-content-center flex-wrap">
-                                <button className="btn btn-primary text-uppercase font-size-3">
-                                    회원정보입력하기
-                                </button>
-                            </div>
+                        <div className="px-5 py-5 text-left border-bottom border-mercury">
+                            <h4>{profile.actor.name}</h4>
                         </div>
-                        {/* <!-- Top End --> */}
-                        {/* <!-- Bottom Start --> */}
+                        <div className="px-5 py-11 text-center border-bottom border-mercury">
+                            <ReactPlayer
+                                component="video"
+                                width="100%"
+                                height="100%"
+                                controls
+                                url={'http://localhost:8080/files/display?fileName=에일리노래.mp4'}
+                            />
+                            {/* 
+                            <div className="icon-link d-flex align-items-center justify-content-center flex-wrap">
+                                <button className="btn btn-primary text-uppercase font-size-3">회원정보입력하기</button>
+                            </div> */}
+                        </div>
+                        <div className="px-5 py-11 text-center border-bottom border-mercury">
+                            {photos.map((photo) => {
+                                return (
+                                    <div key={photo.uuid}>
+                                        <img
+                                            style={{ height: '200px', width: '150px' }}
+                                            src={`http://localhost:8080/files/display?fileName=s_${photo.uuid}_${photo.fileName}`}
+                                        />
+                                    </div>
+                                );
+                            })}
+                        </div>
                         <div className="px-9 pt-lg-5 pt-9 pt-xl-9 pb-5">
-                            <h5 className="text-black-2 mb-8 font-size-5">
-                                Contact Info
-                            </h5>
-                            {/* <!-- Single List --> */}
+                            <h5 className="text-black-2 mb-8 font-size-5">소개</h5>
+                            <div className="mb-7">{profile.contents}</div>
+                            <h5 className="text-black-2 mb-8 font-size-5">Contact Info</h5>
                             <div className="mb-7">
                                 <p className="font-size-4 mb-0">Location</p>
-                                <h5 className="font-size-4 font-weight-semibold mb-0 text-black-2 text-break">
-                                    New York , USA
-                                </h5>
+                                <h5 className="font-size-4 font-weight-semibold mb-0 text-black-2 text-break">New York , USA</h5>
                             </div>
-                            {/* <!-- Single List --> */}
-                            {/* <!-- Single List --> */}
                             <div className="mb-7">
                                 <p className="font-size-4 mb-0">E-mail</p>
                                 <h5 className="font-size-4 font-weight-semibold mb-0">
-                                    <a
-                                        className="text-black-2 text-break"
-                                        href="mailto:name_ac@gmail.com"
-                                    >
-                                        name_ac@gmail.com
+                                    <a className="text-black-2 text-break" href="mailto:name_ac@gmail.com">
+                                        {profile.actor.email}
                                     </a>
                                 </h5>
                             </div>
-                            {/* <!-- Single List --> */}
-                            {/* <!-- Single List --> */}
                             <div className="mb-7">
                                 <p className="font-size-4 mb-0">Phone</p>
                                 <h5 className="font-size-4 font-weight-semibold mb-0">
-                                    <a
-                                        className="text-black-2 text-break"
-                                        href="tel:+999565562"
-                                    >
-                                        +999 565 562
-                                    </a>
+                                    <a className="text-black-2 text-break">{profile.actor.phone}</a>
                                 </h5>
                             </div>
-                            {/* <!-- Single List --> */}
-                            {/* <!-- Single List --> */}
-                            <div className="mb-7">
-                                <p className="font-size-4 mb-0">
-                                    Website Linked
-                                </p>
-                                <h5 className="font-size-4 font-weight-semibold mb-0">
-                                    <Link to="/#" className="text-break">
-                                        www.nameac.com
-                                    </Link>
-                                </h5>
-                            </div>
-                            {/* <!-- Single List --> */}
                         </div>
-                        {/* <!-- Bottom End --> */}
                     </div>
                 </div>
             </div>
-
-            {/* <!-- Sidebar End --> */}
         </>
     );
 };
 
-export default Sidebar;
+export default ProfileSidebar;

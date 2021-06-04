@@ -2,11 +2,7 @@ import React from 'react';
 import PageWrapper from '../components/PageWrapper';
 import HireList from '../components/Hire/HireList';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    hireList,
-    hireSelector,
-    resetSearchCondition,
-} from '../state/reducer/hire.reducer';
+import { hireList, hireSelector, resetSearchCondition } from '../state/reducer/hire.reducer';
 import ActorSearch from '../components/Hire/ActorSearch';
 import HireListSidebar from '../components/Hire/HireListSidebar';
 import PageListComponent from '../components/Core/PageList';
@@ -39,13 +35,8 @@ const SearchGrid = () => {
                                 <div className="pt-12">
                                     <div className="d-flex align-items-center justify-content-between mb-6">
                                         <h5 className="font-size-4 font-weight-normal text-gray">
-                                            <span className="heading-default-color">
-                                                {pageResult.totalElement}
-                                            </span>
-                                            results for{' '}
-                                            <span className="heading-default-color">
-                                                Actor
-                                            </span>
+                                            <span className="heading-default-color">{pageResult.totalElement}</span>
+                                            results for <span className="heading-default-color">Actor</span>
                                         </h5>{' '}
                                         <div className="button-block">
                                             <button
@@ -57,12 +48,9 @@ const SearchGrid = () => {
                                         </div>
                                     </div>
                                     <div className="mb-8">
-                                        <HireList
-                                            pageResult={pageResult}
-                                            pageRequest={pageRequest}
-                                        />
+                                        <HireList pageResult={pageResult} pageRequest={pageRequest} />
                                     </div>
-                                    <PageListComponent flag="hireList" />
+                                    <PageListComponent pageRequest={pageRequest} pageResult={pageResult} flag="hireList" />
                                 </div>
                             </div>
                         </div>

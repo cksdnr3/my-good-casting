@@ -1,4 +1,4 @@
-package shop.goodcasting.api.article.hire.domain;
+package shop.goodcasting.api.apply.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,16 +13,20 @@ import shop.goodcasting.api.file.domain.FileDTO;
 @Builder
 @AllArgsConstructor
 @Data
-public class HirePageRequestDTO {
+public class ApplyPageRequestDTO {
     private Integer page;
     private Integer size;
     private String sort;
 
-    private String searchKey;
-    private Pay pay;
-    private Period period;
+    private Long actorId;
+    private Long ProducerId;
 
     private FileDTO file;
+
+    public ApplyPageRequestDTO() {
+        this.page = 1;
+        this.size = 10;
+    }
 
     public Pageable getPageable(Sort sort) {
         return PageRequest.of(page - 1, size, sort);

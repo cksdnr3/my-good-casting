@@ -19,14 +19,13 @@ const Hero = () => {
                             data-aos-delay="500"
                         >
                             <h1 className="font-size-11 mb-12 pr-md-30 pr-lg-0">
-                                텍스트가 아닌 이미지로 <br /> 원하는 캐릭터의
-                                배우를 <br />
+                                텍스트가 아닌 이미지로 <br /> 원하는 캐릭터의 배우를 <br />
                                 찾아드립니다
                             </h1>
                             <div className="button-block">
-                                <Link to="/actor-mypage">
+                                <Link to="/profile-list">
                                     <button className="btn btn-primary line-height-reset h-500 btn-submit w-50 text-uppercase">
-                                        프로필 등록하기
+                                        배우 검색
                                     </button>
                                 </Link>
                             </div>

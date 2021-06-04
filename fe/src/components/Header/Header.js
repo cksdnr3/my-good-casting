@@ -14,10 +14,7 @@ import { actorMenuItems, menuItems, producerMenuItems } from './menuItems';
 
 import imgP from '../../assets/image/header-profile.png';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    isUserLoggendIn,
-    userSelector,
-} from '../../state/reducer/user.reducer';
+import { isUserLoggendIn, userSelector } from '../../state/reducer/user.reducer';
 import { resetHireSearch } from '../../state/reducer/hire.reducer';
 import { resetProfileSearch } from '../../state/reducer/profile.reducer';
 import { resetFile } from '../../state/reducer/file.reducer';
@@ -44,17 +41,14 @@ const SiteHeader = styled.header`
             transform: translateY(0%);
             box-shadow: 0 12px 34px -11px rgba(65, 62, 101, 0.1);
             z-index: 9999;
-            background: ${({ dark, theme }) =>
-                dark ? theme.colors.heading : theme.colors.light};
+            background: ${({ dark, theme }) => (dark ? theme.colors.heading : theme.colors.light)};
         }
     }
 `;
 
 const ToggleButton = styled.button`
-    color: ${({ dark, theme }) =>
-        dark ? theme.colors.lightShade : theme.colors.heading}!important;
-    border-color: ${({ dark, theme }) =>
-        dark ? theme.colors.lightShade : theme.colors.heading}!important;
+    color: ${({ dark, theme }) => (dark ? theme.colors.lightShade : theme.colors.heading)}!important;
+    border-color: ${({ dark, theme }) => (dark ? theme.colors.lightShade : theme.colors.heading)}!important;
 `;
 
 const Header = () => {
@@ -66,10 +60,7 @@ const Header = () => {
     const gContext = useContext(GlobalContext);
     const size = useWindowSize();
     const user = useSelector(userSelector);
-    const userInfo =
-        typeof window !== `undefined`
-            ? JSON.parse(localStorage.getItem('USER'))
-            : null;
+    const userInfo = typeof window !== `undefined` ? JSON.parse(localStorage.getItem('USER')) : null;
 
     useEffect(() => {
         if (localStorage.getItem('USER') !== null) {
@@ -96,31 +87,22 @@ const Header = () => {
     return (
         <>
             <SiteHeader
-                className={`site-header site-header--sticky  site-header--absolute py-7 py-xs-0 sticky-header ${
-                    gContext.header.bgClass
-                } ${
+                className={`site-header site-header--sticky  site-header--absolute py-7 py-xs-0 sticky-header ${gContext.header.bgClass} ${
                     gContext.header.align === 'left'
                         ? 'site-header--menu-left '
                         : gContext.header.align === 'right'
                         ? 'site-header--menu-right '
                         : 'site-header--menu-center '
                 }
-        ${gContext.header.theme === 'dark' ? 'dark-mode-texts' : ' '} ${
-                    showScrolling ? 'scrolling' : ''
-                } ${
-                    gContext.header.reveal &&
-                    showReveal &&
-                    gContext.header.theme === 'dark'
+        ${gContext.header.theme === 'dark' ? 'dark-mode-texts' : ' '} ${showScrolling ? 'scrolling' : ''} ${
+                    gContext.header.reveal && showReveal && gContext.header.theme === 'dark'
                         ? 'reveal-header bg-blackish-blue'
                         : gContext.header.reveal && showReveal
                         ? 'reveal-header'
                         : ''
                 }`}
             >
-                <Container
-                    fluid={gContext.header.isFluid}
-                    className={gContext.header.isFluid ? 'pr-lg-9 pl-lg-9' : ''}
-                >
+                <Container fluid={gContext.header.isFluid} className={gContext.header.isFluid ? 'pr-lg-9 pl-lg-9' : ''}>
                     <nav className="navbar site-navbar offcanvas-active navbar-expand-lg px-0 py-0">
                         <div className="brand-logo">
                             <Logo white={gContext.header.theme === 'dark'} />
@@ -129,190 +111,93 @@ const Header = () => {
                             <div className="navbar-nav-wrapper">
                                 <ul className="navbar-nav main-menu d-none d-lg-flex">
                                     {!userInfo
-                                        ? menuItems.map(
-                                              (
-                                                  {
-                                                      label,
-                                                      isExternal = false,
-                                                      name,
-                                                      items,
-                                                      ...rest
-                                                  },
-                                                  index
-                                              ) => {
-                                                  return (
-                                                      <React.Fragment
-                                                          key={name + index}
-                                                      >
-                                                          <li
-                                                              className="nav-item"
-                                                              {...rest}
+                                        ? menuItems.map(({ label, isExternal = false, name, items, ...rest }, index) => {
+                                              return (
+                                                  <React.Fragment key={name + index}>
+                                                      <li className="nav-item" {...rest}>
+                                                          {' '}
+                                                          <Link
+                                                              onClick={(e) => {
+                                                                  if (index === 0) {
+                                                                      dispatch(resetHireSearch());
+                                                                  }
+                                                                  if (index === 1) {
+                                                                      console.log('enter?');
+                                                                      dispatch(resetProfileSearch());
+                                                                      dispatch(resetFile());
+                                                                  }
+                                                              }}
+                                                              className="nav-link"
+                                                              to={`/${name}`}
+                                                              role="button"
+                                                              aria-expanded="false"
                                                           >
-                                                              {' '}
-                                                              <Link
-                                                                  onClick={(
-                                                                      e
-                                                                  ) => {
-                                                                      if (
-                                                                          index ===
-                                                                          0
-                                                                      ) {
-                                                                          dispatch(
-                                                                              resetHireSearch()
-                                                                          );
-                                                                      }
-                                                                      if (
-                                                                          index ===
-                                                                          1
-                                                                      ) {
-                                                                          console.log(
-                                                                              'enter?'
-                                                                          );
-                                                                          dispatch(
-                                                                              resetProfileSearch()
-                                                                          );
-                                                                          dispatch(
-                                                                              resetFile()
-                                                                          );
-                                                                      }
-                                                                  }}
-                                                                  className="nav-link"
-                                                                  to={`/${name}`}
-                                                                  role="button"
-                                                                  aria-expanded="false"
-                                                              >
-                                                                  {label}
-                                                              </Link>
-                                                          </li>
-                                                      </React.Fragment>
-                                                  );
-                                              }
-                                          )
+                                                              {label}
+                                                          </Link>
+                                                      </li>
+                                                  </React.Fragment>
+                                              );
+                                          })
                                         : userInfo[0].position
-                                        ? actorMenuItems.map(
-                                              (
-                                                  {
-                                                      label,
-                                                      isExternal = false,
-                                                      name,
-                                                      items,
-                                                      ...rest
-                                                  },
-                                                  index
-                                              ) => {
-                                                  return (
-                                                      <React.Fragment
-                                                          key={name + index}
-                                                      >
-                                                          <li
-                                                              className="nav-item"
-                                                              {...rest}
+                                        ? actorMenuItems.map(({ label, isExternal = false, name, items, ...rest }, index) => {
+                                              return (
+                                                  <React.Fragment key={name + index}>
+                                                      <li className="nav-item" {...rest}>
+                                                          <Link
+                                                              onClick={(e) => {
+                                                                  if (index === 0) {
+                                                                      dispatch(resetHireSearch());
+                                                                  }
+                                                                  if (index === 1) {
+                                                                      console.log('enter?');
+                                                                      dispatch(resetProfileSearch());
+                                                                      dispatch(resetFile());
+                                                                  }
+                                                              }}
+                                                              className="nav-link"
+                                                              to={`/${name}`}
+                                                              role="button"
+                                                              aria-expanded="false"
                                                           >
-                                                              <Link
-                                                                  onClick={(
-                                                                      e
-                                                                  ) => {
-                                                                      if (
-                                                                          index ===
-                                                                          0
-                                                                      ) {
-                                                                          dispatch(
-                                                                              resetHireSearch()
-                                                                          );
-                                                                      }
-                                                                      if (
-                                                                          index ===
-                                                                          1
-                                                                      ) {
-                                                                          console.log(
-                                                                              'enter?'
-                                                                          );
-                                                                          dispatch(
-                                                                              resetProfileSearch()
-                                                                          );
-                                                                          dispatch(
-                                                                              resetFile()
-                                                                          );
-                                                                      }
-                                                                  }}
-                                                                  className="nav-link"
-                                                                  to={`/${name}`}
-                                                                  role="button"
-                                                                  aria-expanded="false"
-                                                              >
-                                                                  {label}
-                                                              </Link>
-                                                          </li>
-                                                      </React.Fragment>
-                                                  );
-                                              }
-                                          )
-                                        : producerMenuItems.map(
-                                              (
-                                                  {
-                                                      label,
-                                                      isExternal = false,
-                                                      name,
-                                                      items,
-                                                      ...rest
-                                                  },
-                                                  index
-                                              ) => {
-                                                  return (
-                                                      <React.Fragment
-                                                          key={name + index}
-                                                      >
-                                                          <li
-                                                              className="nav-item"
-                                                              {...rest}
+                                                              {label}
+                                                          </Link>
+                                                      </li>
+                                                  </React.Fragment>
+                                              );
+                                          })
+                                        : producerMenuItems.map(({ label, isExternal = false, name, items, ...rest }, index) => {
+                                              return (
+                                                  <React.Fragment key={name + index}>
+                                                      <li className="nav-item" {...rest}>
+                                                          <Link
+                                                              onClick={() => {
+                                                                  if (index === 0) {
+                                                                      dispatch(resetHireSearch());
+                                                                  }
+                                                                  if (index === 1) {
+                                                                      console.log('enter?');
+                                                                      dispatch(resetProfileSearch());
+                                                                      dispatch(resetFile());
+                                                                  }
+                                                              }}
+                                                              className="nav-link"
+                                                              to={`/${name}`}
+                                                              role="button"
+                                                              aria-expanded="false"
                                                           >
-                                                              <Link
-                                                                  onClick={() => {
-                                                                      if (
-                                                                          index ===
-                                                                          0
-                                                                      ) {
-                                                                          dispatch(
-                                                                              resetHireSearch()
-                                                                          );
-                                                                      }
-                                                                      if (
-                                                                          index ===
-                                                                          1
-                                                                      ) {
-                                                                          console.log(
-                                                                              'enter?'
-                                                                          );
-                                                                          dispatch(
-                                                                              resetProfileSearch()
-                                                                          );
-                                                                          dispatch(
-                                                                              resetFile()
-                                                                          );
-                                                                      }
-                                                                  }}
-                                                                  className="nav-link"
-                                                                  to={`/${name}`}
-                                                                  role="button"
-                                                                  aria-expanded="false"
-                                                              >
-                                                                  {label}
-                                                              </Link>
-                                                          </li>
-                                                      </React.Fragment>
-                                                  );
-                                              }
-                                          )}
+                                                              {label}
+                                                          </Link>
+                                                      </li>
+                                                  </React.Fragment>
+                                              );
+                                          })}
                                 </ul>
                             </div>
                         </div>
 
                         {gContext.header.button === 'cta' && (
                             <div className="header-btn ml-auto ml-lg-0 mr-6 mr-lg-0 d-none d-xs-block">
-                                <Link
-                                    to="/#"
-                                    className={`btn btn-${gContext.header.variant}`}
-                                >
+                                <Link to="/#" className={`btn btn-${gContext.header.variant}`}>
                                     {gContext.header.buttonText}
                                 </Link>
                             </div>
@@ -321,10 +206,7 @@ const Header = () => {
                         {gContext.header.button === 'profile' && (
                             <div className="header-btn-devider ml-auto ml-lg-5 pl-2 d-none d-xs-flex align-items-center">
                                 <div>
-                                    <Link
-                                        to="/#"
-                                        className="px-3 ml-7 font-size-7 notification-block flex-y-center position-relative"
-                                    >
+                                    <Link to="/#" className="px-3 ml-7 font-size-7 notification-block flex-y-center position-relative">
                                         <i className="fas fa-bell heading-default-color"></i>
                                         <span className="font-size-3 count font-weight-semibold text-white bg-primary circle-24 border border-width-3 border border-white">
                                             3
@@ -333,10 +215,7 @@ const Header = () => {
                                 </div>
                                 <div>
                                     <Dropdown className="show-gr-dropdown py-5">
-                                        <Dropdown.Toggle
-                                            as="a"
-                                            className="proile media ml-7 flex-y-center"
-                                        >
+                                        <Dropdown.Toggle as="a" className="proile media ml-7 flex-y-center">
                                             <div className="circle-40">
                                                 <img src={imgP} alt="" />
                                             </div>
@@ -402,9 +281,7 @@ const Header = () => {
                                     className={`btn btn-${gContext.header.variant} text-uppercase font-size-3`}
                                     onClick={() => {
                                         localStorage.clear();
-                                        dispatch(
-                                            isUserLoggendIn(!user.loggedIn)
-                                        );
+                                        dispatch(isUserLoggendIn(!user.loggedIn));
                                         navigate('/');
                                     }}
                                 >
@@ -435,9 +312,7 @@ const Header = () => {
                         )}
 
                         <ToggleButton
-                            className={`navbar-toggler btn-close-off-canvas ml-3 ${
-                                gContext.visibleOffCanvas ? 'collapsed' : ''
-                            }`}
+                            className={`navbar-toggler btn-close-off-canvas ml-3 ${gContext.visibleOffCanvas ? 'collapsed' : ''}`}
                             type="button"
                             data-toggle="collapse"
                             data-target="#mobile-menu"
@@ -453,10 +328,7 @@ const Header = () => {
                     </nav>
                 </Container>
             </SiteHeader>
-            <Offcanvas
-                show={gContext.visibleOffCanvas}
-                onHideOffcanvas={gContext.toggleOffCanvas}
-            >
+            <Offcanvas show={gContext.visibleOffCanvas} onHideOffcanvas={gContext.toggleOffCanvas}>
                 <NestedMenu menuItems={menuItems} />
             </Offcanvas>
         </>

@@ -9,29 +9,11 @@ const SearchBtnComponent = ({ data, text, className }) => {
 
     const clickSearch = (text) => {
         if (text === 'search') {
+            console.log('search: ' + text);
             dispatch(
                 hireList({
                     ...pageRequest,
                     searchKey: { keyword: data },
-                })
-            );
-        }
-        if (text === '기간 설정') {
-            dispatch(
-                hireList({
-                    ...pageRequest,
-                    period: { from: data.startDate, to: data.endDate },
-                })
-            );
-        }
-        if (text === '출연료 검색') {
-            dispatch(
-                hireList({
-                    ...pageRequest,
-                    pay: {
-                        start: data[0],
-                        end: data[1],
-                    },
                 })
             );
         }
@@ -41,7 +23,7 @@ const SearchBtnComponent = ({ data, text, className }) => {
         <>
             <div className="button-block">
                 <button onClick={() => clickSearch(text)} className={className}>
-                    {text}
+                    search
                 </button>
             </div>
         </>

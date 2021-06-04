@@ -38,66 +38,33 @@ const DashboardApplicantList = () => {
                         <table className="table table-striped">
                             <thead>
                                 <tr>
-                                    <th
-                                        scope="col"
-                                        className="pl-0  border-0 font-size-4 font-weight-normal"
-                                    >
+                                    <th scope="col" className="pl-0  border-0 font-size-4 font-weight-normal">
                                         이름
                                     </th>
-                                    <th
-                                        scope="col"
-                                        className="border-0 font-size-4 font-weight-normal"
-                                    >
+                                    <th scope="col" className="border-0 font-size-4 font-weight-normal">
                                         지원한 작품
                                     </th>
-                                    <th
-                                        scope="col"
-                                        className="border-0 font-size-4 font-weight-normal"
-                                    >
+                                    <th scope="col" className="border-0 font-size-4 font-weight-normal">
                                         지원 날짜
                                     </th>
-                                    <th
-                                        scope="col"
-                                        className="border-0 font-size-4 font-weight-normal"
-                                    ></th>
-                                    <th
-                                        scope="col"
-                                        className="border-0 font-size-4 font-weight-normal"
-                                    ></th>
-                                    <th
-                                        scope="col"
-                                        className="border-0 font-size-4 font-weight-normal"
-                                    ></th>
+                                    <th scope="col" className="border-0 font-size-4 font-weight-normal"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr className="border border-color-2">
-                                    <th
-                                        scope="row"
-                                        className="pl-6 border-0 py-7 pr-0"
-                                    >
+                                    <th scope="row" className="pl-6 border-0 py-7 pr-0">
                                         <div className="media min-width-px-235 align-items-center">
                                             <div className="circle-36 mr-6">
-                                                <img
-                                                    src={imgP1}
-                                                    alt=""
-                                                    className="w-100"
-                                                />
+                                                <img src={imgP1} alt="" className="w-100" />
                                             </div>
-                                            <h4 className="font-size-4 mb-0 font-weight-semibold text-black-2">
-                                                Nicolas Bradley
-                                            </h4>
+                                            <h4 className="font-size-4 mb-0 font-weight-semibold text-black-2">Nicolas Bradley</h4>
                                         </div>
                                     </th>
                                     <td className="table-y-middle py-7 min-width-px-235 pr-0">
-                                        <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                                            Senior Project Manager
-                                        </h3>
+                                        <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">Senior Project Manager</h3>
                                     </td>
                                     <td className="table-y-middle py-7 min-width-px-170 pr-0">
-                                        <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-                                            12 July, 2020
-                                        </h3>
+                                        <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">12 July, 2020</h3>
                                     </td>
                                     <td className="table-y-middle py-7 min-width-px-170 pr-0">
                                         <div className="">
@@ -115,20 +82,14 @@ const DashboardApplicantList = () => {
                                     </td>
                                     <td className="table-y-middle py-7 min-width-px-110 pr-0">
                                         <div className="">
-                                            <Link
-                                                to="/contact"
-                                                className="font-size-3 font-weight-bold text-green text-uppercase"
-                                            >
+                                            <Link to="/contact" className="font-size-3 font-weight-bold text-green text-uppercase">
                                                 합격
                                             </Link>
                                         </div>
                                     </td>
                                     <td className="table-y-middle py-7 min-width-px-100 pr-0">
                                         <div className="">
-                                            <Link
-                                                to="#"
-                                                className="font-size-3 font-weight-bold text-red-2 text-uppercase"
-                                            >
+                                            <Link to="#" className="font-size-3 font-weight-bold text-red-2 text-uppercase">
                                                 불합격
                                             </Link>
                                         </div>
@@ -141,60 +102,37 @@ const DashboardApplicantList = () => {
                         <nav aria-label="Page navigation example">
                             <ul className="pagination pagination-hover-primary rounded-0 ml-n2">
                                 <li className="page-item rounded-0 flex-all-center">
-                                    <a
-                                        href="#"
-                                        className="page-link rounded-0 border-0 px-3active"
-                                        aria-label="Previous"
-                                    >
+                                    <a href="#" className="page-link rounded-0 border-0 px-3active" aria-label="Previous">
                                         <i className="fas fa-chevron-left"></i>
                                     </a>
                                 </li>
                                 <li className="page-item">
-                                    <a
-                                        href="#"
-                                        className="page-link border-0 font-size-4 font-weight-semibold px-3"
-                                    >
+                                    <a href="#" className="page-link border-0 font-size-4 font-weight-semibold px-3">
                                         1
                                     </a>
                                 </li>
                                 <li className="page-item">
-                                    <a
-                                        href="#"
-                                        className="page-link border-0 font-size-4 font-weight-semibold px-3"
-                                    >
+                                    <a href="#" className="page-link border-0 font-size-4 font-weight-semibold px-3">
                                         2
                                     </a>
                                 </li>
                                 <li className="page-item">
-                                    <a
-                                        href="#"
-                                        className="page-link border-0 font-size-4 font-weight-semibold px-3"
-                                    >
+                                    <a href="#" className="page-link border-0 font-size-4 font-weight-semibold px-3">
                                         3
                                     </a>
                                 </li>
                                 <li className="page-item disabled">
-                                    <a
-                                        href="#"
-                                        className="page-link border-0 font-size-4 font-weight-semibold px-3"
-                                    >
+                                    <a href="#" className="page-link border-0 font-size-4 font-weight-semibold px-3">
                                         ...
                                     </a>
                                 </li>
                                 <li className="page-item ">
-                                    <a
-                                        href="#"
-                                        className="page-link border-0 font-size-4 font-weight-semibold px-3"
-                                    >
+                                    <a href="#" className="page-link border-0 font-size-4 font-weight-semibold px-3">
                                         7
                                     </a>
                                 </li>
                                 <li className="page-item rounded-0 flex-all-center">
-                                    <a
-                                        href="/#"
-                                        className="page-link rounded-0 border-0 px-3"
-                                        aria-label="Next"
-                                    >
+                                    <a href="/#" className="page-link rounded-0 border-0 px-3" aria-label="Next">
                                         <i className="fas fa-chevron-right"></i>
                                     </a>
                                 </li>

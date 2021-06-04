@@ -20,4 +20,15 @@ const hireDetail = (id) => {
     });
 };
 
-export default { hireList, hireDetail };
+const hireDelete = (id) => {
+    return axios({
+        url: `${SERVER}/hires/delete`,
+        method: 'delete',
+        params: {
+            hireId: id,
+        },
+        headers: { Authorization: 'JWT fefege..' },
+    });
+};
+
+export default { hireList, hireDetail, hireDelete };

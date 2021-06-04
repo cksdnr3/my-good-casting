@@ -61,10 +61,13 @@ public class ProfileTest {
         ProfilePageRequestDTO pageRequest = ProfilePageRequestDTO.builder()
                 .page(1)
                 .size(10)
-                .resembleKey("에릭")
+                .file(FileDTO.builder()
+                        .first(true)
+                        .build())
+
                 .build();
 
-        Page<Object[]> result = profileRepository.searchPage(pageRequest, pageRequest.getPageable(Sort.by("profileId").descending()));
+        Page<Object[]> result = profileRepository.myProfilePage(pageRequest, pageRequest.getPageable(Sort.by("project").descending()));
 
         result.forEach(p -> {
             System.out.println("TESTTESTTESTTEST profile" + Arrays.toString(p));
