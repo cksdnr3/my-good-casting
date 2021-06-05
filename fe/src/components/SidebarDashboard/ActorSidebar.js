@@ -12,7 +12,7 @@ const ActorSidebar = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getProducerInfo());
-    }, [dispatch]);
+    }, []);
 
     return (
         <>
@@ -40,7 +40,7 @@ const ActorSidebar = () => {
 
                         <li className="">
                             <Link
-                                to="/dashboard-settings"
+                                to="/actor-info"
                                 activeClassName="active"
                                 className="px-10 py-1 my-5 font-size-4 font-weight-semibold flex-y-center"
                             >

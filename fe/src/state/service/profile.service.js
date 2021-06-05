@@ -24,4 +24,15 @@ const profileDetail = (id) => {
     });
 };
 
-export default { profileList, profileDetail };
+const profileRegister = (arg) => {
+    return axios({
+        url: `${SERVER}/profiles/register`,
+        method: 'post',
+        data: arg,
+        headers: {
+            Authorization: localStorage.getItem('TOKEN'),
+        },
+    });
+};
+
+export default { profileList, profileDetail, profileRegister };

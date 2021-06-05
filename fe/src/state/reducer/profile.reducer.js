@@ -4,15 +4,6 @@ import uuid from 'uuid/dist/v4';
 
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
 
-const sweetalert = (icon, title, text, footer) => {
-    Swal.fire({
-        icon: icon,
-        title: title,
-        text: text,
-        footer: footer,
-    });
-};
-
 export const profileList = createAsyncThunk('PROFILE_LIST', async (pageRequest) => {
     console.log('reducer profileList() pageRequest: ' + JSON.stringify(pageRequest));
     const response = await profileService.profileList(pageRequest);
@@ -22,17 +13,25 @@ export const profileList = createAsyncThunk('PROFILE_LIST', async (pageRequest) 
 
 export const profileDetail = createAsyncThunk('PROFILE_DETAIL', async (id) => {
     console.log('profileDetail() id: ' + id);
+
     const response = await profileService.profileDetail(id);
 
     return response.data;
 });
 
 export const profileRegister = createAsyncThunk('PROFILE_REGISTER', async (arg) => {
+    console.log('-------------------------------------------------------');
+    console.log(JSON.stringify(arg));
+    console.log('-------------------------------------------------------');
+
     const response = await profileService.profileRegister(arg);
     return response.data;
 });
 
 const initialState = {
+    profileList: [],
+    careerList: [],
+    fileList: [],
     pageRequest: {
         page: 1,
         size: 10,
@@ -101,7 +100,7 @@ const profileSlice = createSlice({
                     title: '프로필이 등록되었습니다.',
                 });
             })
-            .addCase(profileRegister.rejected, (state, { payload }) => {
+            .addCase(profileRegister.rejected, () => {
                 Swal.fire({
                     icon: 'error',
                     title: '내용을 모두 입력해주세요',
@@ -117,5 +116,5 @@ const profileSlice = createSlice({
 });
 export const profileSelector = (state) => state.profileReducer;
 
-export const { resetProfileSearch } = profileSlice.actions;
+export const { resetProfileSearch, addCareer, deleteCareer } = profileSlice.actions;
 export default profileSlice.reducer;

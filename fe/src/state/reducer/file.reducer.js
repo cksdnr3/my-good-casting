@@ -43,7 +43,7 @@ const fileSlice = createSlice({
             console.log('file: ' + JSON.stringify(payload));
             return {
                 ...state,
-                fileList: payload,
+                fileList: state.fileList.concat(payload),
             };
         });
     },

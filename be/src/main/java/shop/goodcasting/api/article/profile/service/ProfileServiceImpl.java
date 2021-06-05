@@ -72,6 +72,28 @@ public class ProfileServiceImpl implements ProfileService {
         return 0L;
     }
 
+    public Long saveFile(ProfileDTO profileDTO, List<FileDTO> files) {
+        if(files != null && files.size() > 0) {
+            files.forEach(fileDTO -> {
+                fileDTO.setProfile(profileDTO);
+                FileVO file = fileService.dto2EntityProfile(fileDTO);
+                fileRepo.save(file);
+
+                if (file.isPhotoType() && fileDTO.isFirst()) {
+                    String[] arr = extractCelebrity(
+                            uploadPath + File.separator + file.getUuid() + "_" + file.getFileName());
+
+                    log.info("extract end ----------------------");
+                    log.info("profileDTO: " + profileDTO.getProfileId());
+                    profileRepo.updateResembleAndConfidenceByProfileId(
+                            profileDTO.getProfileId(), arr[0], Double.parseDouble(arr[1]));
+                }
+            });
+            return 1L;
+        }
+        return 0L;
+    }
+
     @Transactional
     @Override
     public ProfileDTO readProfile(Long profileId) {
@@ -241,25 +263,5 @@ public class ProfileServiceImpl implements ProfileService {
             System.out.println(e);
         }
         return null;
-    }
-
-    public Long saveFile(ProfileDTO profileDTO, List<FileDTO> files) {
-        if(files != null && files.size() > 0) {
-            files.forEach(fileDTO -> {
-                fileDTO.setProfile(profileDTO);
-                FileVO file = fileService.dto2EntityProfile(fileDTO);
-                fileRepo.save(file);
-
-                if (file.isPhotoType() && fileDTO.isFirst()) {
-                    String[] arr = extractCelebrity(
-                            uploadPath + File.separator + file.getUuid() + "_" + file.getFileName());
-
-                    profileRepo.updateResembleAndConfidenceByProfileId(
-                            profileDTO.getProfileId(), arr[0], Double.parseDouble(arr[1]));
-                }
-            });
-            return 1L;
-        }
-        return 0L;
     }
 }
