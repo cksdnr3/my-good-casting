@@ -85,8 +85,13 @@ public class ProfileServiceImpl implements ProfileService {
 
                     log.info("extract end ----------------------");
                     log.info("profileDTO: " + profileDTO.getProfileId());
+                    log.info("resemble");
+                    log.info(arr[0]);
+                    log.info("confidence");
+                    log.info(arr[1]);
                     profileRepo.updateResembleAndConfidenceByProfileId(
                             profileDTO.getProfileId(), arr[0], Double.parseDouble(arr[1]));
+                    log.info("analyze end ----------------------");
                 }
             });
             return 1L;

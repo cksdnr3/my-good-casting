@@ -20,8 +20,6 @@ const ProfileRegister = () => {
     const fileList = useSelector(fileSelector).fileList;
     const actorState = JSON.parse(localStorage.getItem('USER'));
 
-    console.log();
-
     const [image, setImages] = useState(null);
     const [inputs, setInputs] = useState({
         privacy: true,

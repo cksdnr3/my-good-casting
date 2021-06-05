@@ -16,7 +16,7 @@ const DashboardMain = () => {
                 }}
             >
                 <div className="dashboard-main-container mt-25 mt-lg-31">
-                    <div style={{ height: '100vh' }} className="container">
+                    <div style={{ height: '2000px' }} className="container">
                         <div className="row mb-7">
                             <MyProfileList />
                         </div>

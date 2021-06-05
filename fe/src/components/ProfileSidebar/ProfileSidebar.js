@@ -9,12 +9,9 @@ const ProfileSidebar = (props) => {
 
     const profile = useSelector(profileSelector).profile;
 
-    const video = profile.files.find((file) => file.photoType === false);
+    const video = profile.files.find((file) => file.photoType === false) || { fileName: '', uuid: '' };
     const photos = profile.files.filter((file) => file.photoType === true);
 
-    console.log('--------------------------------------');
-    console.log(profile);
-    console.log('--------------------------------------');
     useEffect(() => {
         dispatch(profileDetail(props.id));
     }, []);
@@ -33,7 +30,7 @@ const ProfileSidebar = (props) => {
                                 width="100%"
                                 height="100%"
                                 controls
-                                url={'http://localhost:8080/files/display?fileName=에일리노래.mp4'}
+                                url={`http://localhost:8080/files/display?fileName=${video.uuid}_${video.fileName}`}
                             />
                             {/* 
                             <div className="icon-link d-flex align-items-center justify-content-center flex-wrap">
