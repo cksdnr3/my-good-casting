@@ -2,43 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { navigate } from 'gatsby';
 import MessageActionType from '../../utils/MessageActionType';
 import { useDispatch, useSelector } from 'react-redux';
-import { messageSelector, messageList, readMessage, deleteMessage, updateMessage } from '../../state/reducer/message.reducer';
+import { messageSelector, getMessageList, deleteMessage, updateMessage } from '../../state/reducer/message.reducer';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const MessageList = () => {
     const dispatch = useDispatch();
 
-    const msgList = useSelector(messageSelector).messageList;
-
-    const [update, setUpdate] = useState({});
+    const { messageList, reset } = useSelector(messageSelector);
+    const [update, setUpdate] = useState(false);
 
     useEffect(() => {
-        dispatch(messageList());
-
-        console.log(msgList);
-
-        console.log(update);
-        dispatch(updateMessage(update));
+        dispatch(getMessageList());
     }, [update]);
-
-    const handleClick = (e) => {
-        e.preventDefault();
-
-        // const message = msgList.find((msg) => msg.messageId);
-
-        const message = msgList.find((msg) => msg);
-        console.log(message);
-
-        dispatch(readMessage(message.messageId));
-
-        console.log(message.messageId);
-
-        setUpdate(message.messageId);
-    };
 
     return (
         <>
-            {msgList.map((msg) => {
+            {messageList.map((msg) => {
                 return (
                     <>
                         <div key={msg.messageId} className="border-bottom overflow-hidden">
@@ -47,7 +26,15 @@ const MessageList = () => {
                                     {msg.readMessage ? (
                                         <a style={{ color: '#bab9bb' }}>{MessageActionType[msg.messageActionType]}</a>
                                     ) : (
-                                        <a className="message-read" style={{ color: '#000' }} onClick={handleClick}>
+                                        <a
+                                            className="message-read"
+                                            style={{ color: '#000' }}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+
+                                                dispatch(updateMessage({ ...msg, readMessage: true }));
+                                            }}
+                                        >
                                             {MessageActionType[msg.messageActionType]}
                                         </a>
                                     )}

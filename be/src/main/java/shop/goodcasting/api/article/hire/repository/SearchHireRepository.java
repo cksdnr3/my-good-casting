@@ -7,4 +7,5 @@ import shop.goodcasting.api.article.profile.domain.ProfilePageRequestDTO;
 
 public interface SearchHireRepository {
     Page<Object[]> searchPage(HirePageRequestDTO pageRequest, Pageable pageable);
+    Page<Object[]> myHirePage(HirePageRequestDTO pageRequest, Pageable pageable);
 }

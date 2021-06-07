@@ -22,6 +22,8 @@ public class HirePageRequestDTO {
     private Pay pay;
     private Period period;
 
+    private Long producerId;
+
     private FileDTO file;
 
     public Pageable getPageable(Sort sort) {

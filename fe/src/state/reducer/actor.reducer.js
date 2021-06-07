@@ -3,22 +3,24 @@ import actorService from '../service/actor.service';
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
 
 export const updateActorInfo = createAsyncThunk('ACTOR_UPDATE', async (arg) => {
+    console.log('------------ACTOR_UPDATE---------------');
     console.log(arg);
+    console.log('---------------------------------------');
     const response = await actorService.updateactorInfo(arg);
-    console.log('reducer : ' + response.data);
     return response.data;
 });
 
 export const getActorInfo = createAsyncThunk('ACTOR_INFO', async () => {
+    console.log('------------ACTOR_INFO---------------');
     const response = await actorService.getActorInfo();
     return response.data;
 });
 
 export const unRegister = createAsyncThunk('UNREGISTER', async (arg) => {
-    console.log('reducer UNREGISTER() arg: ' + JSON.stringify(arg));
+    console.log('------------UNREGISTER---------------');
     const response = await actorService.unRegister(arg);
+    console.log('-------------------------------------');
 
-    console.log(response.data);
     return response.data;
 });
 
@@ -36,9 +38,7 @@ const actorSlice = createSlice({
             .addCase(updateActorInfo.fulfilled, (state, { payload }) => {
                 state.actor = payload;
             })
-            .addCase(unRegister.fulfilled, (state, { payload }) => {
-                console.log('addCase' + payload);
-            });
+            .addCase(unRegister.fulfilled, (state, { payload }) => {});
     },
 });
 

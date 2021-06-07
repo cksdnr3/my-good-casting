@@ -15,6 +15,7 @@ import shop.goodcasting.api.message.service.MessageServiceImpl;
 import java.util.List;
 import java.util.Optional;
 
+@Log
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin("*")
@@ -44,7 +45,9 @@ public class MessageController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Long> update(@RequestBody MessageDTO messageDTO) {
+    public ResponseEntity<List<MessageDTO>> update(@RequestBody MessageDTO messageDTO) {
+
+        log.info(""+messageDTO);
         return ResponseEntity.ok(service.update(messageDTO));
     }
 

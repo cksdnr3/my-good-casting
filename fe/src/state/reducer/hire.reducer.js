@@ -1,9 +1,12 @@
 import hireService from '../service/hire.service';
+import Swal from 'sweetalert2';
 
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
 
 export const hireList = createAsyncThunk('HIRE_LIST', async (pageRequest) => {
-    console.log('createAsyncThunk enter: ' + JSON.stringify(pageRequest));
+    console.log('------------HIRE_LIST---------------');
+    console.log(pageRequest);
+    console.log('------------------------------------');
     if (pageRequest.page === 0) {
         return null;
     }
@@ -13,19 +16,21 @@ export const hireList = createAsyncThunk('HIRE_LIST', async (pageRequest) => {
 });
 
 export const hireDetail = createAsyncThunk('HIRE_DETAIL', async (id) => {
-    console.log('createAsyncThunk enter: ' + JSON.stringify(id));
-
+    console.log('------------HIRE_DETAIL---------------');
+    console.log(id);
+    console.log('--------------------------------------');
     const response = await hireService.hireDetail(id);
-
-    console.log('hireDetail: ' + response.data);
 
     return response.data;
 });
 
+export const hireRegister = createAsyncThunk('HIRE_REGISTER', async (arg) => {
+    const response = await hireService.hireRegister(arg);
+    return response.data;
+});
+
 export const hireDelete = createAsyncThunk('HIRE_DELETE', async (id) => {
-    console.log('createAsyncThunk enter: ' + JSON.stringify(id));
     const response = await hireService.hireDelete(id);
-    console.log('hireDelete: ' + response.data);
     return response.data;
 });
 
@@ -52,6 +57,7 @@ const initialState = {
         deadline: '',
         producer: {},
     },
+    status: '',
 };
 
 const hireSlice = createSlice({
@@ -62,24 +68,27 @@ const hireSlice = createSlice({
         pageListChange: (state, { payload }) => {
             state.pageResult.page = payload;
         },
-        resetHireSearch: (state = initialState) => {
+        resetHireSelector: (state = initialState) => {
             return {
                 ...initialState,
                 reset: !state.reset,
             };
         },
+        resetStatus: (state) => {
+            state.status = '';
+        },
     },
     extraReducers: (builder) => {
         builder
             .addCase(hireList.fulfilled, (state, { payload }) => {
-                console.log('payload: ' + JSON.stringify(payload));
+                console.log('-------------------------------');
+                console.log(payload);
+                console.log('-------------------------------');
 
                 if (!payload) {
                     state.page = 1;
                     return state;
                 }
-
-                console.log('fulfilled: ' + JSON.stringify(payload));
 
                 return {
                     ...state,
@@ -87,17 +96,30 @@ const hireSlice = createSlice({
                     pageRequest: payload.pageRequest,
                 };
             })
+            .addCase(hireRegister.fulfilled, (state) => {
+                state.status = 'success';
+                Swal.fire({
+                    icon: 'success',
+                    title: '공고문이 등록되었습니다.',
+                });
+            })
             .addCase(hireDetail.fulfilled, (state, { payload }) => {
-                console.log('hireDetail payload: ' + JSON.stringify(payload));
                 return {
                     ...state,
                     hire: payload,
                 };
+            })
+            .addCase(hireDelete.fulfilled, (state) => {
+                state.status = 'success';
+                Swal.fire({
+                    icon: 'success',
+                    title: '공고문이 삭제되었습니다.',
+                });
             });
     },
 });
 
 export const hireSelector = (state) => state.hireReducer;
 
-export const { pageListChange, setSearchKey, resetHireSearch } = hireSlice.actions;
+export const { pageListChange, resetHireSelector, resetStatus } = hireSlice.actions;
 export default hireSlice.reducer;

@@ -13,7 +13,16 @@ const SearchBtnComponent = ({ data, text, className }) => {
             dispatch(
                 hireList({
                     ...pageRequest,
-                    searchKey: { keyword: data },
+                    searchKey: data,
+                })
+            );
+        }
+
+        if (text === '촬영 날짜') {
+            dispatch(
+                hireList({
+                    ...pageRequest,
+                    period: { from: data.startDate, to: data.endDate },
                 })
             );
         }

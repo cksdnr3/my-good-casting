@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
             }catch(Exception e){
                 throw new SecurityRuntimeException("유효하지 않은 아이디 / 비밀번호", HttpStatus.UNPROCESSABLE_ENTITY);
             }
-        } else{
+        } else {
             throw new SecurityRuntimeException("탈퇴한 회원입니다.", HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }

@@ -18,6 +18,7 @@ import { isUserLoggendIn, userSelector } from '../../state/reducer/user.reducer'
 import { resetHireSearch } from '../../state/reducer/hire.reducer';
 import { resetProfileSearch } from '../../state/reducer/profile.reducer';
 import { resetFile } from '../../state/reducer/file.reducer';
+import MessageDropdown from '../Core/MessageDropdown';
 
 const SiteHeader = styled.header`
     .dropdown-toggle::after {
@@ -115,23 +116,7 @@ const Header = () => {
                                               return (
                                                   <React.Fragment key={name + index}>
                                                       <li className="nav-item" {...rest}>
-                                                          {' '}
-                                                          <Link
-                                                              onClick={(e) => {
-                                                                  if (index === 0) {
-                                                                      dispatch(resetHireSearch());
-                                                                  }
-                                                                  if (index === 1) {
-                                                                      console.log('enter?');
-                                                                      dispatch(resetProfileSearch());
-                                                                      dispatch(resetFile());
-                                                                  }
-                                                              }}
-                                                              className="nav-link"
-                                                              to={`/${name}`}
-                                                              role="button"
-                                                              aria-expanded="false"
-                                                          >
+                                                          <Link className="nav-link" to={`/${name}`} role="button" aria-expanded="false">
                                                               {label}
                                                           </Link>
                                                       </li>
@@ -143,22 +128,7 @@ const Header = () => {
                                               return (
                                                   <React.Fragment key={name + index}>
                                                       <li className="nav-item" {...rest}>
-                                                          <Link
-                                                              onClick={(e) => {
-                                                                  if (index === 0) {
-                                                                      dispatch(resetHireSearch());
-                                                                  }
-                                                                  if (index === 1) {
-                                                                      console.log('enter?');
-                                                                      dispatch(resetProfileSearch());
-                                                                      dispatch(resetFile());
-                                                                  }
-                                                              }}
-                                                              className="nav-link"
-                                                              to={`/${name}`}
-                                                              role="button"
-                                                              aria-expanded="false"
-                                                          >
+                                                          <Link className="nav-link" to={`/${name}`} role="button" aria-expanded="false">
                                                               {label}
                                                           </Link>
                                                       </li>
@@ -169,22 +139,7 @@ const Header = () => {
                                               return (
                                                   <React.Fragment key={name + index}>
                                                       <li className="nav-item" {...rest}>
-                                                          <Link
-                                                              onClick={() => {
-                                                                  if (index === 0) {
-                                                                      dispatch(resetHireSearch());
-                                                                  }
-                                                                  if (index === 1) {
-                                                                      console.log('enter?');
-                                                                      dispatch(resetProfileSearch());
-                                                                      dispatch(resetFile());
-                                                                  }
-                                                              }}
-                                                              className="nav-link"
-                                                              to={`/${name}`}
-                                                              role="button"
-                                                              aria-expanded="false"
-                                                          >
+                                                          <Link className="nav-link" to={`/${name}`} role="button" aria-expanded="false">
                                                               {label}
                                                           </Link>
                                                       </li>
@@ -195,23 +150,37 @@ const Header = () => {
                             </div>
                         </div>
 
-                        {gContext.header.button === 'cta' && (
-                            <div className="header-btn ml-auto ml-lg-0 mr-6 mr-lg-0 d-none d-xs-block">
-                                <Link to="/#" className={`btn btn-${gContext.header.variant}`}>
-                                    {gContext.header.buttonText}
-                                </Link>
-                            </div>
-                        )}
-
-                        {gContext.header.button === 'profile' && (
+                        {userInfo && (
                             <div className="header-btn-devider ml-auto ml-lg-5 pl-2 d-none d-xs-flex align-items-center">
                                 <div>
-                                    <Link to="/#" className="px-3 ml-7 font-size-7 notification-block flex-y-center position-relative">
-                                        <i className="fas fa-bell heading-default-color"></i>
-                                        <span className="font-size-3 count font-weight-semibold text-white bg-primary circle-24 border border-width-3 border border-white">
-                                            3
-                                        </span>
-                                    </Link>
+                                    <Dropdown className="show-gr-dropdown py-5">
+                                        <Dropdown.Toggle as="a" className="proile media ml-7 flex-y-center">
+                                            <div className="px-3 ml-7 font-size-7 notification-block flex-y-center position-relative">
+                                                <Link to="/message-box">
+                                                    <i className="fas fa-bell heading-default-color"></i>
+                                                    <span className="font-size-3 count font-weight-semibold text-white bg-primary circle-24 border border-width-3 border border-white">
+                                                        3
+                                                    </span>
+                                                </Link>
+                                            </div>
+                                            <i className="fas fa-chevron-down heading-default-color ml-6"></i>
+                                        </Dropdown.Toggle>
+                                        {size.width <= 991 ? (
+                                            <Dropdown.Menu
+                                                className="gr-menu-dropdown border-0 border-width-2 py-2 w-auto bg-default"
+                                                key="1"
+                                            >
+                                                <MessageDropdown />
+                                            </Dropdown.Menu>
+                                        ) : (
+                                            <div
+                                                className="dropdown-menu gr-menu-dropdown dropdown-right border-0 border-width-2 py-2 w-auto bg-default"
+                                                key="2"
+                                            >
+                                                <MessageDropdown />
+                                            </div>
+                                        )}
+                                    </Dropdown>
                                 </div>
                                 <div>
                                     <Dropdown className="show-gr-dropdown py-5">
@@ -227,22 +196,22 @@ const Header = () => {
                                                 key="1"
                                             >
                                                 <Link
-                                                    to="/#"
+                                                    to="/profile-register"
                                                     className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase"
                                                 >
-                                                    Settings
+                                                    프로필 등록
                                                 </Link>
                                                 <Link
                                                     to="/#"
                                                     className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase"
                                                 >
-                                                    Edit Profile
+                                                    지원리스트
                                                 </Link>
                                                 <Link
-                                                    to="/#"
-                                                    className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase"
+                                                    to="/actor-mypage"
+                                                    className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase"
                                                 >
-                                                    Log Out
+                                                    정보수정
                                                 </Link>
                                             </Dropdown.Menu>
                                         ) : (
@@ -251,22 +220,22 @@ const Header = () => {
                                                 key="2"
                                             >
                                                 <Link
-                                                    to="/#"
+                                                    to="/profile-register"
                                                     className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase"
                                                 >
-                                                    Settings
+                                                    프로필 등록
                                                 </Link>
                                                 <Link
                                                     to="/#"
                                                     className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase"
                                                 >
-                                                    Edit Profile
+                                                    지원리스트
                                                 </Link>
                                                 <Link
-                                                    to="/#"
-                                                    className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase"
+                                                    to="/actor-mypage"
+                                                    className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase"
                                                 >
-                                                    Log Out
+                                                    정보수정
                                                 </Link>
                                             </div>
                                         )}

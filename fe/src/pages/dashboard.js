@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CountUp from 'react-countup';
 import LazyLoad from 'react-lazyload';
 import PageWrapper from '../components/PageWrapper';
 
 import DashboardHireList from '../components/Dashboard/DashboardHireList';
 import DashboardApplicants from './dashboard-applicants';
+import { useDispatch } from 'react-redux';
+import { resetHireSelector } from '../state/reducer/hire.reducer';
 
 const DashboardMain = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        return () => {
+            console.log('hire-list unmount');
+            dispatch(resetHireSelector());
+        };
+    }, []);
+
     return (
         <>
             <PageWrapper

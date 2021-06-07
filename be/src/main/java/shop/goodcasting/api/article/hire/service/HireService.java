@@ -74,7 +74,7 @@ public interface HireService {
                         .build())
                 .build();
     }
-    default HireListDTO entity2DtoFiles(Hire hire, Producer producer, FileVO file) {
+    default HireListDTO entity2DtoFiles(Hire hire, Producer producer) {
         return HireListDTO.builder()
                 .hireId(hire.getHireId())
                 .cast(hire.getCast())
@@ -83,8 +83,7 @@ public interface HireService {
                 .modDate(hire.getModDate())
                 .regDate(hire.getRegDate())
                 .producerAgency(producer.getAgency())
-//                .fileName(file.getFileName())
-//                .fileUuid(file.getUuid())
+
                 .build();
 
     }

@@ -21,11 +21,12 @@ const defaultMajor = [
 const ActorInfo = () => {
     const dispatch = useDispatch();
 
-    const state = useSelector(actorSelctor);
+    const actorState = useSelector(actorSelctor).actor;
+
     const [inputs, setInputs] = useState([]);
 
     useEffect(() => {
-        setInputs(state.actor);
+        setInputs(actorState);
     }, []);
 
     const handleSubmit = (e) => {
@@ -64,7 +65,7 @@ const ActorInfo = () => {
                 }}
             >
                 <div className="mt-24 mt-lg-31" id="dashboard-body">
-                    <div className="container">
+                    <div className="container" style={{ paddingLeft: '250px' }}>
                         <div className="mb-15 mb-lg-23">
                             <div className="row">
                                 <div className="col-xxxl-9 px-lg-13 px-6">

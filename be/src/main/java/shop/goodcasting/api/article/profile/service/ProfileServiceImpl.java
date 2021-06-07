@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import shop.goodcasting.api.apply.repository.ApplyRepository;
 import shop.goodcasting.api.article.profile.domain.*;
 import shop.goodcasting.api.article.profile.repository.ProfileRepository;
 
@@ -44,6 +45,7 @@ public class ProfileServiceImpl implements ProfileService {
     private final ActorService actorService;
     private final CareerService careerService;
     private final CareerRepository careerRepo;
+    private final ApplyRepository applyRepo;
 
     @Value("${shop.goodcast.upload.path}")
     private String uploadPath;
@@ -61,6 +63,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     public Long saveCareer(ProfileDTO profileDTO, List<CareerDTO> careers) {
+
         if(careers != null && careers.size() > 0) {
             careers.forEach(careerDTO -> {
                 careerDTO.setProfile(profileDTO);
@@ -178,9 +181,13 @@ public class ProfileServiceImpl implements ProfileService {
     @Transactional
     public void deleteProfile(Long profileId) {
         fileRepo.deleteByProfileId(profileId);
-
+        Long careerId = careerRepo.getCareerIdByProfileId(profileId);
+        Long applyId = applyRepo.findByProfileId(profileId);
+        if(careerId != null){ careerRepo.deleteById(careerId);}
+        if(applyId != null){ applyRepo.deleteById(applyId);}
         profileRepo.deleteById(profileId);
     }
+
 
     public String[] extractCelebrity(String photoName) {
         log.info("extractCelebrity enter: " + photoName);

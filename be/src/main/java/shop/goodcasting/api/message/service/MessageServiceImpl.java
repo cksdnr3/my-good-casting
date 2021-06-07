@@ -7,7 +7,6 @@ import shop.goodcasting.api.message.domain.Message;
 import shop.goodcasting.api.message.domain.MessageActionType;
 import shop.goodcasting.api.message.domain.MessageDTO;
 import shop.goodcasting.api.message.repository.MessageRepository;
-import shop.goodcasting.api.message.service.MessageService;
 
 
 import javax.transaction.Transactional;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 @Log
 @Service
 @RequiredArgsConstructor
-public class MessageServiceImpl implements MessageService {
+public class MessageServiceImpl implements MessageService{
 
     private final MessageRepository messageRepo;
 
@@ -74,10 +73,10 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Transactional
-    public Long update(MessageDTO messageDTO) {
-        Long messageId = messageDTO.getMessageId();
-
+    public List<MessageDTO> update(MessageDTO messageDTO) {
         messageRepo.save(dto2EntityAll(messageDTO));
-        return 1L;
+
+
+        return messageRepo.findAllByReceiverId(messageDTO.getReceiver().getUserId()).stream().map(entity -> entity2DtoAll(entity)).collect(Collectors.toList());
     }
 }

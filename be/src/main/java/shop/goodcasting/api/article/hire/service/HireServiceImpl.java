@@ -10,10 +10,14 @@ import shop.goodcasting.api.article.hire.domain.HireListDTO;
 import shop.goodcasting.api.article.hire.repository.HireRepository;
 import shop.goodcasting.api.article.hire.domain.HirePageRequestDTO;
 import shop.goodcasting.api.article.hire.domain.HirePageResultDTO;
+import shop.goodcasting.api.article.profile.domain.Profile;
+import shop.goodcasting.api.article.profile.domain.ProfileListDTO;
+import shop.goodcasting.api.article.profile.domain.ProfilePageResultDTO;
 import shop.goodcasting.api.file.domain.FileVO;
 import shop.goodcasting.api.file.domain.FileDTO;
 import shop.goodcasting.api.file.repository.FileRepository;
 import shop.goodcasting.api.file.service.FileService;
+import shop.goodcasting.api.user.actor.domain.Actor;
 import shop.goodcasting.api.user.producer.domain.Producer;
 import shop.goodcasting.api.user.producer.domain.ProducerDTO;
 import shop.goodcasting.api.user.producer.service.ProducerService;
@@ -68,11 +72,25 @@ public class HireServiceImpl implements HireService {
 
     @Override
     public HirePageResultDTO<HireListDTO, Object[]> getHireList(HirePageRequestDTO pageRequest) {
-        Page<Object[]> result = hireRepository.searchPage(pageRequest,
-                pageRequest.getPageable(Sort.by(pageRequest.getSort()).descending()));
 
-        Function<Object[], HireListDTO> fn = (entity -> entity2DtoFiles((Hire) entity[0],
-                (Producer) entity[1], (FileVO) entity[2]));
+        Page<Object[]> result;
+        Function<Object[], HireListDTO> fn;
+
+        if (pageRequest.getProducerId() == null) {
+            result = hireRepository.searchPage(pageRequest,
+                    pageRequest.getPageable(Sort.by(pageRequest.getSort()).descending()));
+
+            fn = (entity -> entity2DtoFiles((Hire) entity[0],
+                    (Producer) entity[1]));
+
+        } else {
+            result = hireRepository.myHirePage(pageRequest,
+                    pageRequest.getPageable(Sort.by(pageRequest.getSort()).descending()));
+
+            fn = (entity -> entity2DtoFiles((Hire) entity[0],
+                    (Producer) entity[1]));
+
+        }
 
         return new HirePageResultDTO<>(result, fn, pageRequest);
     }

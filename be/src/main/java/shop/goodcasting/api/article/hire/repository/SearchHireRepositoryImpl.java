@@ -36,16 +36,13 @@ public class SearchHireRepositoryImpl extends QuerydslRepositorySupport implemen
     public Page<Object[]> searchPage(HirePageRequestDTO pageRequest, Pageable pageable) {
         log.info("----------------------Search Hire Page Enter------------------------------");
 
-
         QHire hire = QHire.hire;
-        QFileVO file = QFileVO.fileVO;
         QProducer producer = QProducer.producer;
 
         JPQLQuery<Hire> jpqlQuery = from(hire);
         jpqlQuery.leftJoin(producer).on(hire.producer.eq(producer));
-        jpqlQuery.leftJoin(file).on(file.hire.eq(hire));
 
-        JPQLQuery<Tuple> tuple = jpqlQuery.select(hire, producer, file);
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(hire, producer);
 
         //hireId >0
         BooleanBuilder totalBuilder = new BooleanBuilder();
@@ -125,5 +122,56 @@ public class SearchHireRepositoryImpl extends QuerydslRepositorySupport implemen
         conditions.or(hire.cast.contains(keyword));
 
         return conditions;
+    }
+
+    @Override
+    public Page<Object[]> myHirePage(HirePageRequestDTO pageRequest, Pageable pageable) {
+
+        log.info("-------------------Search Profile Page Enter------------------------------------");
+
+        QHire hire = QHire.hire;
+        QProducer producer = QProducer.producer;
+
+        JPQLQuery<Hire> jpqlQuery = from(hire);
+        jpqlQuery.leftJoin(producer).on(hire.producer.eq(producer));
+
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(hire, producer);
+
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        BooleanExpression expression = hire.producer.producerId.eq(pageRequest.getProducerId());
+
+        booleanBuilder.and(expression);
+
+        tuple.where(booleanBuilder);
+
+        Sort sort = pageable.getSort();
+
+        sort.stream().forEach(order -> {
+            Order direction = order.isAscending() ? Order.ASC : Order.DESC;
+            String prop = order.getProperty();
+
+            PathBuilder orderByExpression = new PathBuilder(Hire.class, "hire");
+            tuple.orderBy(new OrderSpecifier(direction, orderByExpression.get(prop)));
+        });
+
+        tuple.groupBy(hire);
+
+        tuple.offset(pageable.getOffset());
+        tuple.limit(pageable.getPageSize());
+
+        List<Tuple> result = tuple.fetch();
+
+        result.forEach(tuple1 -> {
+            log.info("searchPage() tuple: " + tuple1);
+        });
+
+        long count = tuple.fetchCount();
+
+        log.info("COUNT: " + count);
+
+        return new PageImpl<>(result.stream()
+                .map(t -> t.toArray()).collect(Collectors.toList()),
+                pageable,
+                count);
     }
 }

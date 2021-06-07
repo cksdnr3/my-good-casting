@@ -10,7 +10,7 @@ public interface CareerService {
     default Career dto2Entity(CareerDTO careerDTO) {
         return Career.builder()
                 .careerId(careerDTO.getCareerId())
-                .genre(careerDTO.getGerne())
+                .genre(careerDTO.getGenre())
                 .title(careerDTO.getTitle())
                 .contents(careerDTO.getContents())
                 .year(careerDTO.getYear())
@@ -20,12 +20,12 @@ public interface CareerService {
     default Career dto2EntityAll(CareerDTO careerDTO) {
         return Career.builder()
                 .careerId(careerDTO.getCareerId())
-                .genre(careerDTO.getGerne())
+                .genre(careerDTO.getGenre())
                 .title(careerDTO.getTitle())
                 .contents(careerDTO.getContents())
                 .year(careerDTO.getYear())
                 .profile(Profile.builder()
-                        .profileId(careerDTO.getCareerId())
+                        .profileId(careerDTO.getProfile().getProfileId())
                         .build())
                 .build();
     }
@@ -33,7 +33,7 @@ public interface CareerService {
     default CareerDTO entity2Dto(Career career) {
         return CareerDTO.builder()
                 .careerId(career.getCareerId())
-                .gerne(career.getGenre())
+                .genre(career.getGenre())
                 .title(career.getTitle())
                 .contents(career.getContents())
                 .year(career.getYear())
@@ -43,12 +43,12 @@ public interface CareerService {
     default CareerDTO entity2DtoAll(Career career) {
         return CareerDTO.builder()
                 .careerId(career.getCareerId())
-                .gerne(career.getGenre())
+                .genre(career.getGenre())
                 .title(career.getTitle())
                 .contents(career.getContents())
                 .year(career.getYear())
                 .profile(ProfileDTO.builder()
-                        .profileId(career.getCareerId())
+                        .profileId(career.getProfile().getProfileId())
                         .build())
                 .build();
     }

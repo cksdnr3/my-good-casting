@@ -3,7 +3,6 @@ const { default: axios } = require('axios');
 const SERVER = 'http://localhost:8080';
 
 const hireList = (pageRequest) => {
-    console.log('service hireList pageRequest: ' + JSON.stringify(pageRequest));
     return axios({
         url: `${SERVER}/hires/list`,
         method: 'post',
@@ -22,13 +21,21 @@ const hireDetail = (id) => {
 
 const hireDelete = (id) => {
     return axios({
-        url: `${SERVER}/hires/delete`,
+        url: `${SERVER}/hires/delete/${id}`,
         method: 'delete',
-        params: {
-            hireId: id,
-        },
         headers: { Authorization: 'JWT fefege..' },
     });
 };
 
-export default { hireList, hireDetail, hireDelete };
+const hireRegister = (arg) => {
+    return axios({
+        url: `${SERVER}/hires/register`,
+        method: 'post',
+        data: arg,
+        headers: {
+            // "Content-Type": "multipart/form-data",
+            Authorization: localStorage.getItem('TOKEN'),
+        },
+    });
+};
+export default { hireList, hireDetail, hireDelete, hireRegister };

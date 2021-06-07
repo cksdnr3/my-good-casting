@@ -10,9 +10,10 @@ import { getProducerInfo } from '../../state/reducer/producer.reducer';
 const Sidebar = () => {
     const gContext = useContext(GlobalContext);
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(getProducerInfo());
-    }, [dispatch]);
+    }, []);
 
     return (
         <>
@@ -22,12 +23,8 @@ const Sidebar = () => {
                         <Logo white={gContext.header.theme === 'dark'} />
                     </div>
                     <div className="my-15 px-11">
-                        <Link
-                            to="/hire-register"
-                            className="btn btn-primary btn-xl w-100 text-uppercase"
-                        >
-                            <span className="mr-5 d-inline-block">+</span>공고
-                            등록하기
+                        <Link to="/hire-register" className="btn btn-primary btn-xl w-100 text-uppercase">
+                            <span className="mr-5 d-inline-block">+</span>공고 등록하기
                         </Link>
                     </div>
                     <ul className="list-unstyled dashboard-layout-sidebar">

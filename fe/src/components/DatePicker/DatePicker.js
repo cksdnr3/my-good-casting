@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
-import { useDispatch } from 'react-redux';
 import SearchBtnComponent from '../Core/SearchBtn';
 
 const DatePickerStyled = styled.div`
@@ -30,30 +29,16 @@ const DatePickerStyled = styled.div`
     }
 `;
 
-const DatePickerComponent = ({ isRangeSearch }) => {
+const DatePickerComponent = ({ isRangeSearch, setDate }) => {
     const today = new Date();
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
 
-    const dateToString = (date) => {
-        return (
-            date.getFullYear() +
-            '-' +
-            (date.getMonth() + 1).toString().padStart(2, '0') +
-            '-' +
-            date
-                .getDate()
-                .toString()
-                .padStart(2, '0')
-        );
-    };
-
-    const dispatch = useDispatch();
-
     useEffect(() => {
-        dateToString(startDate);
-        dateToString(endDate);
-    }, [startDate, endDate]);
+        if (setDate !== undefined) {
+            setDate(startDate);
+        }
+    }, [startDate]);
 
     return (
         <>
@@ -68,9 +53,7 @@ const DatePickerComponent = ({ isRangeSearch }) => {
             </DatePickerStyled>
             {isRangeSearch && (
                 <>
-                    <h6 className="font-size-4 font-weight-semibold mb-6 w-75">
-                        종료일
-                    </h6>
+                    <h6 className="font-size-4 font-weight-semibold mb-6 w-75">종료일</h6>
                     <DatePickerStyled>
                         <DayPickerInput
                             dayPickerProps={{

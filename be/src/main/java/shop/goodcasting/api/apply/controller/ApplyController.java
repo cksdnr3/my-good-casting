@@ -27,15 +27,25 @@ public class ApplyController {
         return ResponseEntity.ok(applyService.apply(applyDTO));
     }
 
-    @GetMapping("/{hireId}")
-    public ResponseEntity<List<ApplyDTO>> applyList(@PathVariable Long hireId){
-        return ResponseEntity.ok(applyService.findAllByHireId(hireId));
-    }
-
     @PostMapping("/list")
     public ResponseEntity<ApplyPageResultDTO<ApplyListDTO,Object[]>> applicantList(@RequestBody ApplyPageRequestDTO pageRequest){
         log.info("------------------------------" + pageRequest + "----------------------------------------------------");
 
         return new ResponseEntity<>(applyService.getApplicantList(pageRequest), HttpStatus.OK);
+    }
+
+    @PostMapping("/applylist")
+    public ResponseEntity<ApplyPageResultDTO<ApplyListDTO,Object[]>> applyList(@RequestBody ApplyPageRequestDTO pageRequest){
+        log.info("------------------------------" + pageRequest + "----------------------------------------------------");
+
+        return new ResponseEntity<>(applyService.getApplyList(pageRequest), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{applyId}")
+    public ResponseEntity<Long> delete(@PathVariable Long applyId) {
+        log.info("======프론트에서 진입완료!");
+        applyService.deleteApply(applyId);
+
+        return new ResponseEntity<>(1L, HttpStatus.OK);
     }
 }

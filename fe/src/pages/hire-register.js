@@ -1,19 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Tab } from 'react-bootstrap';
-import { Link } from 'gatsby';
+import { navigate } from 'gatsby';
 import PageWrapper from '../components/PageWrapper';
 import FileUpload from '../components/Core/FileUpload';
 import { useDispatch, useSelector } from 'react-redux';
-import { hireRegister } from '../state/reducer/hire.reducer';
+import { hireRegister, hireSelector, resetStatus } from '../state/reducer/hire.reducer';
 import { producerSelector } from '../state/reducer/producer.reducer';
 import { fileSelector } from '../state/reducer/file.reducer';
 import '../scss/css/fileUpload.css';
+import DatePickerComponent from '../components/DatePicker/DatePicker';
 
 const HireRegister = () => {
     const dispatch = useDispatch();
 
-    const producerState = useSelector(producerSelector);
     const fileState = useSelector(fileSelector);
+    const { status } = useSelector(hireSelector);
 
     const { producerId } = JSON.parse(localStorage.getItem('USER'))[1];
 
@@ -22,9 +23,11 @@ const HireRegister = () => {
     });
     const [image, setImages] = useState(null);
 
+    const [filming, setFilming] = useState(new Date());
+    const [deadline, setDeadline] = useState(new Date());
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('handleSubmit' + JSON.stringify(inputs));
         dispatch(hireRegister(inputs));
     };
     const handleChange = useCallback(
@@ -36,6 +39,20 @@ const HireRegister = () => {
         },
         [inputs]
     );
+
+    if (status === 'success') {
+        navigate('/dashboard');
+        dispatch(resetStatus());
+    }
+
+    useEffect(() => {
+        setInputs({
+            ...inputs,
+            filming,
+            deadline,
+        });
+    }, [filming, deadline]);
+
     useEffect(() => {
         setInputs({
             ...inputs,
@@ -51,10 +68,17 @@ const HireRegister = () => {
                         <div className="row justify-content-center">
                             <div className="col-12 mt-13 dark-mode-texts">
                                 <div className="mb-9">
-                                    <Link to="/#" className="d-flex align-items-center ml-4">
+                                    <a
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            navigate(-1);
+                                        }}
+                                        href="/"
+                                        className="d-flex align-items-center ml-4"
+                                    >
                                         <i className="icon icon-smaxwll-left bg-white circle-40 mr-5 font-size-7 text-black font-weight-bold shadow-8" />
                                         <span className="text-uppercase font-size-3 font-weight-bold text-gray">Back</span>
-                                    </Link>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +87,13 @@ const HireRegister = () => {
                                 <div className="col-12 col-xl-9 col-lg-8"></div>
                                 <div className="bg-white rounded-4 pt-11 shadow-9">
                                     <div className="d-xs-flex align-items-center pl-xs-12 mb-8 text-center text-xs-left">
-                                        <div className="">
+                                        <div style={{ height: '425px' }}>
+                                            <label
+                                                htmlFor="namedash"
+                                                className="d-block text-black-2 font-size-4 font-weight-semibold mb-4"
+                                            >
+                                                공고 제목
+                                            </label>
                                             <input
                                                 type="text"
                                                 className="form-control h-px-48 thumnail-margin"
@@ -88,14 +118,7 @@ const HireRegister = () => {
                                                                     >
                                                                         촬영 날짜
                                                                     </label>
-                                                                    <input
-                                                                        type="text"
-                                                                        className="form-control h-px-48"
-                                                                        id="namedash"
-                                                                        name="filming"
-                                                                        onChange={handleChange}
-                                                                        value={inputs.filming}
-                                                                    />
+                                                                    <DatePickerComponent setDate={setFilming} />
                                                                 </div>
                                                             </div>
                                                             <div className="col-lg-6">
@@ -106,14 +129,7 @@ const HireRegister = () => {
                                                                     >
                                                                         마감날짜
                                                                     </label>
-                                                                    <input
-                                                                        type="text"
-                                                                        className="form-control h-px-48"
-                                                                        id="namedash"
-                                                                        name="deadline"
-                                                                        onChange={handleChange}
-                                                                        value={inputs.deadline}
-                                                                    />
+                                                                    <DatePickerComponent setDate={setDeadline} />
                                                                 </div>
                                                             </div>
                                                             <div className="col-lg-6">

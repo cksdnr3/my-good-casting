@@ -35,4 +35,12 @@ const profileRegister = (arg) => {
     });
 };
 
-export default { profileList, profileDetail, profileRegister };
+const profileDelete = (id) => {
+    return axios({
+        url: `${SERVER}/profiles/delete/${id}`,
+        method: 'delete',
+        headers: { Authorization: 'JWT fefege..' },
+    });
+};
+
+export default { profileList, profileDetail, profileRegister, profileDelete };

@@ -4,9 +4,9 @@ import ProfileCareer from '../components/Profile/ProfileCareer';
 import FileUpload from '../components/Core/FileUpload';
 import FileUploads from '../components/Core/FileUploads';
 import { useDispatch, useSelector } from 'react-redux';
-import { profileRegister, profileSelector } from '../state/reducer/profile.reducer';
+import { profileRegister, profileSelector, resetStatus } from '../state/reducer/profile.reducer';
 import { actorSelctor } from '../state/reducer/actor.reducer';
-import { fileSelector, setFirst } from '../state/reducer/file.reducer';
+import { fileSelector, resetFile, setFirst } from '../state/reducer/file.reducer';
 import PageWrapper from '../components/PageWrapper';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
@@ -19,11 +19,23 @@ const ProfileRegister = () => {
     const profileState = useSelector(profileSelector);
     const fileList = useSelector(fileSelector).fileList;
     const actorState = JSON.parse(localStorage.getItem('USER'));
+    const { status } = useSelector(profileSelector);
 
     const [image, setImages] = useState(null);
     const [inputs, setInputs] = useState({
         privacy: true,
     });
+
+    useEffect(() => {
+        return () => {
+            dispatch(resetFile());
+        };
+    }, []);
+
+    if (status === 'success') {
+        navigate('/actor-mypage');
+        dispatch(resetStatus());
+    }
 
     useEffect(() => {
         setInputs({
@@ -44,7 +56,6 @@ const ProfileRegister = () => {
         e.preventDefault();
         dispatch(profileRegister(inputs));
         setInputs(''); // 초기화
-        // navigate('/actor-mypage');
     };
 
     const handleChange = useCallback(
