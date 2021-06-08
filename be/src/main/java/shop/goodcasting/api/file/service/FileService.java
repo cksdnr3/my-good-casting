@@ -13,6 +13,11 @@ public interface FileService {
     void extractVideoThumbnail(File file) throws Exception;
 
     default FileDTO entity2Dto(FileVO fileVO) {
+
+        if (fileVO == null) {
+            return FileDTO.builder().build();
+        }
+
         return FileDTO.builder()
                 .fileId(fileVO.getFileId())
                 .fileName(fileVO.getFileName())

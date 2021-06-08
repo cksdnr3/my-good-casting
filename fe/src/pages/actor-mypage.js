@@ -1,13 +1,17 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import PageWrapper from '../components/PageWrapper';
 
 import MyProfileList from '../components/Profile/MyprofileList';
-import { resetProfileSelector } from '../state/reducer/profile.reducer';
+import { profileSelector, resetProfileSelector } from '../state/reducer/profile.reducer';
 
 const DashboardMain = () => {
     const dispatch = useDispatch();
+
+    const pageRequest = useSelector(profileSelector).pageRequest;
+
+    console.log(pageRequest);
 
     useEffect(() => {
         return () => {

@@ -15,8 +15,6 @@ const HireApply = ({ location }) => {
     const pageRequest = useSelector(profileSelector).pageRequest;
     const status = useSelector(applySelector).status;
 
-    const [inputs, setInputs] = useState({});
-
     useEffect(() => {
         dispatch(
             profileList({
@@ -24,7 +22,7 @@ const HireApply = ({ location }) => {
                 actorId: userInfo[1].actorId,
             })
         );
-    }, [inputs]);
+    }, []);
 
     const [apply, setApply] = useState({
         applyStatus: 1,
@@ -32,7 +30,6 @@ const HireApply = ({ location }) => {
     });
     const handleChange = (e) => {
         const profileId = e.target.getAttribute('data-profileid');
-        console.log('checked before profileId : ' + profileId);
 
         if (e.target.checked) {
             setApply({ ...apply, profile: { profileId } });
@@ -46,7 +43,6 @@ const HireApply = ({ location }) => {
 
     const handleApply = (e) => {
         e.preventDefault();
-        console.log('handleApply : ' + JSON.stringify(apply));
         dispatch(hireApply(apply));
     };
     return (
@@ -96,7 +92,6 @@ const HireApply = ({ location }) => {
                                                                     type="radio"
                                                                     data-profileid={profile.profileId}
                                                                     name="select"
-                                                                    checked={inputs.select}
                                                                     onChange={(e) => handleChange(e)}
                                                                 />
                                                             </div>

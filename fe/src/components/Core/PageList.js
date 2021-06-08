@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { hireList, pageListChange } from '../../state/reducer/hire.reducer';
 import { profileList } from '../../state/reducer/profile.reducer';

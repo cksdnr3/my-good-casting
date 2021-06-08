@@ -61,6 +61,7 @@ public class HireServiceImpl implements HireService {
         List<FileDTO> fileList = new ArrayList<>();
 
         hireAndFileAndProducer.forEach(objects -> {
+
             fileList.add(fileService.entity2Dto((FileVO)objects[2]));
         });
 

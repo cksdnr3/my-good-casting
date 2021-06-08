@@ -23,6 +23,10 @@ const ModalSignIn = (props) => {
     });
 
     const handleClose = () => {
+        setInputs({
+            username: '',
+            password: '',
+        });
         gContext.toggleSignInModal();
     };
 

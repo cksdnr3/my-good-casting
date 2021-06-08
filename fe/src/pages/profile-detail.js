@@ -36,7 +36,6 @@ const CandidateProfile = ({ location }) => {
                                 </div>
                                 <Tab.Container id="left-tabs-example" defaultActiveKey="one">
                                     <div className="bg-white rounded-4 shadow-9">
-                                        {/* <!-- Tab Section Start --> */}
                                         <Nav className="nav border-bottom border-mercury pl-12" role="tablist">
                                             <li className="tab-menu-items nav-item pr-12">
                                                 <Nav.Link
@@ -55,15 +54,11 @@ const CandidateProfile = ({ location }) => {
                                                 </Nav.Link>
                                             </li>
                                         </Nav>
-                                        {/* <!-- Tab Content --> */}
                                         <Tab.Content>
                                             <Tab.Pane eventKey="one">
-                                                {/* <!-- Excerpt Start --> */}
                                                 <ProfileSidebar id={location.state.id} />
-                                                {/* <!-- Card Section End --> */}
                                             </Tab.Pane>
                                             <Tab.Pane eventKey="two">
-                                                {/* <!-- Excerpt Start --> */}
                                                 <div className="pr-xl-11 p-5 pl-xs-12 pt-9 pb-11">
                                                     <form action="/">
                                                         <div className="row">

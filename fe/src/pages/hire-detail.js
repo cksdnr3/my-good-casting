@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'gatsby';
+import { Link, navigate } from 'gatsby';
 import PageWrapper from '../components/PageWrapper';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,20 +17,14 @@ const JobDetails = ({ location }) => {
     const dispatch = useDispatch();
 
     const hire = useSelector(hireSelector).hire;
-    const pageRequest = useSelector(profileSelector).pageRequest;
 
     useEffect(() => {
         dispatch(hireDetail(location.state.id));
     }, []);
 
-    useEffect(() => {
-        dispatch(
-            profileList({
-                ...pageRequest,
-                actorId: userInfo[1].actorId,
-            })
-        );
-    }, []);
+    console.log('------------------------------------------');
+    console.log(userInfo);
+    console.log('------------------------------------------');
 
     return (
         <>
@@ -39,7 +33,23 @@ const JobDetails = ({ location }) => {
                     <div className="container">
                         <div className="row justify-content-center">
                             <div className="col-xl-10 col-lg-11 mt-4 ml-xxl-32 ml-xl-15 dark-mode-texts">
-                                <div className="mb-9"></div>
+                                <div className="mb-9">
+                                    <button
+                                        style={{
+                                            background: 'transparent',
+                                            boxShadow: '0px 0px 0px transparent',
+                                            border: '0px solid transparent',
+                                            outline: 'none',
+                                        }}
+                                        onClick={() => {
+                                            navigate(-1);
+                                        }}
+                                        className="d-flex align-items-center ml-4"
+                                    >
+                                        <i className="icon icon-small-left bg-white circle-40 mr-5 font-size-7 text-black font-weight-bold shadow-8"></i>
+                                        <span className="text-uppercase font-size-3 font-weight-bold text-gray">Back</span>
+                                    </button>
+                                </div>
                             </div>
                             <div className="col-xl-9 col-lg-11 mb-8 px-xxl-15 px-xl-0">
                                 <div className="bg-white rounded-4 border border-mercury shadow-9">
@@ -64,14 +74,18 @@ const JobDetails = ({ location }) => {
                                         </div>
                                         <div className="row pt-9">
                                             <div className="col-12">
-                                                <Link state={{ id: location.state.id }} to="/hire-apply">
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-green text-uppercase btn-medium rounded-3 w-180 mr-4 mb-5"
-                                                    >
-                                                        Apply to this job
-                                                    </button>
-                                                </Link>
+                                                {userInfo !== null ? (
+                                                    <Link state={{ id: location.state.id }} to="/hire-apply">
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-green text-uppercase btn-medium rounded-3 w-180 mr-4 mb-5"
+                                                        >
+                                                            Apply to this job
+                                                        </button>
+                                                    </Link>
+                                                ) : (
+                                                    <></>
+                                                )}
                                             </div>
                                         </div>
                                     </div>

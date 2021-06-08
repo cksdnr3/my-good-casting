@@ -128,7 +128,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public ProfilePageResultDTO<ProfileListDTO, Object[]> getProfileList(ProfilePageRequestDTO pageRequest) {
-        if (!(pageRequest.getFile() == null)) {
+        if (pageRequest.getFile() != null) {
             log.info("service enter: " + pageRequest);
 
             String fileName = uploadPath + File.separator + "s_"

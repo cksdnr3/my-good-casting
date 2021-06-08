@@ -37,6 +37,12 @@ const ModalSignUp = (props) => {
 
     const gContext = useContext(GlobalContext);
     const handleClose = () => {
+        setInputs({
+            username: '',
+            password: '',
+            confirmPassword: '',
+            account: true,
+        });
         gContext.toggleSignUpModal();
     };
 
@@ -109,7 +115,7 @@ const ModalSignUp = (props) => {
                                             }}
                                         />
                                         <label className="font-size-4 text-black-2 font-weight-semibold line-height-reset" htmlFor="radio">
-                                            &nbsp;재작자
+                                            &nbsp;제작자
                                         </label>
                                     </div>
                                     <form onSubmit={(e) => e.preventDefault()}>
@@ -211,11 +217,6 @@ const ModalSignUp = (props) => {
                                                 className="btn btn-primary btn-medium w-100 rounded-5 text-uppercase"
                                                 onClick={() => {
                                                     dispatch(signup(inputs));
-                                                    setInputs({
-                                                        username: '',
-                                                        password: '',
-                                                        confirmPassword: '',
-                                                    });
                                                 }}
                                             >
                                                 Sign Up

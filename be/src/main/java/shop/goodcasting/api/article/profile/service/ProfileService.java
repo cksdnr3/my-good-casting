@@ -65,6 +65,19 @@ public interface ProfileService {
     }
 
     default ProfileListDTO entity2DtoFiles(Profile profile, Actor actor, FileVO file) {
+
+        if (file == null) {
+            return ProfileListDTO.builder()
+                    .profileId(profile.getProfileId())
+                    .privacy(profile.isPrivacy())
+                    .resemble(profile.getResemble())
+                    .confidence(profile.getConfidence())
+                    .modDate(profile.getModDate())
+                    .regDate(profile.getRegDate())
+                    .actorName(actor.getName())
+                    .build();
+        }
+
         return ProfileListDTO.builder()
                 .profileId(profile.getProfileId())
                 .privacy(profile.isPrivacy())

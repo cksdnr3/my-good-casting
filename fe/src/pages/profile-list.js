@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Link } from 'gatsby';
 import PageWrapper from '../components/PageWrapper';
 import Sidebar from '../components/Profile/Sidebar';
 import ProfileList from '../components/Profile/ProfileList';

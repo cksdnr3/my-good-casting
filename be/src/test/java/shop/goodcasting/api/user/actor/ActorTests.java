@@ -1,3 +1,4 @@
+
 package shop.goodcasting.api.user.actor;
 
 import org.jsoup.Connection;
@@ -7,10 +8,12 @@ import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import shop.goodcasting.api.user.actor.domain.Actor;
 import shop.goodcasting.api.user.actor.domain.ActorDTO;
 import shop.goodcasting.api.user.actor.repository.ActorRepository;
 import shop.goodcasting.api.user.actor.service.ActorService;
+import shop.goodcasting.api.user.login.domain.Role;
 import shop.goodcasting.api.user.login.domain.UserVO;
 import shop.goodcasting.api.user.login.repository.UserRepository;
 
@@ -30,6 +33,9 @@ public class ActorTests {
 
     @Autowired
     private ActorService service;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Test
     public void insertDummyActors() throws IOException {
@@ -57,17 +63,20 @@ public class ActorTests {
 
             ActorDTO actorDTO = new ActorDTO();
             String yeardel= birthday.text().replace("년",""); //출생년도 "년" 삭제
-            Integer cmdel= Integer.parseInt(height.text().replace("Cm","")); //키 "cm" 삭제
-            Integer kgdel= Integer.parseInt(weight.text().replace("Kg","")); //키 "cm" 삭제
+            Integer cmdel= Integer.valueOf(height.text().replace("Cm","")); //키 "cm" 삭제
+            Integer kgdel= Integer.valueOf(weight.text().replace("Kg","")); //키 "cm" 삭제
             boolean human = (height.text().contains("Cm") &&weight.text().contains("Kg"));
 
             if(human){
 
                 UserVO userVO = UserVO.builder()
                         .username("user" + i)
-                        .password("1111")
                         .position(true)
+                        .password(passwordEncoder.encode("1111"))
+                        .account(true)
+                        .roles(new ArrayList<Role>())
                         .build();
+
                 userRepository.save(userVO);
 
                 actorDTO.setBirthday(yeardel);

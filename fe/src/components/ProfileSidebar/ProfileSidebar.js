@@ -33,32 +33,43 @@ const ProfileSidebar = (props) => {
                         <div className="px-5 py-5 text-left border-bottom border-mercury">
                             <h4>{profile.actor.name}</h4>
                         </div>
+                        {video.uuid === '' ? (
+                            <></>
+                        ) : (
+                            <div className="px-5 py-11 text-center border-bottom border-mercury">
+                                <ReactPlayer
+                                    component="video"
+                                    width="100%"
+                                    height="100%"
+                                    controls
+                                    url={`http://localhost:8080/files/display?fileName=${video.uuid}_${video.fileName}`}
+                                />
+                            </div>
+                        )}
                         <div className="px-5 py-11 text-center border-bottom border-mercury">
-                            <ReactPlayer
-                                component="video"
-                                width="100%"
-                                height="100%"
-                                controls
-                                url={`http://localhost:8080/files/display?fileName=${video.uuid}_${video.fileName}`}
-                            />
-                            {/* 
-                            <div className="icon-link d-flex align-items-center justify-content-center flex-wrap">
-                                <button className="btn btn-primary text-uppercase font-size-3">회원정보입력하기</button>
-                            </div> */}
+                            <ul
+                                style={{
+                                    listStyle: 'none',
+                                }}
+                            >
+                                {photos.map((photo) => {
+                                    return (
+                                        <li key={photo.uuid}>
+                                            <img
+                                                style={{ height: '200px', width: '150px' }}
+                                                src={`http://localhost:8080/files/display?fileName=s_${photo.uuid}_${photo.fileName}`}
+                                            />
+                                        </li>
+                                    );
+                                })}
+                            </ul>
                         </div>
-                        <div className="px-5 py-11 text-center border-bottom border-mercury">
-                            {photos.map((photo) => {
-                                return (
-                                    <div key={photo.uuid}>
-                                        <img
-                                            style={{ height: '200px', width: '150px' }}
-                                            src={`http://localhost:8080/files/display?fileName=s_${photo.uuid}_${photo.fileName}`}
-                                        />
-                                    </div>
-                                );
-                            })}
-                        </div>
-                        <div className="px-9 pt-lg-5 pt-9 pt-xl-9 pb-5">
+                        <div
+                            style={{
+                                clear: 'left',
+                            }}
+                            className="px-9 pt-lg-5 pt-9 pt-xl-9 pb-5 "
+                        >
                             <h5 className="text-black-2 mb-8 font-size-5">소개</h5>
                             <div className="mb-7">{profile.contents}</div>
                             <h5 className="text-black-2 mb-8 font-size-5">Contact Info</h5>
@@ -80,7 +91,7 @@ const ProfileSidebar = (props) => {
                                     <a className="text-black-2 text-break">{profile.actor.phone}</a>
                                 </h5>
                             </div>
-                            {userInfo[1].actorId == profile.actor.actorId ? (
+                            {userInfo !== null && userInfo[1].actorId == profile.actor.actorId ? (
                                 <div className="mb-7">
                                     <td className="table-y-middle py-7 min-width-px-80">
                                         <Link to="/hire-modify" className="font-size-3 font-weight-bold text-green text-uppercase">
