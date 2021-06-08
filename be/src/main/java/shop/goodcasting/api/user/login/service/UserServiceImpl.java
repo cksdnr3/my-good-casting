@@ -3,6 +3,7 @@ package shop.goodcasting.api.user.login.service;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,6 @@ import shop.goodcasting.api.security.exception.SecurityRuntimeException;
 import shop.goodcasting.api.user.actor.domain.Actor;
 import shop.goodcasting.api.user.actor.domain.ActorDTO;
 import shop.goodcasting.api.user.actor.repository.ActorRepository;
-import shop.goodcasting.api.user.actor.service.ActorService;
 import shop.goodcasting.api.user.login.domain.Role;
 import shop.goodcasting.api.user.login.domain.UserDTO;
 import shop.goodcasting.api.user.login.domain.UserVO;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Log
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -115,6 +115,23 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new SecurityRuntimeException("탈퇴한 회원입니다.", HttpStatus.UNPROCESSABLE_ENTITY);
         }
+    }
+
+    @Override
+    public Long update(UserDTO userDTO) {
+        UserVO user = userRepo.findById(userDTO.getUserId()).get();
+
+
+        if (passwordEncoder.matches(userDTO.getPassword(), user.getPassword())) {
+            log.info("if entter?");
+            userDTO.setPassword(passwordEncoder.encode(userDTO.getNewPassword()));
+            log.info(userDTO);
+            userRepo.save(dto2Entity(userDTO));
+
+            return 1L;
+        }
+
+        return 0L;
     }
 
     @Override

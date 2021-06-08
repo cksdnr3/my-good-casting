@@ -37,14 +37,14 @@ export const hireDelete = createAsyncThunk('HIRE_DELETE', async (id) => {
 const initialState = {
     pageRequest: {
         page: 1,
-        size: 10,
+        size: 15,
         sort: 'hireId',
     },
     pageResult: {
         pageList: [],
         dtoList: [],
         page: 1,
-        size: 10,
+        size: 15,
         totalPage: 0,
         start: 0,
         end: 0,

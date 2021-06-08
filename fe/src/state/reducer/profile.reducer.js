@@ -39,14 +39,14 @@ const initialState = {
     fileList: [],
     pageRequest: {
         page: 1,
-        size: 10,
+        size: 15,
         sort: 'profileId',
     },
     pageResult: {
         pageList: [],
         dtoList: [],
         page: 1,
-        size: 10,
+        size: 15,
         totalPage: 0,
         start: 0,
         end: 0,

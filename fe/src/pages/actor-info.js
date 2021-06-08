@@ -22,6 +22,10 @@ const ActorInfo = () => {
     const dispatch = useDispatch();
 
     const actorState = useSelector(actorSelctor).actor;
+    const userInfo = JSON.parse(localStorage.getItem('USER'));
+
+    console.log('---------------------------------------');
+    console.log(userInfo);
 
     const [inputs, setInputs] = useState([]);
 
@@ -31,7 +35,13 @@ const ActorInfo = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(updateActorInfo(inputs));
+        dispatch(
+            updateActorInfo({
+                ...inputs,
+                actorId: userInfo[1].actorId,
+                user: userInfo[0],
+            })
+        );
         navigate('/actor-mypage');
     };
 
@@ -89,7 +99,6 @@ const ActorInfo = () => {
                                                                 value={inputs.name}
                                                                 name="name"
                                                                 onChange={handleChange}
-                                                                readOnly
                                                             />
                                                         </div>
                                                     </div>

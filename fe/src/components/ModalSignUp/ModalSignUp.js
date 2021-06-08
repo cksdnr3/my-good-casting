@@ -58,7 +58,7 @@ const ModalSignUp = (props) => {
 
     return (
         <>
-            <ModalStyled {...props} size="lg" centered show={gContext.signUpModalVisible} onHide={gContext.toggleSignUpModal}>
+            <ModalStyled {...props} size="lg" centered show={gContext.signUpModalVisible} onHide={handleClose}>
                 <Modal.Body className="p-0">
                     <button
                         type="button"
@@ -217,6 +217,7 @@ const ModalSignUp = (props) => {
                                                 className="btn btn-primary btn-medium w-100 rounded-5 text-uppercase"
                                                 onClick={() => {
                                                     dispatch(signup(inputs));
+                                                    handleClose();
                                                 }}
                                             >
                                                 Sign Up

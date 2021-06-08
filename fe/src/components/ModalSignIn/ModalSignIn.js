@@ -42,7 +42,7 @@ const ModalSignIn = (props) => {
     });
 
     return (
-        <ModalStyled {...props} size="lg" centered show={gContext.signInModalVisible} onHide={gContext.toggleSignInModal}>
+        <ModalStyled {...props} size="lg" centered show={gContext.signInModalVisible} onHide={handleClose}>
             <Modal.Body className="p-0">
                 <button
                     type="button"
@@ -130,7 +130,7 @@ const ModalSignIn = (props) => {
                                         className="btn btn-primary btn-medium w-100 rounded-5 text-uppercase"
                                         onClick={() => {
                                             dispatch(signin(inputs));
-                                            gContext.toggleSignInModal();
+                                            handleClose();
                                         }}
                                     >
                                         Log in

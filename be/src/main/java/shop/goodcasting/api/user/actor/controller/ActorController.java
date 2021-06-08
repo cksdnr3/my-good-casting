@@ -1,6 +1,7 @@
 package shop.goodcasting.api.user.actor.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shop.goodcasting.api.user.actor.domain.Actor;
@@ -10,6 +11,7 @@ import shop.goodcasting.api.user.actor.service.ActorServiceImpl;
 
 import java.util.List;
 
+@Log4j2
 @CrossOrigin("*")
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +32,11 @@ public class ActorController {
 
     @PostMapping("/info")
     public ResponseEntity<ActorDTO> moreDetail(@RequestBody ActorDTO actorDTO){
+
+        log.info("----moreDetail()-----------");
+        log.info(actorDTO);
+        log.info("--------------------------");
+
         return ResponseEntity.ok(actorService.moreDetail(actorDTO));
     }
 
